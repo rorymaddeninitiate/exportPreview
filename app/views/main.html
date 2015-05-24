@@ -1,23 +1,70 @@
-<div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#/">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
-</div>
+<header-action></header-action>
 
-<div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
+<section id="about">
+  <div class="container">
+    <div class="row text-center">
+      <h1>Two Days of Inspiration!</h1>
+      <h3><time datetime="2015-10-06">06</time>-<time datetime="2015-10-07">07</time> October 2015, Dublin</h3>
+      <h4>
+        <p>This is the greatest and best event ever....</p>
+        <p>Tribute</p>
+      </h4>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-4 text-center">
+        <i class="fa fa-lightbulb-o fa-5x"></i>
+        <h3>Thought Leaders</h3>
+        <p>The big names, the big ideas, the successes and the failures.</p>
+      </div>
+      <div class="col-xs-12 col-sm-4 text-center">
+        <i class="fa fa-globe fa-5x"></i>
+        <h3>Case Studies</h3>
+        <p>Learn from the center of excellence: Ireland.</p>
+      </div>
+      <div class="col-xs-12 col-sm-4 text-center">
+        <i class="fa fa-users fa-5x"></i>
+        <h3>Networking</h3>
+        <p>People don't do business with companies, people do business with people.</p>
+      </div>
+    </div>
+    <p class="text-center"><a class="btn btn-lg btn-success" ng-href="https://tickets.exportsummit.com">Don't Miss Out!</a></p>
+  </div>
+</section>
 
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
+<section id="speakers">
+  <div class="container">
+    <div ng-repeat="speaker in main.speakers">
+      <speaker-box speaker=speaker></speaker-box>
+    </div>
+  </div>
+</section>
 
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
-</div>
+<section id="difference">
+  <div class="container">
+    <div class="row text-center">
+      <h1>Our Difference</h1>
+      <h4>
+        <p>This is not like your other events....</p>
+        <p>We focus on networking, learning, sourcing the best in the industry...</p>
+      </h4>
+    </div>
+    <p class="text-center"><a class="btn btn-lg btn-success" ng-href="https://tickets.exportsummit.com">Early Bird Ending Shortly</a></p>
+  </div>
+</section>
+
+<section id="sponsors">
+  <div class="container">
+    <div ng-repeat="sponsor in main.sponsors">
+      <sponsor-box sponsor=sponsor></sponsor-box>
+    </div>
+  </div>
+</section>
+
+<section id="location">
+  <ui-gmap-google-map center='main.map.center' zoom='main.map.zoom'>
+
+    <ui-gmap-marker idKey='croke' coords='main.map.center'>
+      </ui-gmap-marker>
+
+  </ui-gmap-google-map>
+</section>

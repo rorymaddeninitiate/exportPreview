@@ -65,7 +65,23 @@ angular.module('admin', [])
     };
   }])
   .controller('AdminSpeakersCtrl', ['speakers', function (speakers) {
+    var self = this;
     this.speakers = speakers;
+    this.speaker = {};
+
+    this.addSpeaker = function () {
+      self.speaker = {};
+      self.showSpeakerForm = !self.showSpeakerForm;
+    };
+
+    this.updateSpeaker = function (speaker) {
+      self.showSpeakerForm = !self.showSpeakerForm;
+      self.speaker = speaker;
+    };
+
+    this.createOrUpdate = function () {
+
+    };
   }])
   .controller('AdminSponsorsCtrl', ['sponsors', function (sponsors) {
     this.sponsors = sponsors;

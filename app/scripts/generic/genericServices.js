@@ -72,4 +72,52 @@ angular.module('genericServices', ['ngCookies'])
     }
 
     return service;
-  }]);
+  }])
+  .factory('speakerService', ['$http', '$q', function speakerService($http, $q) {
+
+        // implementation
+        function getSpeakers() {
+            var def = $q.defer();
+
+            $http.get('scripts/services/speakers.json')
+                .success(function(data) {
+                    service.speakers = data;
+                    def.resolve(data);
+                })
+                .error(function() {
+                    def.reject('Failed to get speakers');
+                });
+            return def.promise;
+        }
+
+        // interface
+        var service = {
+            speakers: [],
+            getSpeakers: getSpeakers
+        };
+        return service;
+    }])
+    .factory('sponsorService', ['$http', '$q', function sponsorService($http, $q) {
+
+          // implementation
+          function getSponsors() {
+              var def = $q.defer();
+
+              $http.get('scripts/services/sponsors.json')
+                  .success(function(data) {
+                      service.sponsors = data;
+                      def.resolve(data);
+                  })
+                  .error(function() {
+                      def.reject('Failed to get sponsors');
+                  });
+              return def.promise;
+          }
+
+          // interface
+          var service = {
+              sponsors: [],
+              getSponsors: getSponsors
+          };
+          return service;
+      }]);

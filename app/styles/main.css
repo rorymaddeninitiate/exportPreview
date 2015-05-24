@@ -9,6 +9,17 @@ body {
   padding: 0;
 }
 
+.navbar {
+  transition-duration: .4s;
+}
+.affix-top {
+  padding-top: 40px;
+  background-color: transparent;
+}
+
+.angular-google-map-container { height: 400px; }
+
+
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
