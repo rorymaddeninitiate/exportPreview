@@ -1,0 +1,45 @@
+<h1>Speakers</h1>
+<table st-table="rowCollection" class="table table-striped" class="row-border hover">
+    <thead>
+    <tr>
+        <th>Pic</th>
+        <th>First</th>
+        <th>Last</th>
+        <th>Job Title</th>
+        <th>Company</th>
+        <th>Country</th>
+        <th>LinkedIn</th>
+        <th>Twitter</th>
+        <th>Edit</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="speaker in ::adminSpeakers.speakers">
+        <td><img ng-src="{{speaker.profilePic}}" width="50" height="50"></td>
+        <td>{{speaker.first}}</td>
+        <td>{{speaker.last}}</td>
+        <td>{{speaker.jobTitle}}</td>
+        <td>{{speaker.company}}</td>
+        <td>{{speaker.country}}</td>
+        <td>{{!!speaker.linkedIn}}</td>
+        <td>{{!!speaker.twitter}}</td>
+        <td><button ui-sref="updateSpeaker({{speaker.objectId}})"></button></td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- <form ng-submit="adminSpeakers.update()" name="createSpeakerForm">
+    <h2 class="form-signin-heading">Please sign in</h2>
+    <input type="text" class="form-control" ng-model="user.username" placeholder="Username" required="" autofocus="">
+    <input type="password" class="form-control" ng-model="user.password" placeholder="Password" required="">
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" value="remember-me"> Remember me
+        </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <div ng-messages="loginForm.errors">
+        <div ng-message="login" style="color:maroon" role="alert">{{loginForm.errors.login}}</div>
+    </div>
+</form>
+ -->

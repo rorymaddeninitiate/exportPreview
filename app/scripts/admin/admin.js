@@ -7,40 +7,73 @@ angular.module('admin', [])
       .state('admin', {
         url: '/admin',
         templateUrl: 'scripts/admin/admin.html',
-        controller: 'AdminCtrl',
-        // roles: ['Admin'],
+        controller: 'AdminCtrl as admin',
+        data: {
+          roles: 'admin'
+        },
         resolve: {
           $title: function () { return 'Admin'; }
         }
       })
-      .state('admin.users', {
-        url: '/users',
-        templateUrl: 'scripts/admin/users.html',
-        controller: 'AdminUsersCtrl',
-        controllerAs: 'adminUsers',
-        // roles: ['Admin'],
+      .state('admin.speakers', {
+        url: '/speakers',
+        templateUrl: 'scripts/admin/speakers.html',
+        controller: 'AdminSpeakersCtrl as adminSpeakers',
+        data: {
+          roles: 'admin'
+        },
         resolve: {
-          $title: function () { return 'Admin: Users'; },
-          users: ['adminService', function (adminService) {
-            return adminService.getUsers()
+          $title: function () { return 'Admin: Speakers'; },
+          speakers: ['adminService', function (adminService) {
+            return adminService.getClassName('Speaker');
           }]
         }
       })
+      .state('admin.sponsors', {
+        url: '/sponsors',
+        templateUrl: 'scripts/admin/sponsors.html',
+        controller: 'AdminSponsorsCtrl as adminSponsors',
+        data: {
+          roles: 'admin'
+        },
+        resolve: {
+          $title: function () { return 'Admin: Sponsors'; },
+          speakers: ['adminService', function (adminService) {
+            return adminService.getClassName('Sponsor');
+          }]
+        }
+      })
+      ;
   }])
   .service('adminService', ['server', '$http', function (server, $http) {
     return {
-      getUsers: function () {
-         $http.get(server + '/sessions').then(function (users) {
-           return users;
+      getClassName: function (className) {
+         return $http.get(server + '/classes/' + className).then(function (results) {
+           return results.data.results;
          }, function () {
            return [];
          });
       }
-    }
+    };
   }])
-  .controller('AdminCtrl', [function () {
-      
+  .controller('AdminCtrl', ['userService', '$rootScope', function (userService, $rootScope) {
+    $rootScope.adminLoggedIn = true;
+
+    this.logout = function () {
+      $rootScope.adminLoggedIn = false;
+      userService.logout();
+    };
   }])
-  .controller('AdminUsersCtrl', [function () {
-    
+  .controller('AdminSpeakersCtrl', ['speakers', function (speakers) {
+    this.speakers = speakers;
   }])
+  .controller('AdminSponsorsCtrl', ['sponsors', function (sponsors) {
+    this.sponsors = sponsors;
+  }])
+  .controller('AdminSessionsCtrl', ['locations', 'sessions', function (locations, sessions) {
+    this.locations = locations;
+    this.sessions = sessions;
+  }])
+  .controller('AdminSubscribersCtrl', ['subscribers', function (subscribers) {
+    this.subscribers = subscribers;
+  }]);

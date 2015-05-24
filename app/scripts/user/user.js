@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('user', [])
   .config(['$stateProvider', function ($stateProvider) {
     $stateProvider
@@ -16,37 +18,67 @@ angular.module('user', [])
           $title: function () { return 'Access Denied'; }
         }
       })
+      ;
   }])
-  .factory('userService', ['$q', '$rootScope', 'ParseService', '$state', function ( $q, $rootScope, ParseService, $state) {
-    return {
+  .factory('userService', ['$q', '$rootScope', 'ParseService', '$state', '$http', 'server',
+    function ( $q, $rootScope, ParseService, $state, $http, server) {
+    var service = {
       login: function (username, password) {
         var deferred = $q.defer();
-        Parse.User.logIn(username, password, {
-          success: function (user) {
-            $rootScope.currentUser = user;
-            deferred.resolve(true);
-          },
-          error: function (user, err) {
+        var req = {
+          method: 'GET',
+          url: server + '/login?username=' + username + '&password=' + password,
+          // headers: {
+          //   'X-Parse-Revocable-Session': 1
+          // },
+        };
+        $http(req)
+          .success(function (user) {
+            ParseService.setSession(user.sessionToken);
+            // get the users roles
+            ParseService.getUserRoles(user).then(function () {
+              return deferred.resolve(true);
+            }, function (err) {
+              return deferred.reject(err);
+            });
+          })
+          .error(function (err) {
             $rootScope.currentUser = null;
-            deferred.reject(err);
-          }
-        });
+            return deferred.reject(err);
+          });
+
+        // var deferred = $q.defer();
+        // Parse.User.logIn(username, password, {
+        //   success: function (user) {
+        //     // get the roles for the user
+        //     ParseService.setSession(user._sessionToken);
+        //     $rootScope.currentUser = user;
+        //     deferred.resolve(true);
+        //   },
+        //   error: function (user, err) {
+        //     $rootScope.currentUser = null;
+        //     deferred.reject(err);
+        //   }
+        // });
         return deferred.promise;
       },
       logout: function() {
         $rootScope.currentUser = null;
         Parse.User.logOut();
+        $state.go('home');
       },
       isInAnyRole: function (role) {
-        if (!$rootScope.currentUser) return false;
-        return $rootScope.currentUser.attributes.roles && $rootScope.currentUser.attributes.roles.indexOf(role) != -1;
+        if (!$rootScope.currentUser) {
+          return false;
+        }
+        return $rootScope.currentUser.roles && $rootScope.currentUser.roles.indexOf(role) !== -1;
       },
       authorize: function(event) {
         var isAuthenticated = !!$rootScope.currentUser;
 
-        if ($rootScope.toState.roles && $rootScope.toState.roles.length > 0 && !this.isInAnyRole($rootScope.toState.roles)) {
+        if ($rootScope.toState.data && $rootScope.toState.data.roles && $rootScope.toState.data.roles.length > 0 && !this.isInAnyRole($rootScope.toState.data.roles)) {
+          event.preventDefault();
           if (isAuthenticated) {
-            event.preventDefault();
             $state.go('accessdenied'); // user is signed in but not authorized for desired state
           }
           else {
@@ -60,23 +92,28 @@ angular.module('user', [])
           }
         }
        }
-    }
+    };
+    return service;
   }])
   .controller('UserCtrl', ['$state', '$scope', 'userService', '$rootScope', function ($state, $scope, userService, $rootScope) {
     $scope.user = {};
     $scope.loginForm = {
-     errors: {} 
+     errors: {}
     };
-    
+
     $scope.login = function () {
       userService.login($scope.user.username, $scope.user.password)
       .then(function () {
           $scope.loginForm.errors = {};
-          if ($rootScope.returnToState) return $state.go($rootScope.returnToState, $rootScope.returnToStateParams)
-          else return $state.go('admin');
+          if ($rootScope.returnToState) {
+            return $state.go($rootScope.returnToState, $rootScope.returnToStateParams);
+          }
+          else {
+            return $state.go('admin');
+          }
         }, function (err) {
           $scope.loginForm.errors = {
-            login: err 
+            login: err
           };
         });
     };
