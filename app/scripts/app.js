@@ -13,8 +13,6 @@ angular
     'ngAnimate',
     'ngCookies',
     'ngMessages',
-    'ngResource',
-    'ngRoute',
     'ngSanitize',
     'ngTouch',
     'ui.router',
@@ -124,8 +122,20 @@ angular
       userService.authorize(event);
     });
   }])
-  .controller('MainCtrl', ['uiGmapGoogleMapApi', 'speakers', 'sponsors',
-    function ( uiGmapGoogleMapApi, speakers, sponsors) {
+  .controller('AppCtrl', ['$window', '$scope', function ($window, $scope) {
+     this.navClass = 'top';
+     var self = this;
+     angular.element($window).bind("scroll", function() {
+       if(window.pageYOffset >= 100) {
+         self.navClass = 'notTop';
+       } else {
+         self.navClass = 'top';
+       }
+       $scope.$apply();
+     }); 
+  }])
+  .controller('MainCtrl', ['uiGmapGoogleMapApi', 'speakers', 'sponsors', '$filter',
+    function ( uiGmapGoogleMapApi, speakers, sponsors, $filter) {
       this.speakers = speakers;
       this.sponsors = sponsors;
       
