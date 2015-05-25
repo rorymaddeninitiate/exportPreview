@@ -23,6 +23,7 @@ angular
     'uiGmapgoogle-maps',
 
     'genericServices',
+    'conferenceDirectives',
     'config',
 
     'user',
@@ -32,18 +33,24 @@ angular
   .config(['$stateProvider', '$urlRouterProvider', 'uiGmapGoogleMapApiProvider',
     function ($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
-      //    key: 'your api key',
+      key: 'AIzaSyCTXMd0kGPwANDXeUPXQSdLS-C9dWbkJC0',
       v: '3.17',
-      libraries: 'weather,geometry,visualization'
+      // libraries: 'weather,geometry,visualization'
     });
     // $locationProvider.html5Mode(true)
     $stateProvider
       .state('home', {
         url: '/',
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
+        controller: 'MainCtrl as main',
         resolve: {
-          $title: function () { return 'Home'; }
+          $title: function () { return 'Home'; },
+          speakers: ['dataService', function (dataService) {
+            return dataService.getClassName('Speaker');
+          }] ,
+          sponsors: ['dataService', function (dataService) {
+            return dataService.getClassName('Sponsor');
+          }]
         }
       })
       .state('speakers', {
@@ -116,4 +123,48 @@ angular
 
       userService.authorize(event);
     });
+  }])
+  .controller('MainCtrl', ['uiGmapGoogleMapApi', 'speakers', 'sponsors',
+    function ( uiGmapGoogleMapApi, speakers, sponsors) {
+      this.speakers = speakers;
+      this.sponsors = sponsors;
+      
+      var self = this;
+      self.map = {};
+  
+      uiGmapGoogleMapApi.then(function(maps) {
+        self.map = {
+          center: {
+            latitude: 53.360907,
+            longitude: -6.251166
+          },
+          zoom: 15,
+          options: {
+            scrollwheel: false,
+            panControl: false,
+            zoomControlOptions: {
+              // style: 'LARGE'
+            }
+          }
+        };
+        
+        self.marker = {
+          coords: {
+            latitude: 53.360907,
+            longitude: -6.251166
+          },
+          id: 'croke',
+          windowOptions: {
+            visible: false
+          }
+        }
+      });
+      
+      this.onMarkerClick = function() {
+        this.marker.windowOptions.visible = !this.marker.windowOptions.visible;
+      };
+
+      this.closeWindowClick = function() {
+          this.marker.windowOptions.visible = false;
+      };
   }]);

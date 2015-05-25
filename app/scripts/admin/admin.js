@@ -24,8 +24,8 @@ angular.module('admin', [])
         },
         resolve: {
           $title: function () { return 'Admin: Speakers'; },
-          speakers: ['adminService', function (adminService) {
-            return adminService.getClassName('Speaker');
+          speakers: ['dataService', function (dataService) {
+            return dataService.getClassName('Speaker');
           }]
         }
       })

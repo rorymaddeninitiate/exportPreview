@@ -73,51 +73,76 @@ angular.module('genericServices', ['ngCookies'])
 
     return service;
   }])
-  .factory('speakerService', ['$http', '$q', function speakerService($http, $q) {
+  // .factory('speakerService', ['$http', '$q', 'server', function speakerService($http, $q, server) {
 
-        // implementation
-        function getSpeakers() {
-            var def = $q.defer();
+  //   // implementation
+  //   function getSpeakers() {
+  //       var def = $q.defer();
 
-            $http.get('scripts/services/speakers.json')
-                .success(function(data) {
-                    service.speakers = data;
-                    def.resolve(data);
-                })
-                .error(function() {
-                    def.reject('Failed to get speakers');
-                });
-            return def.promise;
-        }
+  //       $http.get(server + '/classes/Speaker')
+  //           .success(function(data) {
+  //               service.speakers = data;
+  //               def.resolve(data);
+  //           })
+  //           .error(function() {
+  //               def.reject('Failed to get speakers');
+  //           });
+  //       return def.promise;
+  //   }
 
-        // interface
-        var service = {
-            speakers: [],
-            getSpeakers: getSpeakers
-        };
-        return service;
-    }])
-    .factory('sponsorService', ['$http', '$q', function sponsorService($http, $q) {
+  //   // interface
+  //   var service = {
+  //       speakers: [],
+  //       getSpeakers: getSpeakers
+  //   };
+  //   return service;
+  // }])
+  // .factory('sponsorService', ['$http', '$q', 'server', function speakerService($http, $q, server) {
 
-          // implementation
-          function getSponsors() {
-              var def = $q.defer();
+  //   // implementation
+  //   function getSponsors() {
+  //       var def = $q.defer();
 
-              $http.get('scripts/services/sponsors.json')
-                  .success(function(data) {
-                      service.sponsors = data;
-                      def.resolve(data);
-                  })
-                  .error(function() {
-                      def.reject('Failed to get sponsors');
-                  });
-              return def.promise;
-          }
+  //       $http.get(server + '/classes/Sponsor')
+  //           .success(function(data) {
+  //               service.sponsors = data;
+  //               def.resolve(data);
+  //           })
+  //           .error(function() {
+  //               def.reject('Failed to get sponsors');
+  //           });
+  //       return def.promise;
+  //   }
 
-          // interface
-          var service = {
-              sponsors: [],
-              getSponsors: getSponsors
-          };
-          return service;
-      }]);
+  //   // interface
+  //   var service = {
+  //       sponsors: [],
+  //       getSponsors: getSponsors
+  //   };
+  //   return service;
+  // }])
+  .factory('dataService',['$http', '$q', 'server', function dataService ($http, $q, server) {
+    var data = {};
+    function getClassName (className) {
+      var def = $q.defer();
+      
+      if (data.className && data.className.length > 0) {
+        def.resolve(data.className);
+      }
+      else {
+        $http.get(server + '/classes/' + className).then(function (results) {
+          data[className] = results.data.results;
+          def.resolve(data[className]);
+        }, 
+        function (err) {
+          data[className] = [];
+          def.reject(err);
+        });
+      }
+      return def.promise;
+    }
+    var service = {
+      getClassName: getClassName
+    };
+    return service;
+  }]);
