@@ -135,10 +135,11 @@ section.location {
 .footer-menu  {
   list-style-type: none;
   padding: 0px;
+  font-size: 20px;
 }
 
 .footer-menu a {
-  color: #ccc
+  color: #ccc;
 }
 
 .footer-social  {

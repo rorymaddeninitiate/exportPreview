@@ -125,7 +125,7 @@ angular
   .controller('AppCtrl', ['$window', '$scope', function ($window, $scope) {
      this.navClass = 'top';
      var self = this;
-     angular.element($window).bind("scroll", function() {
+     angular.element($window).bind('scroll', function() {
        if(window.pageYOffset >= 100) {
          self.navClass = 'notTop';
        } else {
@@ -136,13 +136,21 @@ angular
   }])
   .controller('MainCtrl', ['uiGmapGoogleMapApi', 'speakers', 'sponsors', '$filter',
     function ( uiGmapGoogleMapApi, speakers, sponsors, $filter) {
-      this.speakers = speakers;
-      this.sponsors = sponsors;
       
       var self = this;
+      this.speakers = speakers;
+
+      var filterSponsors = function (level) {
+        return $filter('filter')(sponsors, {level: level});
+      };
+      this.sponsors = {
+        platinum: filterSponsors('Platinum'),
+        gold: filterSponsors('Gold')
+      };
+
+      // maps
       self.map = {};
-  
-      uiGmapGoogleMapApi.then(function(maps) {
+      uiGmapGoogleMapApi.then(function() {
         self.map = {
           center: {
             latitude: 53.360907,
@@ -167,7 +175,7 @@ angular
           windowOptions: {
             visible: false
           }
-        }
+        };
       });
       
       this.onMarkerClick = function() {

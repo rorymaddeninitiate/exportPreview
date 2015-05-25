@@ -59,13 +59,17 @@
 
 <section class="sponsors">
   <div class="container text-center">
-    <h1>Platinum Sponsors</h1>
-    <div ng-repeat="sponsor in main.sponsors | filter:{level: 'Platinum'}">
-      <sponsor-box sponsor=sponsor></sponsor-box>
+    <div class="row" ng-if="main.sponsors.platinum.length > 0">
+      <h1>Platinum Sponsors</h1>
+      <sponsor-box sponsors="main.sponsors.platinum" level="platinum"></sponsor-box>
     </div>
 
     
-    <h2>Gold Sponsors</h2>
+    
+    <div class="row" ng-if="main.sponsors.gold.length > 0">
+      <h2>Gold Sponsors</h2>
+      <sponsor-box sponsors="main.sponsors.gold" level="gold"></sponsor-box>
+    </div>
   </div>
 </section>
 

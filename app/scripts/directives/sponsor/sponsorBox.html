@@ -1,3 +1,6 @@
-<div class="sponsor-box col-xs-12 col-sm-6 col-md-4 col-lg-3 text-center">
-  <img ng-src={{sponsor.logo}} alt="{{sponsor.name}}" class="platinumSponsor">
+
+<div class="sponsor-box text-center"
+  ng-class="getClass()"
+  ng-repeat="sponsor in sponsors">
+  <img ng-src={{sponsor.logo}} alt="{{sponsor.name}}" ng-class="$parent.level">
 </div>
