@@ -1,0 +1,6 @@
+
+<div class="partner-box text-center"
+  ng-class="getClass()"
+  ng-repeat="partner in partners">
+  <a href="{{partner.url}}" target="_blank"><img ng-src={{partner.logo}} alt="{{partner.name}}" ng-class="$parent.level"></a>
+</div>

@@ -7,8 +7,44 @@
 
 body {
   padding: 0;
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+  font-size: 16px;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: inherit;
+  font-weight: bold;
+  color: inherit;
+  text-rendering: optimizelegibility;
+}
+
+h1 {
+  margin: 40px 0;
+}
+
+h1, h2 {
+  color: inherit;
+  font-family: 'Roboto Slab';
+  font-weight: 700;
+  margin: 40px 0 30px;
+  text-rendering: optimizelegibility;
+}
+
+h3 {
+  display: block;
+}
+h4 {
+  display: block;
+/*   -webkit-margin-before: 1.33em;
+  -webkit-margin-after: 1.33em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px; */
+  font-weight: bold;
+}
+
+form {
+  padding-top: 20px;
+}
 
 /* HEADER */
 /* Everything gets side spacing for mobile first views */
@@ -36,6 +72,10 @@ body {
   transition-duration: .4s;
 }
 
+.navbar-brand.top:hover, .navbar-brand.top:focus {
+  color: #fff;
+}
+
 .navbar-brand.top {
   font-size: 14pt;
   color: #fff;
@@ -48,15 +88,29 @@ body {
   background: rgba(255, 255, 255, .8);
 }
 
-h1.header { 
- font-size: 28pt;
+.headerActionContent h1 {
+  text-shadow: 0 0 10px rgba(0, 0, 0, .2);
 }
 
-h3.header {
-  font-size: 18pt; 
+.headerActionContent h3 {
+  line-height: 1.4;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px rgba(0, 0, 0, .3);
 }
 
-section {
+.headerActionContent h4 {
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px rgba(0, 0, 0, .3);
+  padding: 20px;
+}
+
+.actionButton a {
+  text-transform: uppercase;
+  padding: 20px;
+  font-size:24px;
+}
+
+section, .streams {
   padding-bottom: 30px;
 }
 /* MAIN PAGE */
@@ -75,43 +129,87 @@ section.headerAction {
 
 .aboutBox {
   width: 100px;
-  height: 100px; 
+  height: 100px;
   border-radius: 50px;
   display: inline-block;
   margin-top: 20px;
 }
 
 .aboutBox .fa {
-  padding-top: 15px;
+  padding-top: 26px;
+/*   color: #444; */
 }
 
-.aboutThought {
+.about1, .about8 {
   background-color: #48A3A6;
+  color: #2A5C5E;
 }
-.aboutCase {
+.about2, .about7 {
   background-color: #EF7247;
+  color: #773A25;
 }
-.aboutNetworking {
+.about3, .about6 {
+  background-color: #E7EBED;
+  color: #6C6E6F;
+}
+.about4, .about5 {
   background-color: #F2BC47;
+  color: #836626;
 }
 
 /* Speakers Section */
 
 section.speakers {
   background-color: #EF7247;
-  color: #fff;
   padding-bottom: 30px;
+  color: #fff;
+}
+
+.speaker-entry:hover {
+  background-color: #D7633C;
+}
+
+.speaker-image {
+  padding-top: 25px;
+}
+
+.speaker-name {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-family: 'Helvetica';
+}
+.speaker-title {
+  text-transform: uppercase;
+  margin: 8px;
+}
+.speaker-company {
+  text-transform: uppercase;
+  margin: 0px;
+  padding-bottom:  20px;
+  color: #773A25;
+  font-size: 12px;
+}
+
+.share-widget {
+  padding: 0 15px 10px 0px;
+}
+
+.share-widget a {
+  color: #fff;
+}
+.share-widget a:hover {
+  color: #773A25;
 }
 
 /* Difference Section */
 
-/* Speakers Section */
+/* Partners Section */
 
-section.sponsors {
+section.partners {
   background-color: #F2BC47;
   color: #fff;
 }
-.platinumSponsor: {
+.platinumPartner: {
   width: 350px;
 }
 
@@ -121,7 +219,25 @@ section.location {
 }
 .angular-google-map-container { height: 400px; }
 
+.mapLabel {
+  background-color: #fff;
+  text-align: center;
+  padding: 10px 40px;
+}
 
+.mapLabel h3 {
+  font-size: 25px;
+  font-family: "open sans";
+}
+.mapLabel h4 {
+  font-size: 15px;
+  font-weight: normal;
+}
+
+/* FAQ Page */
+.qanda {
+  padding-bottom: 20px;
+}
 
 
 /* Custom page footer */
@@ -155,12 +271,52 @@ section.location {
   text-decoration: none;
 }
 
+.footer-info {
+  width: 60%;
+  display: block;
+  float: left;
+}
+.organiserLogo {
+  float: right;
+  padding-bottom: 20px;
+}
 
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
+/* Custom, iPhone Retina */
+@media only screen and (min-width : 320px) {
 
+}
 
-  /* Remove the padding we set earlier */
+/* Extra Small Devices, Phones */
+@media only screen and (min-width : 480px) {
+
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+  section {
+    min-height: 400px;
+  }
+  h1 {
+    font-size: 50px;
+  }
+  .headerActionContent h3 {
+    font-size: 36px;
+  }
+  .headerActionContent h4 {
+    font-size: 24px;
+  }
+  .mapLabel {
+    margin-left: -100px;
+  }
+
+  .mapLabel h3 {
+    font-size: 35px;
+  }
+  .mapLabel h4 {
+    font-size: 15px;
+  }
+
+    /* Remove the padding we set earlier */
   .header,
   .footer {
     padding-left: 0;
@@ -173,21 +329,96 @@ section.location {
     font-size: 18pt;
   }
 
-  section.headerAction {
-    padding-top: 90px;
-    min-height: 450px;
-  }
-  h1.header { 
-    font-size: 50pt;
-  }
-
   .aboutBox {
     width: 150px;
-    height: 150px; 
+    height: 150px;
     border-radius: 75px;
   }
   .aboutBox .fa {
     padding-top: 32px;
     font-size: 66pt;
   }
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+  h1 {
+    font-size: 60px;
+  }
+
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+
+}
+
+.ui-view-container {
+  position: relative;
+  height: 65px;
+}
+
+/* [ui-view].ng-enter, [ui-view].ng-leave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  -webkit-transition:all .5s ease-in-out;
+    -moz-transition:all .5s ease-in-out;
+    -o-transition:all .5s ease-in-out;
+    transition:all .5s ease-in-out;
+}
+
+[ui-view].ng-enter {
+  opacity: 0;
+  -webkit-transform:scale3d(0.5, 0.5, 0.5);
+  -moz-transform:scale3d(0.5, 0.5, 0.5);
+  transform:scale3d(0.5, 0.5, 0.5);
+}
+
+[ui-view].ng-enter-active {
+  opacity: 1;
+  -webkit-transform:scale3d(1, 1, 1);
+  -moz-transform:scale3d(1, 1, 1);
+  transform:scale3d(1, 1, 1);
+}
+
+[ui-view].ng-leave {
+  opacity: 1;
+  -webkit-transform:translate3d(0, 0, 0);
+  -moz-transform:translate3d(0, 0, 0);
+  transform:translate3d(0, 0, 0);
+}
+
+[ui-view].ng-leave-active {
+  opacity: 0;
+  -webkit-transform:translate3d(100px, 0, 0);
+  -moz-transform:translate3d(100px, 0, 0);
+  transform:translate3d(100px, 0, 0);
+} */
+
+[ui-view].ng-enter,
+[ui-view].ng-leave
+{
+  position: absolute;
+  left: 0;
+  right: 0;
+    -webkit-transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+}
+
+[ui-view].ng-enter {
+    left: 100%;
+}
+[ui-view].ng-enter.ng-enter-active {
+    left: 0;
+}
+
+[ui-view].ng-leave {
+    opacity: 0;
+}
+[ui-view].ng-leave.ng-leave-active{
+    opacity: 0;
 }

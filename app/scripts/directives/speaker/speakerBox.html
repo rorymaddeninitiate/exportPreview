@@ -1,10 +1,17 @@
-<div class="speaker-box col-xs-12 col-sm-6 col-md-4 col-lg-3">
-  <div class="speaker-entry text-center">
-    <div class="speaker-image">
-      <img ng-src={{speaker.profilePic}} alt="{{speaker.first}} {{speaker.last}}" class="img-circle" height="150" width="150">
-    </div>
-    <h3 class="entry-name">{{speaker.first}} {{speaker.last}}</h3>
-    <h4 class="entry-title">{{speaker.jobTitle}}</h3>
-    <h5 class="entry-company">{{speaker.company}}</h5>
+<div class="speaker-entry text-center">
+  <div class="speaker-stream">
+    {{speaker.stream}}
   </div>
-</li>
+  <div class="speaker-image">
+    <img ng-src={{speaker.profilePic}} alt="{{speaker.first}} {{speaker.last}}" class="img-circle" height="150" width="150">
+  </div>
+   <h3 class="speaker-name">
+    {{speaker.first}} {{speaker.last}}
+  </h3>
+  <h4 class="speaker-title">{{speaker.jobTitle}}</h3>
+  <h5 class="speaker-company">{{speaker.company}}</h5>
+   <div class="share-widget">
+    <a ng-if="speaker.twitter" href="{{speaker.twitter}}" target="_blank"><i class="fa fa-2x fa-twitter"></i></a>
+    <a ng-if="speaker.linkedIn" href="{{speaker.linkedIn}}" target="_blank"><i class="fa fa-2x fa-linkedin-square"></i></a>
+  </div>
+</div>

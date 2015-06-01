@@ -40,7 +40,7 @@ angular.module('genericServices', ['ngCookies'])
         var deferred = $q.defer();
         var sessionToken = $cookies.sessionToken;
 
-        if(sessionToken && sessionToken !== 'undefined') {
+        if(sessionToken && sessionToken !== 'undefined' && sessionToken !== 'null') {
           service.setSession(sessionToken);
 
           $http.get(server + '/users/me').then(function (user) {
@@ -60,6 +60,12 @@ angular.module('genericServices', ['ngCookies'])
           deferred.resolve(null);
         }
         return deferred.promise;
+      },
+      logout: function() {
+        $rootScope.currentUser = null;
+        $cookies.sessionToken = null;
+        service.setSession(null);
+        Parse.User.logOut();
       }
     };
 
@@ -73,67 +79,23 @@ angular.module('genericServices', ['ngCookies'])
 
     return service;
   }])
-  // .factory('speakerService', ['$http', '$q', 'server', function speakerService($http, $q, server) {
-
-  //   // implementation
-  //   function getSpeakers() {
-  //       var def = $q.defer();
-
-  //       $http.get(server + '/classes/Speaker')
-  //           .success(function(data) {
-  //               service.speakers = data;
-  //               def.resolve(data);
-  //           })
-  //           .error(function() {
-  //               def.reject('Failed to get speakers');
-  //           });
-  //       return def.promise;
-  //   }
-
-  //   // interface
-  //   var service = {
-  //       speakers: [],
-  //       getSpeakers: getSpeakers
-  //   };
-  //   return service;
-  // }])
-  // .factory('sponsorService', ['$http', '$q', 'server', function speakerService($http, $q, server) {
-
-  //   // implementation
-  //   function getSponsors() {
-  //       var def = $q.defer();
-
-  //       $http.get(server + '/classes/Sponsor')
-  //           .success(function(data) {
-  //               service.sponsors = data;
-  //               def.resolve(data);
-  //           })
-  //           .error(function() {
-  //               def.reject('Failed to get sponsors');
-  //           });
-  //       return def.promise;
-  //   }
-
-  //   // interface
-  //   var service = {
-  //       sponsors: [],
-  //       getSponsors: getSponsors
-  //   };
-  //   return service;
-  // }])
   .factory('dataService',['$http', '$q', 'server', function dataService ($http, $q, server) {
     var data = {};
-    function getClassName (className) {
+    function getClassName (className, order) {
       var def = $q.defer();
-      
+
       if (data.className && data.className.length > 0) {
         def.resolve(data.className);
       }
       else {
-        $http.get(server + '/classes/' + className).then(function (results) {
+        var orderString = '';
+        if (order) {
+          orderString = '?order=' + order;
+        }
+        $http.get(server + '/classes/' + className + orderString).then(function (results) {
           data[className] = results.data.results;
           def.resolve(data[className]);
-        }, 
+        },
         function (err) {
           data[className] = [];
           def.reject(err);

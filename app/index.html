@@ -8,13 +8,14 @@
      <!--Place favicon.ico and apple-touch-icon.png in the root directory -->
      <!--build:css(.) styles/vendor.css -->
      <!--bower:css -->
-     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+     <link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css' />
+     <link rel='stylesheet' href='bower_components/font-awesome/css/font-awesome.css' />
      <!--endbower -->
      <!--endbuild -->
      <!--build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
      <!--endbuild -->
+     <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:700|Open+Sans' rel='stylesheet' type='text/css'>
   </head>
   <body>
     <!--[if lt IE 9]>
@@ -22,7 +23,7 @@
     <![endif]-->
 
      <!--Add your site or application content here -->
-    <div class="header">
+    <div class="header" name="top">
       <div class="navbar navbar-default navbar-fixed-top" role="navigation" ng-class="app.navClass" data-spy="affix" data-offset-top="60" data-offset-bottom="200">
         <div class="container">
           <div class="navbar-header">
@@ -34,26 +35,26 @@
               <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" ng-class="app.navClass" href="#/">Export Leadership Forum</a>
+            <a class="navbar-brand" ng-class="app.navClass" ui-sref="home({ '#': 'top' })">Export Leadership Forum</a>
           </div>
 
           <div class="collapse navbar-collapse" id="js-navbar-collapse">
 
             <ul class="nav nav-pills pull-right"  ng-class="app.navClass" ng-if="!adminLoggedIn">
-              <!--<li><a ng-href="#/about">About</a></li>-->
-              <!--<li><a ng-href="#/agenda">Agenda</a></li>-->
+              <!--<li><a ui-sref="about">About</a></li>-->
+              <!--<li><a ui-sref="agenda">Agenda</a></li>-->
               <li><a ui-sref="speakers">Speakers</a></li>
               <li><a ui-sref="venue">Venue</a></li>
-              <li><a ng-href="#/blog">Blog</a></li>
-              <li><a ng-href="#/contact">Contact</a></li>
+              <li><a ui-sref="blog">Blog</a></li>
+              <li><a ui-sref="contact">Contact</a></li>
             </ul>
 
             <ul class="nav nav-pills pull-right"  ng-class="app.navClass" ng-if="adminLoggedIn">
               <li><a ui-sref="admin.speakers">Speakers</a></li>
               <li><a ui-sref="admin.sessions">Sessions</a></li>
-              <li><a ui-sref="admin.sponsors">Sponsors</a></li>
+              <li><a ui-sref="admin.partners">Partners</a></li>
               <li><a ui-sref="admin.subscribers">Subscribers</a></li>
-              <li><a ng-click="admin.logout()">Logout</a></li>
+              <li><a ng-click="logout()">Logout</a></li>
 
             </ul>
           </div>
@@ -61,64 +62,7 @@
       </div>
     </div>
 
-    <div ui-view></div>
-
-    <div class="footer">
-      <div class="container">
-        <div class="row">
-          <!--large footer-->
-          <div class="columns col-xs-12 col-sm-4 col-md-4">
-            <h2 class="widget-title">Information</h2>
-            <ul class="footer-menu">
-              <li><a href="#/faq">FAQ</a></li>
-              <li><a href="#/blog">Blog</a></li>
-            </ul>
-          </div>
-
-          <div class="columns col-xs-12 col-sm-4 col-md-4">
-            <h2 class="widget-title">Attendees</h2>
-            <ul class="footer-menu">
-              <li><a href="#/speakers">Speakers</a></li>
-              <li><a href="#/sponsors">Sponsors</a></li>
-              <li><a href="#/media">Media</a></li>
-            </ul>
-          </div>
-
-          <div class="columns col-xs-12 col-sm-4 col-md-4">
-            <h2 class="widget-title">Social</h2>
-            <ul class="footer-social">
-              <li>
-                <a href="https://twitter.com/exportsummit" title="Twitter" target="_blank">
-                  <i class="fa fa-twitter-square"></i>
-                </a>
-              </li>
-              <li>
-                <a href="https://www.facebook.com/exportsummit" title="Facebook" target="_blank">
-                  <i class="fa fa-facebook-square"></i>
-                </a>
-              </li>
-              <li>
-                <a href="https://www.linkedin.com/company/export-summit" title="LinkedIn" target="_blank">
-                  <i class="fa fa-linkedin-square"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
-          </div>
-
-
-
-        <hr>
-        <div class="footer-info">
-          <h6>
-            © 2015 • Export Leadership Forum • Dublin, 6-7 OCTOBER 2015 •
-            <a href="#/terms">Terms and Condiitons</a> •
-            <a href="#/anti-harassment-policy">Anti-Harassment Policy</a> •
-            <a href="#/contact">Website Feedback</a>
-          </h6>
-        </div>
-      </div>
-    </div>
+    <div ui-view autoscroll="true"></div>
 
 
      <!--Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -134,14 +78,12 @@
 
      <!--build:js(.) scripts/vendor.js -->
      <!--bower:js -->
-     <script src="bower_components/jquery/dist/jquery.js"></script>
+<!--      <script src="bower_components/jquery/dist/jquery.js"></script> -->
      <script src="bower_components/angular/angular.js"></script>
-     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<!--      <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script> -->
      <script src="bower_components/angular-animate/angular-animate.js"></script>
      <script src="bower_components/angular-cookies/angular-cookies.js"></script>
      <script src="bower_components/angular-messages/angular-messages.js"></script>
-     <script src="bower_components/angular-resource/angular-resource.js"></script>
-     <script src="bower_components/angular-route/angular-route.js"></script>
      <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
      <script src="bower_components/angular-touch/angular-touch.js"></script>
      <script src="bower_components/parse-js-sdk/lib/parse.js"></script>
@@ -154,7 +96,7 @@
      <!--endbuild -->
 
          <!--build:js({.tmp,app}) scripts/scripts.js -->
-         
+
         <script src="scripts/app.js"></script>
         <script src="scripts/config.js"></script>
 
@@ -163,7 +105,10 @@
         <script src="scripts/directives/directives.js"></script>
         <script src="scripts/directives/headerAction/headerActionDirective.js"></script>
         <script src="scripts/directives/speaker/speakerDirective.js"></script>
-        <script src="scripts/directives/sponsor/sponsorDirective.js"></script>
+        <script src="scripts/directives/partner/partnerDirective.js"></script>
+        <script src="scripts/directives/stream/streamDirective.js"></script>
+        <script src="scripts/directives/actionButton/actionButtonDirective.js"></script>
+        <script src="scripts/directives/footerBlock/footerBlockDirective.js"></script>
 
         <script src="scripts/user/user.js"></script>
         <script src="scripts/admin/admin.js"></script>

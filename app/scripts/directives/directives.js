@@ -1,5 +1,8 @@
 angular.module('conferenceDirectives', [
     'headerActionDirective',
     'speakerDirective',
-    'sponsorDirective'
+    'partnerDirective',
+    'streamDirective',
+    'actionButtonDirective',
+    'footerBlockDirective'
     ]);

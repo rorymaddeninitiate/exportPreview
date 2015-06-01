@@ -62,11 +62,6 @@ angular.module('user', [])
         // });
         return deferred.promise;
       },
-      logout: function() {
-        $rootScope.currentUser = null;
-        Parse.User.logOut();
-        $state.go('home');
-      },
       isInAnyRole: function (role) {
         if (!$rootScope.currentUser) {
           return false;

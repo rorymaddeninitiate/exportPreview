@@ -29,15 +29,15 @@ angular.module('admin', [])
           }]
         }
       })
-      .state('admin.sponsors', {
-        url: '/sponsors',
-        templateUrl: 'scripts/admin/sponsors.html',
-        controller: 'AdminSponsorsCtrl as adminSponsors',
+      .state('admin.partners', {
+        url: '/partners',
+        templateUrl: 'scripts/admin/partners.html',
+        controller: 'AdminPartnersCtrl as adminPartners',
         data: {
           roles: 'admin'
         },
         resolve: {
-          $title: function () { return 'Admin: Sponsors'; },
+          $title: function () { return 'Admin: Partners'; },
           speakers: ['adminService', function (adminService) {
             return adminService.getClassName('Sponsor');
           }]
@@ -56,12 +56,14 @@ angular.module('admin', [])
       }
     };
   }])
-  .controller('AdminCtrl', ['userService', '$rootScope', function (userService, $rootScope) {
+  .controller('AdminCtrl', ['ParseService', '$rootScope', '$state',
+    function (ParseService, $rootScope, $state) {
     $rootScope.adminLoggedIn = true;
 
-    this.logout = function () {
+    $rootScope.logout = function () {
       $rootScope.adminLoggedIn = false;
-      userService.logout();
+      ParseService.logout();
+      $state.go('home');
     };
   }])
   .controller('AdminSpeakersCtrl', ['speakers', function (speakers) {
@@ -83,8 +85,8 @@ angular.module('admin', [])
 
     };
   }])
-  .controller('AdminSponsorsCtrl', ['sponsors', function (sponsors) {
-    this.sponsors = sponsors;
+  .controller('AdminPartnersCtrl', ['partners', function (partners) {
+    this.partners = partners;
   }])
   .controller('AdminSessionsCtrl', ['locations', 'sessions', function (locations, sessions) {
     this.locations = locations;
