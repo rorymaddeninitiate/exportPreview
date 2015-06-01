@@ -66,8 +66,11 @@ angular.module('admin', [])
       $state.go('home');
     };
   }])
-  .controller('AdminSpeakersCtrl', ['speakers', function (speakers) {
+  .controller('AdminSpeakersCtrl', ['speakers', 'countries',
+  function (speakers, countries) {
+
     var self = this;
+    this.countries = countries;
     this.speakers = speakers;
     this.speaker = {};
 

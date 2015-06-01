@@ -19,6 +19,7 @@ angular
     'ui.router.title',
     'smart-table',
     'uiGmapgoogle-maps',
+    'ngFileUpload',
 
     'genericServices',
     'conferenceDirectives',
@@ -65,11 +66,6 @@ angular
           }]
         }
       })
-      // TODO
-      .state('speaker', {
-        url: '/speaker/:id',
-        templateUrl: 'views/.html'
-      })
       .state('partners', {
         url: '/partners',
         controller: 'PartnerController as main',
@@ -81,17 +77,7 @@ angular
           }]
         }
       })
-      // TODO - do we have a separate page for each partner?
-      .state('partner', {
-        url: '/partner/:id',
-        controller: 'PartnerController as main',
-        templateUrl: 'views/partner.html'
-      })
-      // TODO: Agenda
-      .state('agenda', {
-        url: '/agenda',
-        templateUrl: 'views/agenda.html'
-      })
+
       .state('venue', {
         url: '/venue',
         controller: 'VenueController as main',
@@ -99,15 +85,6 @@ angular
         resolve: {
           $title: function () { return 'Venue'; },
         }
-      })
-      .state('blog', {
-        url: '/blog',
-        templateUrl: 'views/blog.html'
-      })
-      //TODO: figure out categories
-      .state('article', {
-        url: '/blog/:id',
-        templateUrl: 'views/article.html'
       })
       .state('contact', {
         url: '/contact',
@@ -145,6 +122,35 @@ angular
         resolve: {
           $title: function () { return 'Media'; },
         }
+      })
+
+      // TODO
+      .state('speaker', {
+        url: '/speaker/:id',
+        templateUrl: 'views/speaker.html'
+      })
+      // TODO - do we have a separate page for each partner?
+      .state('partner', {
+        url: '/partner/:id',
+        controller: 'PartnerController as main',
+        templateUrl: 'views/partner.html'
+      })
+      // TODO: Agenda
+      .state('agenda', {
+        url: '/agenda',
+        templateUrl: 'views/agenda.html'
+      })
+      // TODO Probably have a separate blog
+      .state('blog', {
+        url: '/blog',
+        templateUrl: 'views/blog.html',
+        resolve: {
+          $title: function () { return 'Blog'; },
+        }
+      })
+      .state('article', {
+        url: '/blog/:id',
+        templateUrl: 'views/article.html'
       })
       ;
 

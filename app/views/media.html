@@ -72,16 +72,16 @@
           </div>
       </div>
 
-      <div class="form-group" ng-class="{'has-error': media.mediaForm.phone.$invalid && media.mediaForm.phone.$dirty}">
-          <label for="phone" class="col-sm-2 control-label">Country*</label>
+      <div class="form-group" ng-class="{'has-error': media.mediaForm.country.$invalid && media.mediaForm.country.$dirty}">
+          <label for="country" class="col-sm-2 control-label">Country*</label>
           <div class="col-sm-10">
             <select class="form-control input-lg" ng-model="media.mediaForm.country" ng-options="country.country for country in media.countries track by country.code" required="">
               <option value="">-- Select a Country --</option>
             </select>
           </div>
       </div>
-      <div ng-messages="media.mediaForm.phone.$error" style="color:maroon" role="alert">
-        <div ng-message="required" class="help-block">You must enter your phone number</div>
+      <div ng-messages="media.mediaForm.country.$error" style="color:maroon" role="alert">
+        <div ng-message="required" class="help-block">You must enter your country</div>
       </div>
       
       <div class="form-group" ng-class="{'has-error': media.mediaForm.phone.$invalid && media.mediaForm.phone.$dirty}">

@@ -107,4 +107,5 @@ angular.module('genericServices', ['ngCookies'])
       getClassName: getClassName
     };
     return service;
-  }]);
+  }])
+  // .factory('imageService', ['http']);
