@@ -29,6 +29,20 @@ angular.module('admin', [])
           }]
         }
       })
+      .state('admin.streams', {
+        url: '/streams',
+        templateUrl: 'scripts/admin/streams.html',
+        controller: 'AdminStreamsCtrl as adminStreams',
+        data: {
+          roles: 'admin'
+        },
+        resolve: {
+          $title: function () { return 'Admin: Streams'; },
+          streams: ['dataService', function (dataService) {
+            return dataService.getClassName('Stream');
+          }]
+        }
+      })
       .state('admin.partners', {
         url: '/partners',
         templateUrl: 'scripts/admin/partners.html',
@@ -190,6 +204,66 @@ angular.module('admin', [])
   }])
   .controller('AdminPartnersCtrl', ['partners', function (partners) {
     this.partners = partners;
+  }])
+  .controller('AdminStreamsCtrl', ['streams', '$window', '$http', function (streams, $window, $http) {
+    this.streams = streams;
+    var self = this;
+
+    this.addStream = function () {
+      self.stream = {};
+      self.showStreamForm = !self.showStreamForm;
+    };
+
+    this.updateStream = function (stream) {
+      self.showStreamForm = !self.showStreamForm;
+      self.stream = stream;
+    };
+
+    this.createOrUpdate = function () {
+      var existingId = false;
+      var stream = {
+        name: this.stream.name,
+        description: this.stream.description,
+        date: this.stream.date,
+        icon: this.stream.icon,
+        active: this.stream.active !== undefined ? this.stream.active: true
+      };
+
+      // is this an update of creation
+      var query;
+      if(this.stream.objectId) {
+        existingId = self.stream.objectId;
+        query = $http.put(server + '/classes/Stream/' + this.stream.objectId, stream);
+      }
+      else {
+        existingId = null;
+        query = $http.post(server + '/classes/Stream', stream);
+      }
+      query
+        .success(function (streamObject) {
+          // for a new object set the objectId
+          stream.objectId = existingId || streamObject.objectId;
+          if (!existingId) {
+            //add a new stream
+            self.streams.push(stream);
+          }
+          
+          self.stream = {};
+          self.showStreamForm = false;
+        })
+        .error(function (err) {
+          self.formError = true;
+        });
+    };
+
+    this.toggleStream = function (stream) {
+      var action = stream.active ? 'delete ' : 'restore ';
+      if($window.confirm('Are you sure you want to ' + action + stream.name + '?')){
+        this.stream = stream;
+        this.stream.active = !this.stream.active;
+        this.createOrUpdate();       
+      }
+    }
   }])
   .controller('AdminSessionsCtrl', ['locations', 'sessions', function (locations, sessions) {
     this.locations = locations;
