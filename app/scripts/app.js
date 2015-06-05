@@ -19,7 +19,6 @@ angular
     'ui.router.title',
     'smart-table',
     'uiGmapgoogle-maps',
-    'ngFileUpload',
 
     'genericServices',
     'conferenceDirectives',
@@ -45,13 +44,13 @@ angular
         resolve: {
           $title: function () { return 'Home'; },
           speakers: ['dataService', function (dataService) {
-            return dataService.getClassName('Speaker');
+            return dataService.getClassName('Speaker', {where: {'photo': { '$exists': true}, 'active': true}});
           }] ,
           partners: ['dataService', function (dataService) {
-            return dataService.getClassName('Sponsor');
+            return dataService.getClassName('Sponsor', {where: {'logo': { '$exists': true}, 'active': true}});
           }],
           streams: ['dataService', function (dataService) {
-            return dataService.getClassName('Stream', 'order');
+            return dataService.getClassName('Stream', {order: 'order'});
           }]
         }
       })
@@ -62,7 +61,7 @@ angular
         resolve: {
           $title: function () { return 'Home'; },
           speakers: ['dataService', function (dataService) {
-            return dataService.getClassName('Speaker');
+            return dataService.getClassName('Speaker', {where: {'photo': { '$exists': true}, 'active': true}});
           }]
         }
       })
@@ -73,7 +72,7 @@ angular
         resolve: {
           $title: function () { return 'Partners'; },
           partners: ['dataService', function (dataService) {
-            return dataService.getClassName('Sponsor');
+            return dataService.getClassName('Sponsor', {where: {'logo': { '$exists': true}, 'active': true}});
           }]
         }
       })

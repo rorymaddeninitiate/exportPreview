@@ -1,8 +1,14 @@
 angular.module('config', [])
 
 .value('server', 'https://api.parse.com/1')
-
 .value('api', '/1')
+.value('imageHost', 'https://res.cloudinary.com/export-leadership/image')
+
+.value('cloudinaryDetails', {
+    cloud_name: 'export-leadership',
+    upload_preset: 'p5tkabh8',
+    api_key: 191375691518452
+})
 
 .value('mapDetails', {
     map: {

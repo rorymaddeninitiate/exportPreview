@@ -1,3 +1,4 @@
 {
-  "directory": "bower_components"
+  "directory": "bower_components",
+  "https_proxy": "http://maddenr:emU5DoqU6@proxy01:8080/"
 }

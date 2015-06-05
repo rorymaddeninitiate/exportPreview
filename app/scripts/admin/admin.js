@@ -56,7 +56,7 @@ angular.module('admin', [])
       }
     };
   }])
-  .controller('AdminCtrl', ['ParseService', '$rootScope', '$state',
+  .controller('AdminCtrl', ['ParseService', '$rootScope', '$state', 
     function (ParseService, $rootScope, $state) {
     $rootScope.adminLoggedIn = true;
 
@@ -65,14 +65,15 @@ angular.module('admin', [])
       ParseService.logout();
       $state.go('home');
     };
+
   }])
-  .controller('AdminSpeakersCtrl', ['speakers', 'countries',
-  function (speakers, countries) {
+  .controller('AdminSpeakersCtrl', ['speakers', 'countries', 'cloudinaryDetails', 'server', '$http', '$window',
+  function (speakers, countries, cloudinaryDetails, server, $http, $window) {
 
     var self = this;
     this.countries = countries;
     this.speakers = speakers;
-    this.speaker = {};
+    this.sourceSpeakers = [].concat(speakers);
 
     this.addSpeaker = function () {
       self.speaker = {};
@@ -84,9 +85,108 @@ angular.module('admin', [])
       self.speaker = speaker;
     };
 
-    this.createOrUpdate = function () {
+    // set the cloudinary values - see if this can be fixed  
+    this.uploadImage = function (speaker) {
+      cloudinary.openUploadWidget({ 
+        cloud_name: cloudinaryDetails.cloud_name, 
+        upload_preset: cloudinaryDetails.upload_preset,
+        theme: 'minimal',
+        sources: ['local'],
+        multiple: false,
+//         cropping: true,
+//         cropping_aspect_ratio: 1,
+        folder: 'speakers',
+        context: {
+          alt: speaker.first + ' ' + speaker.last + ': ' + speaker.company
+        }
+      }, 
+      function(err, result) { 
+        if (err) {
+          // TODO: show error to user
+          console.log(err);
+        }
+        else {
+          // fileName
+          var photo = {
+            url: result[0].secure_url,
+            public_id: result[0].public_id
+          }; 
+          speaker.photo = photo;
+          $http.put(server + '/classes/Speaker/' + speaker.objectId, {photo: photo})
+            .success(function (result) {
+            })
+            .error(function (err) {
+              // TODO: show error to user
+              speaker.photo = undefined;
+              console.log(err); 
+            });
+        }
+      });
+    }
 
+    this.removeImage = function (speaker) {
+      // alert the user
+      if($window.confirm('Are you sure you want to delete ' + speaker.first + '\'s picture?')){
+        $http.put(server + '/classes/Speaker/' + speaker.objectId, {photo: {'__op': 'Delete'}})
+          .success(function () {
+            speaker.photo = undefined;
+          })
+          .error(function (err) {
+            self.formError = true;
+          });
+      }
+    }
+
+
+
+    this.createOrUpdate = function () {
+      var existingId = false;
+      var speaker = {
+        first: this.speaker.first,
+        last: this.speaker.last,
+        jobTitle: this.speaker.jobTitle,
+        company: this.speaker.company,
+        country: this.speaker.country,
+        linkedIn: this.speaker.linkedIn,
+        twitter: this.speaker.twitter,
+        active: this.speaker.active !== undefined ? this.speaker.active: true
+      };
+
+      // is this an update of creation
+      var query;
+      if(this.speaker.objectId) {
+        existingId = self.speaker.objectId;
+        query = $http.put(server + '/classes/Speaker/' + this.speaker.objectId, speaker);
+      }
+      else {
+        existingId = null;
+        query = $http.post(server + '/classes/Speaker', speaker);
+      }
+      query
+        .success(function (speakerObject) {
+          // for a new object set the objectId
+          speaker.objectId = existingId || speakerObject.objectId;
+          if (!existingId) {
+            //add a new speaker
+            self.speakers.push(speaker);
+          }
+          
+          self.speaker = {};
+          self.showSpeakerForm = false;
+        })
+        .error(function (err) {
+          self.formError = true;
+        });
     };
+
+    this.toggleSpeaker = function (speaker) {
+      var action = speaker.active ? 'delete ' : 'restore ';
+      if($window.confirm('Are you sure you want to ' + action + speaker.first + '?')){
+        this.speaker = speaker;
+        this.speaker.active = !this.speaker.active;
+        this.createOrUpdate();       
+      }
+    }
   }])
   .controller('AdminPartnersCtrl', ['partners', function (partners) {
     this.partners = partners;

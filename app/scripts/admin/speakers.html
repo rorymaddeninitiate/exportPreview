@@ -10,7 +10,7 @@
   <div class="form-group" ng-class="{'has-error': adminSpeakers.speakerForm.first.$invalid && adminSpeakers.speakerForm.first.$dirty}">
     <label for="first" class="col-sm-2 control-label">First*</label>
     <div class="col-sm-10">
-      <input type="string" class="form-control input-lg" id="first" ng-model="adminSpeakers.speakerForm.first" required="">
+      <input type="string" class="form-control input-lg" id="first" ng-model="adminSpeakers.speaker.first" required="">
     </div>
   </div>
   <div ng-messages="adminSpeakers.speakerForm.first.$error" style="color:maroon" role="alert">
@@ -20,7 +20,7 @@
   <div class="form-group" ng-class="{'has-error': adminSpeakers.speakerForm.last.$invalid && adminSpeakers.speakerForm.last.$dirty}">
     <label for="last" class="col-sm-2 control-label">Last*</label>
     <div class="col-sm-10">
-      <input type="string" class="form-control input-lg" id="last" ng-model="adminSpeakers.speakerForm.last" required="">
+      <input type="string" class="form-control input-lg" id="last" ng-model="adminSpeakers.speaker.last" required="">
     </div>
   </div>
   <div ng-messages="adminSpeakers.speakerForm.last.$error" style="color:maroon" role="alert">
@@ -30,7 +30,7 @@
   <div class="form-group" ng-class="{'has-error': adminSpeakers.speakerForm.jobTitle.$invalid && adminSpeakers.speakerForm.jobTitle.$dirty}">
     <label for="jobTitle" class="col-sm-2 control-label">Job Title*</label>
     <div class="col-sm-10">
-      <input type="string" class="form-control input-lg" id="jobTitle" ng-model="adminSpeakers.speakerForm.jobTitle" required="">
+      <input type="string" class="form-control input-lg" id="jobTitle" ng-model="adminSpeakers.speaker.jobTitle" required="">
     </div>
   </div>
   <div ng-messages="adminSpeakers.speakerForm.jobTitle.$error" style="color:maroon" role="alert">
@@ -41,7 +41,7 @@
   <div class="form-group" ng-class="{'has-error': adminSpeakers.speakerForm.company.$invalid && adminSpeakers.speakerForm.company.$dirty}">
     <label for="company" class="col-sm-2 control-label">Company*</label>
     <div class="col-sm-10">
-      <input type="string" class="form-control input-lg" id="company" ng-model="adminSpeakers.speakerForm.company" required="">
+      <input type="string" class="form-control input-lg" id="company" ng-model="adminSpeakers.speaker.company" required="">
     </div>
   </div>
   <div ng-messages="adminSpeakers.speakerForm.company.$error" style="color:maroon" role="alert">
@@ -51,7 +51,7 @@
   <div class="form-group" ng-class="{'has-error': adminSpeakers.speakerForm.country.$invalid && adminSpeakers.speakerForm.country.$dirty}">
     <label for="country" class="col-sm-2 control-label">Country*</label>
     <div class="col-sm-10">
-      <select class="form-control input-lg" ng-model="adminSpeakers.speakerForm.country" ng-options="country.country for country in media.countries track by country.code" required="">
+      <select class="form-control input-lg" ng-model="adminSpeakers.speaker.country" ng-options="country.code as country.country for country in adminSpeakers.countries" required="">
         <option value="">-- Select a Country --</option>
       </select>
     </div>
@@ -63,52 +63,60 @@
   <div class="form-group" ng-class="{'has-error': adminSpeakers.speakerForm.twitter.$invalid && adminSpeakers.speakerForm.twitter.$dirty}">
     <label for="twitter" class="col-sm-2 control-label">Twitter Url</label>
     <div class="col-sm-10">
-      <input type="string" class="form-control input-lg" id="twitter" ng-model="adminSpeakers.speakerForm.twitter">
+      <input type="string" class="form-control input-lg" id="twitter" ng-model="adminSpeakers.speaker.twitter">
     </div>
   </div>
 
   <div class="form-group" ng-class="{'has-error': adminSpeakers.speakerForm.linkedIn.$invalid && adminSpeakers.speakerForm.linkedIn.$dirty}">
     <label for="linkedIn" class="col-sm-2 control-label">LinkedIn Url</label>
     <div class="col-sm-10">
-      <input type="string" class="form-control input-lg" id="linkedIn" ng-model="adminSpeakers.speakerForm.linkedIn">
+      <input type="string" class="form-control input-lg" id="linkedIn" ng-model="adminSpeakers.speaker.linkedIn">
     </div>
   </div>
 
   <!-- Upload Profile Pic -->
-  <div class="form-group" ng-class="{'has-error': adminSpeakers.speakerForm.linkedIn.$invalid && adminSpeakers.speakerForm.linkedIn.$dirty}">
+<!--   <div class="form-group" ng-class="{'has-error': adminSpeakers.speakerForm.linkedIn.$invalid && adminSpeakers.speakerForm.linkedIn.$dirty}">
     <label for="linkedIn" class="col-sm-2 control-label">Profile Pic</label>
     <div class="col-sm-10">
-      <input type="file" ngf-select ng-model="adminSpeakers.speakerForm.profilePic" ngf-multiple="false" accept="image/*">
+      <button class="btn btn-default" type="button" ng-click="adminSpeakers.uploadImage()">Select Image</button>
       <p class="help-block">Image dimensions should be square and larger than 250px.</p>
     </div>
     <img ngf-src="adminSpeakers.speakerForm.profilePic">
-  </div>
+  </div> -->
 
 
   <button class="btn btn-lg btn-primary btn-block" type="submit" ng-disabled="adminSpeakers.speakerForm.$invalid || adminSpeakers.processing">Create / Update</button>
 
 </form>
 
-<table st-table="rowCollection" class="table table-striped" class="row-border hover">
+<table class="table table-striped" class="row-border hover">
     <thead>
-    <tr>
+<!--     <tr>
       <th colspan="5"><input st-search class="form-control" placeholder="global search ..." type="text"/></th>
-    </tr>
+    </tr> -->
     <tr>
         <th>Pic</th>
-        <th st-sort="first">First</th>
-        <th st-sort="last">Last</th>
-        <th>Job Title</th>
-        <th st-sort="company">Company</th>
-        <th st-sort="country">Country</th>
-        <th>LinkedIn</th>
-        <th>Twitter</th>
+        <th ng-click="adminSpeakers.orderByField='first'; adminSpeakers.reverseSort = !adminSpeakers.reverseSort">First <span ng-show="adminSpeakers.orderByField == 'first'"><span ng-show="!adminSpeakers.reverseSort">^</span><span ng-show="adminSpeakers.reverseSort">v</span></span></th>
+        <th ng-click="adminSpeakers.orderByField='last'; adminSpeakers.reverseSort = !adminSpeakers.reverseSort">Last <span ng-show="adminSpeakers.orderByField == 'last'"><span ng-show="!adminSpeakers.reverseSort">^</span><span ng-show="adminSpeakers.reverseSort">v</span></span></th>
+        <th ng-click="adminSpeakers.orderByField='jobTitle'; adminSpeakers.reverseSort = !adminSpeakers.reverseSort">Job Title <span ng-show="adminSpeakers.orderByField == 'jobTitle'"><span ng-show="!adminSpeakers.reverseSort">^</span><span ng-show="adminSpeakers.reverseSort">v</span></span></th>
+        <th ng-click="adminSpeakers.orderByField='company'; adminSpeakers.reverseSort = !adminSpeakers.reverseSort">Company <span ng-show="adminSpeakers.orderByField == 'company'"><span ng-show="!adminSpeakers.reverseSort">^</span><span ng-show="adminSpeakers.reverseSort">v</span></span></th>
+        <th ng-click="adminSpeakers.orderByField='country'; adminSpeakers.reverseSort = !adminSpeakers.reverseSort">Country <span ng-show="adminSpeakers.orderByField == 'country'"><span ng-show="!adminSpeakers.reverseSort">^</span><span ng-show="adminSpeakers.reverseSort">v</span></span></th>
+        <th ng-click="adminSpeakers.orderByField='twitter'; adminSpeakers.reverseSort = !adminSpeakers.reverseSort">Twitter <span ng-show="adminSpeakers.orderByField == 'twitter'"><span ng-show="!adminSpeakers.reverseSort">^</span><span ng-show="adminSpeakers.reverseSort">v</span></span></th>
+        <th ng-click="adminSpeakers.orderByField='linkedIn'; adminSpeakers.reverseSort = !adminSpeakers.reverseSort">LinkedIn <span ng-show="adminSpeakers.orderByField == 'linkedIn'"><span ng-show="!adminSpeakers.reverseSort">^</span><span ng-show="adminSpeakers.reverseSort">v</span></span></th>
         <th>Edit</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="speaker in ::adminSpeakers.speakers">
-        <td><img ng-src="{{speaker.profilePic}}" width="50" height="50"></td>
+    <tr ng-repeat="speaker in adminSpeakers.speakers|orderBy:adminSpeakers.orderByField:adminSpeakers.reverseSort" ng-class="{'inactive': !speaker.active}">
+        <td>
+          <!-- If the profile pic doesn't exist -->
+          <button ng-if="!speaker.photo" class="btn btn-success" ng-click="adminSpeakers.uploadImage(speaker)"> + </button>
+          <!-- If the profile pic exists -->
+          <div ng-if="speaker.photo" class="adminSpeakerProfile" ng-click="adminSpeakers.removeImage(speaker)">
+            <img ng-src="{{speaker.photo.url}}" width="50" height="50">
+          <div>
+        </td>
         <td>{{speaker.first}}</td>
         <td>{{speaker.last}}</td>
         <td>{{speaker.jobTitle}}</td>
@@ -117,6 +125,7 @@
         <td><i class="glyphicon" ng-class="{'glyphicon-ok': speaker.linkedIn, 'glyphicon-remove': !speaker.linkedIn}"</td>
         <td><i class="glyphicon" ng-class="{'glyphicon-ok': speaker.twitter, 'glyphicon-remove': !speaker.twitter}"</td>
         <td><button class="btn btn-primary" ng-click="adminSpeakers.updateSpeaker(speaker)"><i class="glyphicon glyphicon-pencil"></button></td>
+        <td><button class="btn" ng-class="{'btn-danger': speaker.active, 'btn-default': !speaker.active}" ng-click="adminSpeakers.toggleSpeaker(speaker)"><i class="glyphicon" ng-class="{'glyphicon-remove': speaker.active, 'glyphicon-ok': !speaker.active}"></button></td>
     </tr>
     </tbody>
 </table>

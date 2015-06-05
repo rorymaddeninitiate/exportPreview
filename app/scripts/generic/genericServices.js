@@ -81,18 +81,21 @@ angular.module('genericServices', ['ngCookies'])
   }])
   .factory('dataService',['$http', '$q', 'server', function dataService ($http, $q, server) {
     var data = {};
-    function getClassName (className, order) {
+    function getClassName (className, options) {
       var def = $q.defer();
 
       if (data.className && data.className.length > 0) {
         def.resolve(data.className);
       }
       else {
-        var orderString = '';
-        if (order) {
-          orderString = '?order=' + order;
+        var optionsString = '';
+        if (options && options.where) {
+          optionsString = '?where=' + JSON.stringify(options.where);
         }
-        $http.get(server + '/classes/' + className + orderString).then(function (results) {
+        if (options && options.order) {
+          optionsString = '?order=' + options.order;
+        }
+        $http.get(server + '/classes/' + className + optionsString).then(function (results) {
           data[className] = results.data.results;
           def.resolve(data[className]);
         },

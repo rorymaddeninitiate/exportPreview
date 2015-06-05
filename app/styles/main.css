@@ -286,6 +286,10 @@ section.location {
   padding-top: 50px;
 }
 
+tr.inactive {
+  background-color: #e5beb7   !important;
+}
+
 
 
 /* Custom, iPhone Retina */
