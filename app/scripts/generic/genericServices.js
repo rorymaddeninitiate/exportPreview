@@ -39,8 +39,9 @@ angular.module('genericServices', ['ngCookies'])
       loginFromToken: function () {
         var deferred = $q.defer();
         var sessionToken = $cookies.sessionToken;
+        var authenticated = Parse.User.current();
 
-        if(sessionToken && sessionToken !== 'undefined' && sessionToken !== 'null') {
+        if(!authenticated && sessionToken && sessionToken !== 'undefined' && sessionToken !== 'null') {
           service.setSession(sessionToken);
 
           $http.get(server + '/users/me').then(function (user) {

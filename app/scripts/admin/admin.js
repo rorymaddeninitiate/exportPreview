@@ -70,7 +70,7 @@ angular.module('admin', [])
       }
     };
   }])
-  .controller('AdminCtrl', ['ParseService', '$rootScope', '$state', 
+  .controller('AdminCtrl', ['ParseService', '$rootScope', '$state',
     function (ParseService, $rootScope, $state) {
     $rootScope.adminLoggedIn = true;
 
@@ -87,22 +87,17 @@ angular.module('admin', [])
     var self = this;
     this.countries = countries;
     this.speakers = speakers;
-    this.sourceSpeakers = [].concat(speakers);
 
-    this.addSpeaker = function () {
-      self.speaker = {};
+    this.addSpeaker = function (speaker) {
+      self.speaker = speaker || {};
       self.showSpeakerForm = !self.showSpeakerForm;
+      self.formError = false;
     };
 
-    this.updateSpeaker = function (speaker) {
-      self.showSpeakerForm = !self.showSpeakerForm;
-      self.speaker = speaker;
-    };
-
-    // set the cloudinary values - see if this can be fixed  
+    // set the cloudinary values - see if this can be fixed
     this.uploadImage = function (speaker) {
-      cloudinary.openUploadWidget({ 
-        cloud_name: cloudinaryDetails.cloud_name, 
+      cloudinary.openUploadWidget({
+        cloud_name: cloudinaryDetails.cloud_name,
         upload_preset: cloudinaryDetails.upload_preset,
         theme: 'minimal',
         sources: ['local'],
@@ -113,8 +108,8 @@ angular.module('admin', [])
         context: {
           alt: speaker.first + ' ' + speaker.last + ': ' + speaker.company
         }
-      }, 
-      function(err, result) { 
+      },
+      function(err, result) {
         if (err) {
           // TODO: show error to user
           console.log(err);
@@ -124,7 +119,7 @@ angular.module('admin', [])
           var photo = {
             url: result[0].secure_url,
             public_id: result[0].public_id
-          }; 
+          };
           speaker.photo = photo;
           $http.put(server + '/classes/Speaker/' + speaker.objectId, {photo: photo})
             .success(function (result) {
@@ -132,7 +127,7 @@ angular.module('admin', [])
             .error(function (err) {
               // TODO: show error to user
               speaker.photo = undefined;
-              console.log(err); 
+              console.log(err);
             });
         }
       });
@@ -184,7 +179,7 @@ angular.module('admin', [])
             //add a new speaker
             self.speakers.push(speaker);
           }
-          
+
           self.speaker = {};
           self.showSpeakerForm = false;
         })
@@ -198,25 +193,22 @@ angular.module('admin', [])
       if($window.confirm('Are you sure you want to ' + action + speaker.first + '?')){
         this.speaker = speaker;
         this.speaker.active = !this.speaker.active;
-        this.createOrUpdate();       
+        this.createOrUpdate();
       }
     }
   }])
   .controller('AdminPartnersCtrl', ['partners', function (partners) {
     this.partners = partners;
   }])
-  .controller('AdminStreamsCtrl', ['streams', '$window', '$http', function (streams, $window, $http) {
+  .controller('AdminStreamsCtrl', ['streams', '$window', '$http', 'server',
+    function (streams, $window, $http, server) {
     this.streams = streams;
     var self = this;
 
-    this.addStream = function () {
-      self.stream = {};
+    this.addStream = function (stream) {
+      self.stream = stream || {};
       self.showStreamForm = !self.showStreamForm;
-    };
-
-    this.updateStream = function (stream) {
-      self.showStreamForm = !self.showStreamForm;
-      self.stream = stream;
+      self.formError = false;
     };
 
     this.createOrUpdate = function () {
@@ -224,8 +216,9 @@ angular.module('admin', [])
       var stream = {
         name: this.stream.name,
         description: this.stream.description,
-        date: this.stream.date,
+        date: the.stream.date,
         icon: this.stream.icon,
+        order: parseInt(this.stream.order,10),
         active: this.stream.active !== undefined ? this.stream.active: true
       };
 
@@ -247,7 +240,7 @@ angular.module('admin', [])
             //add a new stream
             self.streams.push(stream);
           }
-          
+
           self.stream = {};
           self.showStreamForm = false;
         })
@@ -261,7 +254,7 @@ angular.module('admin', [])
       if($window.confirm('Are you sure you want to ' + action + stream.name + '?')){
         this.stream = stream;
         this.stream.active = !this.stream.active;
-        this.createOrUpdate();       
+        this.createOrUpdate();
       }
     }
   }])

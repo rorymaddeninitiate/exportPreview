@@ -69,24 +69,29 @@ angular.module('user', [])
         return $rootScope.currentUser.roles && $rootScope.currentUser.roles.indexOf(role) !== -1;
       },
       authorize: function(event) {
-        var isAuthenticated = !!$rootScope.currentUser;
+        var self = this;
+        ParseService.loginFromToken().then(function () {
+          if ($rootScope.toState.data && $rootScope.toState.data.roles && $rootScope.toState.data.roles.length > 0 && !self.isInAnyRole($rootScope.toState.data.roles)) {
 
-        if ($rootScope.toState.data && $rootScope.toState.data.roles && $rootScope.toState.data.roles.length > 0 && !this.isInAnyRole($rootScope.toState.data.roles)) {
-          event.preventDefault();
-          if (isAuthenticated) {
-            $state.go('accessdenied'); // user is signed in but not authorized for desired state
-          }
-          else {
-            // user is not authenticated. stow the state they wanted before you
-            // send them to the signin state, so you can return them when you're done
-            $rootScope.returnToState = $rootScope.toState;
-            $rootScope.returnToStateParams = $rootScope.toStateParams;
+            event.preventDefault();
+            // loginFromToken
 
-            // now, send them to the signin state so they can log in
-            $state.go('login');
+            var isAuthenticated = !!$rootScope.currentUser;
+            if (isAuthenticated) {
+              $state.go('accessdenied'); // user is signed in but not authorized for desired state
+            }
+            else {
+              // user is not authenticated. stow the state they wanted before you
+              // send them to the signin state, so you can return them when you're done
+              $rootScope.returnToState = $rootScope.toState;
+              $rootScope.returnToStateParams = $rootScope.toStateParams;
+
+              // now, send them to the signin state so they can log in
+              $state.go('login');
+            }
           }
-        }
-       }
+        });
+      }
     };
     return service;
   }])
