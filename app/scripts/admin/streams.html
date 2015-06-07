@@ -27,16 +27,6 @@
     <div ng-message="required" class="help-block">You must enter a description </div>
   </div>
 
-  <div class="form-group" ng-class="{'has-error': adminStreams.streamForm.date.$invalid && adminStreams.streamForm.date.$dirty}">
-    <label for="date" class="col-sm-2 control-label">Date*</label>
-    <div class="col-sm-10">
-      <input type="string" class="form-control input-lg" id="date" ng-model="adminStreams.stream.date" required="" placeholder="dd/mm/yyyy">
-    </div>
-  </div>
-  <div ng-messages="adminStreams.streamForm.date.$error" style="color:maroon" role="alert">
-    <div ng-message="required" class="help-block">You must enter a date</div>
-  </div>
-
 
   <div class="form-group" ng-class="{'has-error': adminStreams.streamForm.icon.$invalid && adminStreams.streamForm.icon.$dirty}">
     <label for="icon" class="col-sm-2 control-label">Icon*</label>
@@ -66,19 +56,17 @@
     <thead>
     <tr>
         <th width="20%" ng-click="adminStreams.orderByField='name'; adminStreams.reverseSort = !adminStreams.reverseSort">Name <span ng-show="adminStreams.orderByField == 'name'"><span ng-show="!adminStreams.reverseSort">^</span><span ng-show="adminStreams.reverseSort">v</span></span></th>
-        <th width="45%" ng-click="adminStreams.orderByField='description'; adminStreams.reverseSort = !adminStreams.reverseSort">Description <span ng-show="adminStreams.orderByField == 'description'"><span ng-show="!adminStreams.reverseSort">^</span><span ng-show="adminStreams.reverseSort">v</span></span></th>
-        <th width="15%" ng-click="adminStreams.orderByField='date'; adminStreams.reverseSort = !adminStreams.reverseSort">Date <span ng-show="adminStreams.orderByField == 'date'"><span ng-show="!adminStreams.reverseSort">^</span><span ng-show="adminStreams.reverseSort">v</span></span></th>
-        <th width="15%" ng-click="adminStreams.orderByField='icon'; adminStreams.reverseSort = !adminStreams.reverseSort">Icon <span ng-show="adminStreams.orderByField == 'icon'"><span ng-show="!adminStreams.reverseSort">^</span><span ng-show="adminStreams.reverseSort">v</span></span></th>
+        <th width="60%" ng-click="adminStreams.orderByField='description'; adminStreams.reverseSort = !adminStreams.reverseSort">Description <span ng-show="adminStreams.orderByField == 'description'"><span ng-show="!adminStreams.reverseSort">^</span><span ng-show="adminStreams.reverseSort">v</span></span></th>
+        <th width="5%" ng-click="adminStreams.orderByField='icon'; adminStreams.reverseSort = !adminStreams.reverseSort">Icon <span ng-show="adminStreams.orderByField == 'icon'"><span ng-show="!adminStreams.reverseSort">^</span><span ng-show="adminStreams.reverseSort">v</span></span></th>
         <th width="5%" ng-click="adminStreams.orderByField='order'; adminStreams.reverseSort = !adminStreams.reverseSort">Order <span ng-show="adminStreams.orderByField == 'order'"><span ng-show="!adminStreams.reverseSort">^</span><span ng-show="adminStreams.reverseSort">v</span></span></th>
-        <th>Edit</th>
-        <th>Action</th>
+        <th width="5%" >Edit</th>
+        <th width="5%" >Action</th>
     </tr>
     </thead>
     <tbody>
     <tr ng-repeat="stream in adminStreams.streams | orderBy:adminStreams.orderByField:adminStreams.reverseSort" ng-class="{'inactive': !stream.active}">
         <td>{{stream.name}}</td>
         <td>{{stream.description}}</td>
-        <td>{{stream.date.iso | date}}</td>
         <td><i class="fa fa-3x" ng-class="stream.icon"></i></td>
         <td>{{stream.order}}</td>
         <td><button class="btn btn-primary" ng-click="adminStreams.addStream(stream)"><i class="glyphicon glyphicon-pencil"></button></td>

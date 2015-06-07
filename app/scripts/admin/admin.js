@@ -52,8 +52,11 @@ angular.module('admin', [])
         },
         resolve: {
           $title: function () { return 'Admin: Partners'; },
-          speakers: ['adminService', function (adminService) {
-            return adminService.getClassName('Sponsor');
+          partners: ['dataService', function (dataService) {
+            return dataService.getClassName('Sponsor', {include: 'stream'});
+          }],
+          streams: ['dataService', function (dataService) {
+            return dataService.getClassName('Stream');
           }]
         }
       })
@@ -81,8 +84,8 @@ angular.module('admin', [])
     };
 
   }])
-  .controller('AdminSpeakersCtrl', ['speakers', 'countries', 'cloudinaryDetails', 'server', '$http', '$window',
-  function (speakers, countries, cloudinaryDetails, server, $http, $window) {
+  .controller('AdminSpeakersCtrl', ['speakers', 'countries', 'imageService', 'server', '$http', '$window',
+  function (speakers, countries, imageService, server, $http, $window) {
 
     var self = this;
     this.countries = countries;
@@ -96,57 +99,19 @@ angular.module('admin', [])
 
     // set the cloudinary values - see if this can be fixed
     this.uploadImage = function (speaker) {
-      cloudinary.openUploadWidget({
-        cloud_name: cloudinaryDetails.cloud_name,
-        upload_preset: cloudinaryDetails.upload_preset,
-        theme: 'minimal',
-        sources: ['local'],
-        multiple: false,
-//         cropping: true,
-//         cropping_aspect_ratio: 1,
-        folder: 'speakers',
-        context: {
-          alt: speaker.first + ' ' + speaker.last + ': ' + speaker.company
-        }
-      },
-      function(err, result) {
-        if (err) {
-          // TODO: show error to user
-          console.log(err);
-        }
-        else {
-          // fileName
-          var photo = {
-            url: result[0].secure_url,
-            public_id: result[0].public_id
-          };
-          speaker.photo = photo;
-          $http.put(server + '/classes/Speaker/' + speaker.objectId, {photo: photo})
-            .success(function (result) {
-            })
-            .error(function (err) {
-              // TODO: show error to user
-              speaker.photo = undefined;
-              console.log(err);
-            });
-        }
+      imageService.uploadImage({
+        className: 'Speaker',
+        alt: speaker.first + ' ' + speaker.last + ': ' + speaker.company,
+        object: speaker
       });
     }
 
     this.removeImage = function (speaker) {
-      // alert the user
-      if($window.confirm('Are you sure you want to delete ' + speaker.first + '\'s picture?')){
-        $http.put(server + '/classes/Speaker/' + speaker.objectId, {photo: {'__op': 'Delete'}})
-          .success(function () {
-            speaker.photo = undefined;
-          })
-          .error(function (err) {
-            self.formError = true;
-          });
-      }
+      imageService.removeImage({
+        object: speaker,
+        name: speaker.first
+      });
     }
-
-
 
     this.createOrUpdate = function () {
       var existingId = false;
@@ -197,8 +162,113 @@ angular.module('admin', [])
       }
     }
   }])
-  .controller('AdminPartnersCtrl', ['partners', function (partners) {
+  .controller('AdminPartnersCtrl', ['partners', 'streams', 'partnerLevels', 'imageService', '$window', '$http', 'server',
+    function (partners, streams, partnerLevels, imageService, $window, $http, server) {
     this.partners = partners;
+    this.streams = streams;
+
+    this.levels = partnerLevels;
+
+    var self = this;
+
+    this.addPartner = function (partner) {
+      self.partner = partner || {};
+      self.showPartnerForm = !self.showPartnerForm;
+      self.formError = false;
+    };
+
+    // set the cloudinary values - see if this can be fixed
+    this.uploadImage = function (partner) {
+      imageService.uploadImage({
+        className: 'Sponsor',
+        alt: partner.name,
+        object: partner
+      });
+    }
+
+    this.removeImage = function (partner) {
+      imageService.removeImage({
+        object: partner,
+        name: partner.name
+      });
+    }
+
+    this.createOrUpdate = function () {
+      var existingId = false;
+      var streamId = this.partner.stream ? this.partner.stream.objectId : null;
+      var partner = {
+        name: this.partner.name,
+        level: this.partner.level,
+        url: this.partner.url,
+        active: this.partner.active !== undefined ? this.partner.active: true
+      };
+
+      // is this an update of creation
+      var query;
+      if(this.partner.objectId) {
+        existingId = self.partner.objectId;
+        query = $http.put(server + '/classes/Sponsor/' + this.partner.objectId, partner);
+      }
+      else {
+        existingId = null;
+        query = $http.post(server + '/classes/Sponsor', partner);
+      }
+      query
+        .success(function (partnerObject) {
+          // for a new object set the objectId
+          partner.objectId = existingId || partnerObject.objectId;
+
+          // add the stream
+          if(streamId) {
+            $http.put(server + '/classes/Sponsor/' + partner.objectId, {
+              stream: {
+                __op: 'AddRelation',
+                objects: [{
+                  __type: 'Pointer',
+                  className: 'Stream',
+                  objectId: streamId
+                }]
+              }
+            })
+            .success(function () {
+              if (!existingId) {
+                //add a new partner
+                self.partners.push(partner);
+              }
+
+              self.partner = {};
+              self.showPartnerForm = false;
+            })
+            .error(function (err) {
+              self.formError = true;
+              console.log(err);
+            })
+          }
+          else {
+            if (!existingId) {
+              //add a new partner
+              self.partners.push(partner);
+            }
+
+            self.partner = {};
+            self.showPartnerForm = false;
+          }
+          
+        })
+        .error(function (err) {
+          self.formError = true;
+          console.log(err);
+        });
+    };
+
+    this.togglePartner = function (partner) {
+      var action = partner.active ? 'delete ' : 'restore ';
+      if($window.confirm('Are you sure you want to ' + action + partner.first + '?')){
+        this.partner = partner;
+        this.partner.active = !this.partner.active;
+        this.createOrUpdate();
+      }
+    }
   }])
   .controller('AdminStreamsCtrl', ['streams', '$window', '$http', 'server',
     function (streams, $window, $http, server) {
@@ -216,7 +286,6 @@ angular.module('admin', [])
       var stream = {
         name: this.stream.name,
         description: this.stream.description,
-        date: the.stream.date,
         icon: this.stream.icon,
         order: parseInt(this.stream.order,10),
         active: this.stream.active !== undefined ? this.stream.active: true
@@ -264,4 +333,12 @@ angular.module('admin', [])
   }])
   .controller('AdminSubscribersCtrl', ['subscribers', function (subscribers) {
     this.subscribers = subscribers;
+  }])
+
+  .filter('partnerLevel', ['partnerLevels', function(partnerLevels) {
+    return function(level) {
+      return partnerLevels.filter(function(l) {
+        return l.code === level;
+      })[0].name;
+    }
   }]);

@@ -44,10 +44,10 @@ angular
         resolve: {
           $title: function () { return 'Home'; },
           speakers: ['dataService', function (dataService) {
-            return dataService.getClassName('Speaker', {where: {'photo': { '$exists': true}, 'active': true}});
+            return dataService.getClassName('Speaker', {photo: { $exists: true}, active: true});
           }] ,
           partners: ['dataService', function (dataService) {
-            return dataService.getClassName('Sponsor', {where: {'logo': { '$exists': true}, 'active': true}});
+            return dataService.getClassName('Sponsor', {photo: { $exists: true}, active: true, include: 'stream'});
           }],
           streams: ['dataService', function (dataService) {
             return dataService.getClassName('Stream', {order: 'order'});
@@ -61,7 +61,7 @@ angular
         resolve: {
           $title: function () { return 'Home'; },
           speakers: ['dataService', function (dataService) {
-            return dataService.getClassName('Speaker', {where: {'photo': { '$exists': true}, 'active': true}});
+            return dataService.getClassName('Speaker', {photo: { $exists: true}, active: true});
           }]
         }
       })
@@ -72,7 +72,7 @@ angular
         resolve: {
           $title: function () { return 'Partners'; },
           partners: ['dataService', function (dataService) {
-            return dataService.getClassName('Sponsor', {where: {'logo': { '$exists': true}, 'active': true}});
+            return dataService.getClassName('Sponsor', {photo: { $exists: true}, active: true, include: 'stream'});
           }]
         }
       })
@@ -197,8 +197,8 @@ angular
         return $filter('filter')(partners, {level: level});
       };
       this.partners = {
-        platinum: filterPartners('Platinum'),
-        gold: filterPartners('Gold')
+        platinum: filterPartners(1),
+        gold: filterPartners(2)
       };
 
       // maps
@@ -217,8 +217,8 @@ angular
       return $filter('filter')(partners, {level: level});
     };
     this.partners = {
-      platinum: filterPartners('Platinum'),
-      gold: filterPartners('Gold')
+      platinum: filterPartners(1),
+      gold: filterPartners(2)
     };
   }])
   .controller('VenueController', ['uiGmapGoogleMapApi', 'mapDetails', function (uiGmapGoogleMapApi, mapDetails) {

@@ -2,7 +2,21 @@ angular.module('config', [])
 
 .value('server', 'https://api.parse.com/1')
 .value('api', '/1')
-.value('imageHost', 'https://res.cloudinary.com/export-leadership/image')
+
+.value ('partnerLevels', [{
+        code: 1,
+        name: 'Platinum'
+      }, {
+        code: 2,
+        name: 'Gold'
+      }, {
+        code: 3,
+        name: 'Silver'
+      }, {
+        code: 4,
+        name: 'Bronze'
+      }])
+// .value('imageHost', 'https://res.cloudinary.com/export-leadership/image')
 
 .value('cloudinaryDetails', {
     cloud_name: 'export-leadership',

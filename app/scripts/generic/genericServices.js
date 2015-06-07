@@ -17,7 +17,12 @@ angular.module('genericServices', ['ngCookies'])
       },
       getUserRoles: function (user) {
         var deferred = $q.defer();
-        $http.post(server + '/functions/getRoles', user)
+        // check the roles cache
+        if(user.roles) {
+          deferred.resolve(user);
+        }
+        else {
+          $http.post(server + '/functions/getRoles', user)
           .success(function (results) {
             // update the user with the roles
             user.roles = results.result.map(function (result) {
@@ -34,6 +39,7 @@ angular.module('genericServices', ['ngCookies'])
             $rootScope.currentUser = null;
             return deferred.reject(err);
           });
+        }
         return deferred.promise;
       },
       loginFromToken: function () {
@@ -66,6 +72,7 @@ angular.module('genericServices', ['ngCookies'])
         $rootScope.currentUser = null;
         $cookies.sessionToken = null;
         service.setSession(null);
+        roles = [];
         Parse.User.logOut();
       }
     };
@@ -82,6 +89,19 @@ angular.module('genericServices', ['ngCookies'])
   }])
   .factory('dataService',['$http', '$q', 'server', function dataService ($http, $q, server) {
     var data = {};
+    var serialize = function(obj, prefix) {
+      var str = [];
+      for(var p in obj) {
+        if (obj.hasOwnProperty(p)) {
+          var k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
+          str.push(typeof v == "object" ?
+            serialize(v, k) :
+            encodeURIComponent(k) + "=" + encodeURIComponent(v));
+        }
+      }
+      return str.join("&");
+    }
+
     function getClassName (className, options) {
       var def = $q.defer();
 
@@ -89,14 +109,8 @@ angular.module('genericServices', ['ngCookies'])
         def.resolve(data.className);
       }
       else {
-        var optionsString = '';
-        if (options && options.where) {
-          optionsString = '?where=' + JSON.stringify(options.where);
-        }
-        if (options && options.order) {
-          optionsString = '?order=' + options.order;
-        }
-        $http.get(server + '/classes/' + className + optionsString).then(function (results) {
+        var optionString = '?' + serialize(options);
+        $http.get(server + '/classes/' + className + optionString).then(function (results) {
           data[className] = results.data.results;
           def.resolve(data[className]);
         },
@@ -112,4 +126,56 @@ angular.module('genericServices', ['ngCookies'])
     };
     return service;
   }])
-  // .factory('imageService', ['http']);
+  .factory('imageService', ['$http', 'cloudinaryDetails', '$window', 'server', 
+    function ($http, cloudinaryDetails, $window, server) {
+    return {
+      uploadImage: function (details) {
+        cloudinary.openUploadWidget({
+          cloud_name: cloudinaryDetails.cloud_name,
+          upload_preset: cloudinaryDetails.upload_preset,
+          theme: 'minimal',
+          sources: ['local'],
+          multiple: false,
+          folder: details.className,
+          context: {
+            alt: details.alt
+          }
+        },
+        function(err, result) {
+          if (err) {
+            // TODO: show error to user
+            console.log(err);
+          }
+          else {
+            // fileName
+            var photo = {
+              url: result[0].secure_url,
+              public_id: result[0].public_id
+            };
+            details.object.photo = photo;
+            $http.put(server + '/classes/' + details.className + '/' + details.object.objectId, {photo: photo})
+              .success(function (result) {
+              })
+              .error(function (err) {
+                // TODO: show error to user
+                details.object.photo = undefined;
+                console.log(err);
+              });
+          }
+        });
+      },
+
+      removeImage: function (details) {
+        // alert the user
+        if($window.confirm('Are you sure you want to delete ' + details.name + '\'s picture?')){
+          $http.put(server + '/classes/Speaker/' + details.object.objectId, {photo: {'__op': 'Delete'}})
+            .success(function () {
+              details.object.photo = undefined;
+            })
+            .error(function (err) {
+              self.formError = true;
+            });
+        }
+      }
+    }
+  }]);
