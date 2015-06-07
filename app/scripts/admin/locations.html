@@ -1,0 +1,48 @@
+<h1>Locations <button class="btn btn-success" ng-click="adminLocations.addLocation()"><i class="glyphicon glyphicon-plus"></i></button></h1>
+
+<form ng-submit="adminLocations.createOrUpdate()" class="form-horizontal" name="adminLocations.locationForm" ng-if="adminLocations.showLocationForm">
+  <div class="alert alert-danger" role="alert" ng-if="adminLocations.formError">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    There was a problem with the form. Please try again.
+  </div>
+
+  <div class="form-group" ng-class="{'has-error': adminLocations.locationForm.name.$invalid && adminLocations.locationForm.name.$dirty}">
+    <label for="name" class="col-sm-2 control-label">Name*</label>
+    <div class="col-sm-10">
+      <input type="string" class="form-control input-lg" id="name" ng-model="adminLocations.location.name" required="">
+    </div>
+  </div>
+  <div ng-messages="adminLocations.locationForm.name.$error" style="color:maroon" role="alert">
+    <div ng-message="required" class="help-block">You must enter a name </div>
+  </div>
+
+  <div class="form-group" ng-class="{'has-error': adminLocations.locationForm.capacity.$invalid && adminLocations.locationForm.capacity.$dirty}">
+    <label for="capacity" class="col-sm-2 control-label">Capacity</label>
+    <div class="col-sm-10">
+      <input type="number" class="form-control input-lg" id="capacity" ng-model="adminLocations.location.capacity">
+    </div>
+  </div>
+
+  <button class="btn btn-lg btn-primary btn-block" type="submit" ng-disabled="adminLocations.locationForm.$invalid || adminLocations.processing">Create / Update</button>
+
+</form>
+
+<table class="table table-striped" class="row-border hover">
+    <thead>
+    <tr>
+        <th ng-click="adminLocations.orderByField='name'; adminLocations.reverseSort = !adminLocations.reverseSort">Name <span ng-show="adminLocations.orderByField == 'name'"><span ng-show="!adminLocations.reverseSort">^</span><span ng-show="adminLocations.reverseSort">v</span></span></th>
+        <th ng-click="adminLocations.orderByField='capacity'; adminLocations.reverseSort = !adminLocations.reverseSort">Capacity <span ng-show="adminLocations.orderByField == 'capacity'"><span ng-show="!adminLocations.reverseSort">^</span><span ng-show="adminLocations.reverseSort">v</span></span></th>
+        <th>Edit</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="location in adminLocations.locations | orderBy:adminLocations.orderByField:adminLocations.reverseSort" ng-class="{'inactive': !location.active}">
+        <td>{{location.name}}</td>
+        <td>{{location.capacity}}</td>
+        <td><button class="btn btn-primary" ng-click="adminLocations.addLocation(location)"><i class="glyphicon glyphicon-pencil"></button></td>
+        <td><button class="btn" ng-class="{'btn-danger': location.active, 'btn-default': !location.active}" ng-click="adminLocations.toggleLocation(location)"><i class="glyphicon" ng-class="{'glyphicon-remove': location.active, 'glyphicon-ok': !location.active}"></button></td>
+    </tr>
+    </tbody>
+</table>

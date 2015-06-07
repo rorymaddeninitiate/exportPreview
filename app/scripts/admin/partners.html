@@ -42,7 +42,7 @@
   <div class="form-group" ng-class="{'has-error': adminPartners.partnerForm.stream.$invalid && adminPartners.partnerForm.stream.$dirty}">
     <label for="stream" class="col-sm-2 control-label">Stream</label>
     <div class="col-sm-10">
-      <select class="form-control input-lg" ng-model="adminPartners.partner.stream.objectId" ng-options="stream.objectId as stream.name for stream in adminPartners.streams">
+      <select class="form-control input-lg" ng-model="adminPartners.streamOption.objectId" ng-options="stream.objectId as stream.name for stream in adminPartners.streams | filter:{active:true}">
         <option value="">-- Select a Stream --</option>
       </select>
     </div>
@@ -81,7 +81,7 @@
         <td>{{partner.name}}</td>
         <td>{{partner.level | partnerLevel}}</td>
         <td>{{partner.url}}</td>
-        <td>{{partner.stream.name}}</td>
+        <td><span ng-if="partner.stream" ng-click="adminPartners.removeStream(partner)">{{partner.stream.name}}</span></td>
         <td><button class="btn btn-primary" ng-click="adminPartners.addPartner(partner)"><i class="glyphicon glyphicon-pencil"></button></td>
         <td><button class="btn" ng-class="{'btn-danger': partner.active, 'btn-default': !partner.active}" ng-click="adminPartners.togglePartner(partner)"><i class="glyphicon" ng-class="{'glyphicon-remove': partner.active, 'glyphicon-ok': !partner.active}"></button></td>
     </tr>

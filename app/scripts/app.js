@@ -50,7 +50,7 @@ angular
             return dataService.getClassName('Sponsor', {photo: { $exists: true}, active: true, include: 'stream'});
           }],
           streams: ['dataService', function (dataService) {
-            return dataService.getClassName('Stream', {order: 'order'});
+            return dataService.getClassName('Stream', {order: 'order', active: true});
           }]
         }
       })
@@ -278,7 +278,8 @@ angular
           company: self.mediaForm.company,
           country: self.mediaForm.country.code,
           twitter: self.mediaForm.twitter,
-          phone: self.mediaForm.phone
+          phone: self.mediaForm.phone,
+          active: true
         };
         // save the media request
         $http.post(server + '/classes/Media', media)
