@@ -105,6 +105,9 @@ angular.module('admin', [])
           }],
           streams: ['dataService', function (dataService) {
             return dataService.getClassName('Stream');
+          }],
+          speakers: ['dataService', function (dataService) {
+            return dataService.getClassName('Speaker');
           }]
         }
       })
@@ -512,11 +515,12 @@ angular.module('admin', [])
       }
     }
   }])
-  .controller('AdminEventSessionsCtrl', ['eventSessions', '$window', '$http', 'server', 'streams', 'locations', 'eventTimeZone', 'dataService',
-  function (eventSessions, $window, $http, server, streams, locations, eventTimeZone, dataService) {
+  .controller('AdminEventSessionsCtrl', ['eventSessions', '$window', '$http', 'server', 'streams', 'locations', 'eventTimeZone', 'dataService', 'speakers',
+  function (eventSessions, $window, $http, server, streams, locations, eventTimeZone, dataService, speakers) {
     this.eventSessions = eventSessions;
     this.streams = streams;
     this.locations = locations;
+    this.speakers = speakers;
     this.eventTimeZone = eventTimeZone;
     var self = this;
 
@@ -526,26 +530,26 @@ angular.module('admin', [])
     this.endDate;
 
     // hydrate the stream & Speakers
-    var batchOperations = [], objectIds = [];
-    this.eventSessions.forEach(function(es) {
-      objectIds.push(es.objectId);
-      batchOperations.push({
-        method: 'GET', 
-        path: '/1/classes/Speaker?where%3D%7B%24relatedTo%3A%7Bobject%3A%7B__type%3A%22Pointer%22%2CclassName%3A%22EventSession%22%2CobjectId%3A%22' + es.objectId + '%22%7D%2Ckey%3A%22speakers%22%7D%7D%7D'
-      });
-      if(es.stream && es.stream.objectId) {
-        es.stream = angular.copy(self.streams.filter(function(stream) {
-          return stream.objectId === es.stream.objectId;
-        })[0]);
-      }
-    });
+//     var batchOperations = [], objectIds = [];
+//     this.eventSessions.forEach(function(es) {
+//       objectIds.push(es.objectId);
+//       batchOperations.push({
+//         method: 'GET', 
+//         path: '/1/classes/Speaker?where%3D%7B%24relatedTo%3A%7Bobject%3A%7B__type%3A%22Pointer%22%2CclassName%3A%22EventSession%22%2CobjectId%3A%22' + es.objectId + '%22%7D%2Ckey%3A%22speakers%22%7D%7D%7D'
+//       });
+//       if(es.stream && es.stream.objectId) {
+//         es.stream = angular.copy(self.streams.filter(function(stream) {
+//           return stream.objectId === es.stream.objectId;
+//         })[0]);
+//       }
+//     });
 
-    // get the speakers
-    dataService.batch(batchOperations)
-      .success(function (speakers) {
-        // hydrate the sessions
-        
-      })
+//     // get the speakers
+//     dataService.batch(batchOperations)
+//       .success(function (speakers) {
+//         // hydrate the sessions
+
+//       })
 
     // manage dates
     var offset = new Date().getTimezoneOffset();
@@ -558,6 +562,12 @@ angular.module('admin', [])
         __type: 'Date',
         iso: new Date(eventDate).toISOString()
       };
+    };
+
+    
+    self.addNewSpeaker = function(speaker) {
+      var id = self.speakerOptions.length;
+      self.selectedSpeakers.push({objectId:id});
     };
 
 
@@ -584,6 +594,16 @@ angular.module('admin', [])
       // create a separate end date
       if(eventSession && eventSession.end) {
         self.endDate = new Date(eventSession.end.iso);
+      }
+
+      // create a separate speakers
+      self.speakerOptions = angular.copy(speakers);
+      if (eventSession && eventSession.speakers === {"__type":"Relation","className":"Speaker"}) delete eventSession.speakers;
+      if (eventSession && eventSession.speakers) {
+        self.selectedSpeakers = angular.copy(eventSession.speakers);
+      }
+      else {
+        self.selectedSpeakers = [{objectId: 0}];
       }
     };
 
@@ -628,6 +648,13 @@ angular.module('admin', [])
         .success(function (eventSessionObject) {
           // for a new object set the objectId
           eventSession.objectId = existingId || eventSessionObject.objectId;
+
+          // populate the existing Speakers
+          if (this.selectedSpeakers) {
+            // run query to save the speakers - if different
+          }
+
+
           if (!existingId) {
             // hydrate the pointers
              if (self.streamOption) {
@@ -674,6 +701,7 @@ angular.module('admin', [])
           self.locationOption = undefined;
           self.startDate = undefined;
           self.endDate = undefined;
+          self.selectedSpeakers = [{objectId: 0}];
         })
         .error(function (err) {
           self.formError = true;
