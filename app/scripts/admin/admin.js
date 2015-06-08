@@ -88,6 +88,26 @@ angular.module('admin', [])
           }]
         }
       })
+      .state('admin.eventSessions', {
+        url: '/eventSessions',
+        templateUrl: 'scripts/admin/eventSessions.html',
+        controller: 'AdminEventSessionsCtrl as adminEventSessions',
+        data: {
+          roles: 'admin'
+        },
+        resolve: {
+          $title: function () { return 'Admin: EventSessions'; },
+          eventSessions: ['dataService', function (dataService) {
+            return dataService.getClassName('EventSession', {include: 'location'});
+          }],
+          locations: ['dataService', function (dataService) {
+            return dataService.getClassName('Location');
+          }],
+          streams: ['dataService', function (dataService) {
+            return dataService.getClassName('Stream');
+          }]
+        }
+      })
       ;
   }])
   .service('adminService', ['server', '$http', function (server, $http) {
@@ -277,6 +297,14 @@ angular.module('admin', [])
           partner.objectId = existingId || partnerObject.objectId;
 
           if (!existingId) {
+            if (self.streamOption) {
+              // set it to the stream value
+
+              partner.stream = self.streams.filter(function (stream) {
+                return stream.objectId === self.streamOption.objectId;
+              })[0];
+            }
+
             //add a new partner
             self.partners.push(partner);
           }
@@ -368,10 +396,6 @@ angular.module('admin', [])
       }
     }
   }])
-  .controller('AdminSessionsCtrl', ['locations', 'sessions', function (locations, sessions) {
-    this.locations = locations;
-    this.sessions = sessions;
-  }])
   .controller('AdminLocationsCtrl', ['locations', '$window', '$http', 'server', function (locations, $window, $http, server) {
     this.locations = locations;
     var self = this;
@@ -386,7 +410,7 @@ angular.module('admin', [])
       var existingId = false;
       var location = {
         name: this.location.name,
-        capacity: this.location.capacity,
+        capacity: parseInt(this.location.capacity,10),
         active: this.location.active !== undefined ? this.location.active: true
       };
 
@@ -484,6 +508,201 @@ angular.module('admin', [])
       if($window.confirm('Are you sure you want to ' + action + media.first + '?')){
         this.media = media;
         this.media.active = !this.media.active;
+        this.createOrUpdate();
+      }
+    }
+  }])
+  .controller('AdminEventSessionsCtrl', ['eventSessions', '$window', '$http', 'server', 'streams', 'locations', 'eventTimeZone', 'dataService',
+  function (eventSessions, $window, $http, server, streams, locations, eventTimeZone, dataService) {
+    this.eventSessions = eventSessions;
+    this.streams = streams;
+    this.locations = locations;
+    this.eventTimeZone = eventTimeZone;
+    var self = this;
+
+    this.streamOption;
+    this.locationOption;
+    this.startDate;
+    this.endDate;
+
+    // hydrate the stream & Speakers
+    var batchOperations = [], objectIds = [];
+    this.eventSessions.forEach(function(es) {
+      objectIds.push(es.objectId);
+      batchOperations.push({
+        method: 'GET', 
+        path: '/1/classes/Speaker?where%3D%7B%24relatedTo%3A%7Bobject%3A%7B__type%3A%22Pointer%22%2CclassName%3A%22EventSession%22%2CobjectId%3A%22' + es.objectId + '%22%7D%2Ckey%3A%22speakers%22%7D%7D%7D'
+      });
+      if(es.stream && es.stream.objectId) {
+        es.stream = angular.copy(self.streams.filter(function(stream) {
+          return stream.objectId === es.stream.objectId;
+        })[0]);
+      }
+    });
+
+    // get the speakers
+    dataService.batch(batchOperations)
+      .success(function (speakers) {
+        // hydrate the sessions
+        
+      })
+
+    // manage dates
+    var offset = new Date().getTimezoneOffset();
+    var eventTimeZoneMinutes = (eventTimeZone.substring(0,3) * 60) + (eventTimeZone.substring(3,5) * 1);
+    var userTimeZoneOffset = offset - eventTimeZoneMinutes;
+    var manageDates = function(date) {
+      // UTC date
+      var eventDate = date.getTime() + (userTimeZoneOffset * 60 * 1000);
+      return {
+        __type: 'Date',
+        iso: new Date(eventDate).toISOString()
+      };
+    };
+
+
+    this.addEventSession = function (eventSession) {
+      self.eventSession = eventSession || {};
+      self.showEventSessionForm = !self.showEventSessionForm;
+      self.formError = false;
+
+      // create a separate stream copy
+      if(eventSession && eventSession.stream) {
+        self.streamOption = angular.copy(eventSession.stream);
+      }
+
+      // create a separate location copy
+      if(eventSession && eventSession.location) {
+        self.locationOption = angular.copy(eventSession.location);
+      }
+
+      // create a separate start date
+      if(eventSession && eventSession.start) {
+        self.startDate = new Date(eventSession.start.iso);
+      }
+
+      // create a separate end date
+      if(eventSession && eventSession.end) {
+        self.endDate = new Date(eventSession.end.iso);
+      }
+    };
+
+    this.createOrUpdate = function () {
+      var existingId = false;
+      var eventSession = {
+        name: this.eventSession.name,
+        description: this.eventSession.description,
+        start: manageDates(this.startDate),
+        end: manageDates(this.endDate),
+
+        active: this.eventSession.active !== undefined ? this.eventSession.active: true
+      };
+
+      if (this.streamOption) {
+        eventSession.stream = {
+          __type: 'Pointer',
+          className: 'Stream',
+          objectId: this.streamOption.objectId
+        };
+      }
+
+      if (this.locationOption) {
+        eventSession.location = {
+          __type: 'Pointer',
+          className: 'Location',
+          objectId: this.locationOption.objectId
+        };
+      }
+
+      // is this an update of creation
+      var query;
+      if(this.eventSession.objectId) {
+        existingId = self.eventSession.objectId;
+        query = $http.put(server + '/classes/EventSession/' + this.eventSession.objectId, eventSession);
+      }
+      else {
+        existingId = null;
+        query = $http.post(server + '/classes/EventSession', eventSession);
+      }
+      query
+        .success(function (eventSessionObject) {
+          // for a new object set the objectId
+          eventSession.objectId = existingId || eventSessionObject.objectId;
+          if (!existingId) {
+            // hydrate the pointers
+             if (self.streamOption) {
+              // set it to the stream value
+
+              eventSession.stream = self.streams.filter(function (stream) {
+                return stream.objectId === self.streamOption.objectId;
+              })[0];
+            }
+            // check if the location is set?
+            if (self.locationOption) {
+              // set it to the location value
+
+              eventSession.location = self.locations.filter(function (location) {
+                return location.objectId === self.locationOption.objectId;
+              })[0];
+            }
+
+            //add a new eventSession
+            self.eventSessions.push(eventSession);
+          }
+          else {
+            // check if the stream is set?
+            if (self.streamOption) {
+              // set it to the stream value
+
+              self.eventSession.stream = self.streams.filter(function (stream) {
+                return stream.objectId === self.streamOption.objectId;
+              })[0];
+            }
+            // check if the location is set?
+            if (self.locationOption) {
+              // set it to the location value
+
+              self.eventSession.location = self.locations.filter(function (location) {
+                return location.objectId === self.locationOption.objectId;
+              })[0];
+            }
+          }
+
+          self.eventSession = {};
+          self.showEventSessionForm = false;
+          self.streamOption = undefined;
+          self.locationOption = undefined;
+          self.startDate = undefined;
+          self.endDate = undefined;
+        })
+        .error(function (err) {
+          self.formError = true;
+        });
+    };
+
+    this.removePointer = function (options) {
+      var action = partner[options.className.toLowerCase()] ? 'delete ' : 'add ';
+      if($window.confirm('Are you sure you want to ' + action + ' the ' + options.className.toLowerCase() + '?')){
+        $http.put(server + '/classes/' + options.className + '/' + options.objectId, {
+            stream: {
+              __op: 'Delete'
+            }
+          })
+          .success(function () {
+            partner[options.className.toLowerCase()] = undefined;
+          })
+          .error(function (err) {
+            self.formError = true;
+            console.log(err);
+          })
+      }
+    }
+
+    this.toggleEventSession = function (eventSession) {
+      var action = eventSession.active ? 'delete ' : 'restore ';
+      if($window.confirm('Are you sure you want to ' + action + eventSession.first + '?')){
+        this.eventSession = eventSession;
+        this.eventSession.active = !this.eventSession.active;
         this.createOrUpdate();
       }
     }

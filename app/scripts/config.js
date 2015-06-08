@@ -2,6 +2,7 @@ angular.module('config', [])
 
 .value('server', 'https://api.parse.com/1')
 .value('api', '/1')
+.value('eventTimeZone', '-0100')
 
 .value ('partnerLevels', [{
         code: 1,

@@ -121,8 +121,14 @@ angular.module('genericServices', ['ngCookies'])
       }
       return def.promise;
     }
+
+    function batch (operations) {
+      return $http.post(server +'/batch', operations)
+    }
+    
     var service = {
-      getClassName: getClassName
+      getClassName: getClassName,
+      batch: batch
     };
     return service;
   }])
