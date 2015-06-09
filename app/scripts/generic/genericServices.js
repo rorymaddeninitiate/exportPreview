@@ -78,12 +78,12 @@ angular.module('genericServices', ['ngCookies'])
     };
 
     // set the $rootScope.currentUser
-    if (Parse.User.current()) {
-      service.getUserRoles(Parse.User.current());
-    }
-    else {
-      service.loginFromToken();
-    }
+//     if (Parse.User.current()) {
+//       service.getUserRoles(Parse.User.current());
+//     }
+//     else {
+//       service.loginFromToken();
+//     }
 
     return service;
   }])

@@ -109,16 +109,9 @@
         <td>{{eventSession.description}}</td>
         <td>{{eventSession.start.iso | date: 'd/M/yy h:mm a': adminEventSessions.eventTimeZone}}</td>
         <td>{{eventSession.end.iso |  date: 'd/M/yy h:mm a': adminEventSessions.eventTimeZone}}</td>
-        <td ng-click="adminEventSessions.manageSpeakers(eventSession)">
-           <!-- If the speakers don't exist -->
-          <button ng-if="!eventSession.speakers" class="btn btn-success"> + </button>
-          <!-- If the profile pic exists -->
-          <div ng-if="eventSession.speakers" class="adminSpeakerProfile">
-            {{eventSession.speakers}}
-          <div>
-        </td>
+        <td>{{eventSession.speakers | speakerNames}}</td>
         <td>{{eventSession.location.name}}</td>
-        <td>{{eventSession.stream.name}}</td>
+        <td><span ng-if="eventSession.stream" ng-click="adminEventSessions.removeStream(eventSession)">{{eventSession.stream.name}}</span></td>
         <td><button class="btn btn-primary" ng-click="adminEventSessions.addEventSession(eventSession)"><i class="glyphicon glyphicon-pencil"></button></td>
         <td><button class="btn" ng-class="{'btn-danger': eventSession.active, 'btn-default': !eventSession.active}" ng-click="adminEventSessions.toggleEventSession(eventSession)"><i class="glyphicon" ng-class="{'glyphicon-remove': eventSession.active, 'glyphicon-ok': !eventSession.active}"></button></td>
     </tr>

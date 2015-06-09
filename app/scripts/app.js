@@ -51,6 +51,9 @@ angular
           }],
           streams: ['dataService', function (dataService) {
             return dataService.getClassName('Stream', {order: 'order', active: true});
+          }],
+          sessions: ['dataService', function (dataService) {
+            return dataService.getClassName('EventSession', {include: 'stream,speakers,location', active: true});
           }]
         }
       })
@@ -186,8 +189,8 @@ angular
        $scope.$apply();
      });
   }])
-  .controller('MainCtrl', ['uiGmapGoogleMapApi', 'speakers', 'partners', '$filter', 'streams', 'mapDetails',
-    function ( uiGmapGoogleMapApi, speakers, partners, $filter, streams, mapDetails) {
+  .controller('MainCtrl', ['uiGmapGoogleMapApi', 'speakers', 'partners', '$filter', 'streams', 'mapDetails', 'sessions',
+    function ( uiGmapGoogleMapApi, speakers, partners, $filter, streams, mapDetails, sessions) {
 
       var self = this;
       this.speakers = speakers;

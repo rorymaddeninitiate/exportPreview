@@ -98,7 +98,7 @@ angular.module('admin', [])
         resolve: {
           $title: function () { return 'Admin: EventSessions'; },
           eventSessions: ['dataService', function (dataService) {
-            return dataService.getClassName('EventSession', {include: 'location'});
+            return dataService.getClassName('EventSession', {include: 'location,stream,speakers'});
           }],
           locations: ['dataService', function (dataService) {
             return dataService.getClassName('Location');
@@ -526,30 +526,9 @@ angular.module('admin', [])
 
     this.streamOption;
     this.locationOption;
+    this.speakerOptions;
     this.startDate;
     this.endDate;
-
-    // hydrate the stream & Speakers
-//     var batchOperations = [], objectIds = [];
-//     this.eventSessions.forEach(function(es) {
-//       objectIds.push(es.objectId);
-//       batchOperations.push({
-//         method: 'GET', 
-//         path: '/1/classes/Speaker?where%3D%7B%24relatedTo%3A%7Bobject%3A%7B__type%3A%22Pointer%22%2CclassName%3A%22EventSession%22%2CobjectId%3A%22' + es.objectId + '%22%7D%2Ckey%3A%22speakers%22%7D%7D%7D'
-//       });
-//       if(es.stream && es.stream.objectId) {
-//         es.stream = angular.copy(self.streams.filter(function(stream) {
-//           return stream.objectId === es.stream.objectId;
-//         })[0]);
-//       }
-//     });
-
-//     // get the speakers
-//     dataService.batch(batchOperations)
-//       .success(function (speakers) {
-//         // hydrate the sessions
-
-//       })
 
     // manage dates
     var offset = new Date().getTimezoneOffset();
@@ -564,9 +543,9 @@ angular.module('admin', [])
       };
     };
 
-    
+    // need to be able to add multiple speakers
     self.addNewSpeaker = function(speaker) {
-      var id = self.speakerOptions.length;
+      var id = self.selectedSpeakers.length;
       self.selectedSpeakers.push({objectId:id});
     };
 
@@ -596,10 +575,9 @@ angular.module('admin', [])
         self.endDate = new Date(eventSession.end.iso);
       }
 
-      // create a separate speakers
+      // create a separate speakers copy
       self.speakerOptions = angular.copy(speakers);
-      if (eventSession && eventSession.speakers === {"__type":"Relation","className":"Speaker"}) delete eventSession.speakers;
-      if (eventSession && eventSession.speakers) {
+      if (eventSession && eventSession.speakers && eventSession.speakers.length > 0) {
         self.selectedSpeakers = angular.copy(eventSession.speakers);
       }
       else {
@@ -619,26 +597,51 @@ angular.module('admin', [])
       };
 
       if (this.streamOption) {
-        eventSession.stream = {
-          __type: 'Pointer',
-          className: 'Stream',
-          objectId: this.streamOption.objectId
-        };
+        
+        if (this.stream && this.stream.objectId) {
+          eventSession.stream = {
+            __type: 'Pointer',
+            className: 'Stream',
+            objectId: this.streamOption.objectId
+          };
+        }
+        else {
+          eventSession.stream = undefined;
+        }
       }
 
       if (this.locationOption) {
-        eventSession.location = {
-          __type: 'Pointer',
-          className: 'Location',
-          objectId: this.locationOption.objectId
-        };
+        if (this.location && this.location.objectId) {
+          eventSession.location = {
+            __type: 'Pointer',
+            className: 'Location',
+            objectId: this.locationOption.objectId
+          };
+        }
+        else {
+          eventSession.location = undefined;
+        }
+        
+      }
+
+      if (this.selectedSpeakers) {
+        eventSession.speakers = [];
+        this.selectedSpeakers.forEach(function(speaker) {
+          if (speaker.objectId && speaker.objectId.length > 4) {
+            eventSession.speakers.push({
+              __type: 'Pointer',
+              className: 'Speaker',
+              objectId: speaker.objectId
+            });
+          }
+        });
       }
 
       // is this an update of creation
       var query;
       if(this.eventSession.objectId) {
         existingId = self.eventSession.objectId;
-        query = $http.put(server + '/classes/EventSession/' + this.eventSession.objectId, eventSession);
+        query = $http.put(server + '/classes/EventSession/' + existingId, eventSession);
       }
       else {
         existingId = null;
@@ -649,50 +652,39 @@ angular.module('admin', [])
           // for a new object set the objectId
           eventSession.objectId = existingId || eventSessionObject.objectId;
 
-          // populate the existing Speakers
-          if (this.selectedSpeakers) {
-            // run query to save the speakers - if different
-          }
+          // hydrate the pointers
+           if (self.streamOption) {
+            // set it to the stream value
 
+            self.eventSession.stream = eventSession.stream = self.streams.filter(function (stream) {
+              return stream.objectId === self.streamOption.objectId;
+            })[0];
+          }
+          // check if the location is set?
+          if (self.locationOption) {
+            // set it to the location value
+
+            self.eventSession.location = eventSession.location = self.locations.filter(function (location) {
+              return location.objectId === self.locationOption.objectId;
+            })[0];
+          }
+          // check if the speakers is set?
+          if (self.selectedSpeakers) {
+            // set it to the speakers value
+            var speakerObjects = [];
+            eventSession.speakers.forEach(function (speaker) {
+              self.speakers.forEach(function (sp) {
+                if (sp.objectId === speaker.objectId) {
+                  speakerObjects.push(sp);
+                }
+              });
+            });
+            self.eventSession.speakers = eventSession.speakers = speakerObjects;
+          }
 
           if (!existingId) {
-            // hydrate the pointers
-             if (self.streamOption) {
-              // set it to the stream value
-
-              eventSession.stream = self.streams.filter(function (stream) {
-                return stream.objectId === self.streamOption.objectId;
-              })[0];
-            }
-            // check if the location is set?
-            if (self.locationOption) {
-              // set it to the location value
-
-              eventSession.location = self.locations.filter(function (location) {
-                return location.objectId === self.locationOption.objectId;
-              })[0];
-            }
-
             //add a new eventSession
             self.eventSessions.push(eventSession);
-          }
-          else {
-            // check if the stream is set?
-            if (self.streamOption) {
-              // set it to the stream value
-
-              self.eventSession.stream = self.streams.filter(function (stream) {
-                return stream.objectId === self.streamOption.objectId;
-              })[0];
-            }
-            // check if the location is set?
-            if (self.locationOption) {
-              // set it to the location value
-
-              self.eventSession.location = self.locations.filter(function (location) {
-                return location.objectId === self.locationOption.objectId;
-              })[0];
-            }
           }
 
           self.eventSession = {};
@@ -701,23 +693,26 @@ angular.module('admin', [])
           self.locationOption = undefined;
           self.startDate = undefined;
           self.endDate = undefined;
-          self.selectedSpeakers = [{objectId: 0}];
+          self.selectedSpeakers = undefined;
+          self.speakerOptions = undefined;
+
+
         })
         .error(function (err) {
           self.formError = true;
         });
     };
 
-    this.removePointer = function (options) {
-      var action = partner[options.className.toLowerCase()] ? 'delete ' : 'add ';
-      if($window.confirm('Are you sure you want to ' + action + ' the ' + options.className.toLowerCase() + '?')){
-        $http.put(server + '/classes/' + options.className + '/' + options.objectId, {
+    this.removeStream = function (session) {
+      var action = session.stream ? 'delete ' : 'add ';
+      if($window.confirm('Are you sure you want to ' + action + 'the Stream?')){
+        $http.put(server + '/classes/EventSession/' + session.objectId, {
             stream: {
               __op: 'Delete'
             }
           })
           .success(function () {
-            partner[options.className.toLowerCase()] = undefined;
+            session.stream = undefined;
           })
           .error(function (err) {
             self.formError = true;
@@ -741,5 +736,21 @@ angular.module('admin', [])
       return partnerLevels.filter(function(l) {
         return l.code === level;
       })[0].name;
+    }
+  }])
+
+  .filter('speakerNames', [function() {
+    return function(speakers) {
+      if (!speakers) return '';
+      var names = '';
+      speakers.forEach(function(speaker, count) {
+        names += speaker.first + ' '  + speaker.last;
+        if (count > 0) names += ','
+      });
+      // remove the last comma
+      if (names.slice(-1) === ',') {
+        names = names.substring(0, names.length -1);  
+      }
+      return names;
     }
   }]);
