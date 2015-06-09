@@ -72,7 +72,6 @@ angular.module('genericServices', ['ngCookies'])
         $rootScope.currentUser = null;
         $cookies.sessionToken = null;
         service.setSession(null);
-        roles = [];
         Parse.User.logOut();
       }
     };

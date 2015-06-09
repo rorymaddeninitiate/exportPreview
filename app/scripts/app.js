@@ -44,10 +44,10 @@ angular
         resolve: {
           $title: function () { return 'Home'; },
           speakers: ['dataService', function (dataService) {
-            return dataService.getClassName('Speaker', {photo: { $exists: true}, active: true});
+            return dataService.getClassName('Speaker', {active: true});
           }] ,
           partners: ['dataService', function (dataService) {
-            return dataService.getClassName('Sponsor', {photo: { $exists: true}, active: true, include: 'stream'});
+            return dataService.getClassName('Sponsor', {active: true, include: 'stream'});
           }],
           streams: ['dataService', function (dataService) {
             return dataService.getClassName('Stream', {order: 'order', active: true});
@@ -64,7 +64,7 @@ angular
         resolve: {
           $title: function () { return 'Home'; },
           speakers: ['dataService', function (dataService) {
-            return dataService.getClassName('Speaker', {photo: { $exists: true}, active: true});
+            return dataService.getClassName('Speaker', {active: true});
           }]
         }
       })
@@ -75,7 +75,7 @@ angular
         resolve: {
           $title: function () { return 'Partners'; },
           partners: ['dataService', function (dataService) {
-            return dataService.getClassName('Sponsor', {photo: { $exists: true}, active: true, include: 'stream'});
+            return dataService.getClassName('Sponsor', {active: true, include: 'stream'});
           }]
         }
       })

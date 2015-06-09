@@ -174,7 +174,7 @@ angular.module('admin', [])
         country: this.speaker.country,
         linkedIn: this.speaker.linkedIn,
         twitter: this.speaker.twitter,
-        active: this.speaker.active !== undefined ? this.speaker.active: true
+        active: this.speaker.active !== undefined ? this.speaker.active: false
       };
 
       // is this an update of creation
@@ -273,7 +273,7 @@ angular.module('admin', [])
         name: this.partner.name,
         level: this.partner.level,
         url: this.partner.url,
-        active: this.partner.active !== undefined ? this.partner.active: true
+        active: this.partner.active !== undefined ? this.partner.active: false
       };
 
       if (this.streamOption) {
@@ -342,8 +342,8 @@ angular.module('admin', [])
       }
     }
   }])
-  .controller('AdminStreamsCtrl', ['streams', '$window', '$http', 'server',
-    function (streams, $window, $http, server) {
+  .controller('AdminStreamsCtrl', ['streams', '$window', '$http', 'server', 'imageService',
+    function (streams, $window, $http, server, imageService) {
     this.streams = streams;
     var self = this;
 
@@ -360,7 +360,7 @@ angular.module('admin', [])
         description: this.stream.description,
         icon: this.stream.icon,
         order: parseInt(this.stream.order,10),
-        active: this.stream.active !== undefined ? this.stream.active: true
+        active: this.stream.active !== undefined ? this.stream.active: false
       };
 
       // is this an update of creation
@@ -390,6 +390,22 @@ angular.module('admin', [])
         });
     };
 
+        // set the cloudinary values - see if this can be fixed
+    this.uploadImage = function (stream) {
+      imageService.uploadImage({
+        className: 'Stream',
+        alt: stream.name,
+        object: stream
+      });
+    }
+
+    this.removeImage = function (stream) {
+      imageService.removeImage({
+        object: stream,
+        name: stream.name
+      });
+    }
+
     this.toggleStream = function (stream) {
       var action = stream.active ? 'delete ' : 'restore ';
       if($window.confirm('Are you sure you want to ' + action + stream.name + '?')){
@@ -414,7 +430,7 @@ angular.module('admin', [])
       var location = {
         name: this.location.name,
         capacity: parseInt(this.location.capacity,10),
-        active: this.location.active !== undefined ? this.location.active: true
+        active: this.location.active !== undefined ? this.location.active: false
       };
 
       // is this an update of creation
@@ -476,7 +492,7 @@ angular.module('admin', [])
         country: this.media.country,
         phone: this.media.phone,
         twitter: this.media.twitter,
-        active: this.media.active !== undefined ? this.media.active: true
+        active: this.media.active !== undefined ? this.media.active: false
       };
 
       // is this an update of creation
@@ -593,7 +609,7 @@ angular.module('admin', [])
         start: manageDates(this.startDate),
         end: manageDates(this.endDate),
 
-        active: this.eventSession.active !== undefined ? this.eventSession.active: true
+        active: this.eventSession.active !== undefined ? this.eventSession.active: false
       };
 
       if (this.streamOption) {
