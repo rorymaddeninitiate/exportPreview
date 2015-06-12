@@ -17,8 +17,9 @@ angular
     'ngTouch',
     'ui.router',
     'ui.router.title',
-    'smart-table',
     'uiGmapgoogle-maps',
+
+    'templates-main',
 
     'genericServices',
     'conferenceDirectives',
@@ -160,14 +161,15 @@ angular
       $urlRouterProvider.otherwise('/');
   }])
 
-  .run(['$rootScope', '$state', '$stateParams', 'userService',
-    function($rootScope, $state, $stateParams, userService) {
+  .run(['$rootScope', '$state', '$stateParams', 'userService', '$window', '$location', '$anchorScroll',
+    function($rootScope, $state, $stateParams, userService, $window, $location, $anchorScroll) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 
 
     // check for correct priviledges
     $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
+      $anchorScroll();
       // track the state the user wants to go to; authorization service needs this
       $rootScope.toState = toState;
       $rootScope.toStateParams = toStateParams;
@@ -176,6 +178,15 @@ angular
 
       userService.authorize(event);
     });
+
+    // google analytics
+    $rootScope.$on('$stateChangeSuccess',
+      function(event){
+        if (!$window.ga)
+          return;
+
+        $window.ga('send', 'pageview', { page: $location.path() });
+      });
   }])
   .controller('AppCtrl', ['$window', '$scope', function ($window, $scope) {
      this.navClass = 'top';

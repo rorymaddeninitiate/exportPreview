@@ -107,7 +107,6 @@ form {
 .actionButton a {
   text-transform: uppercase;
   padding: 20px;
-  font-size:24px;
 }
 
 section, .streams {
@@ -119,8 +118,6 @@ section, .streams {
 section.headerAction {
   background-size: cover;
   background-image: url("http://initiate.network/images/conference.jpg");
-  min-height: 350px;
-  padding-top: 70px;
   color: #fff;
   text-align: center;
 }
@@ -276,6 +273,11 @@ section.location {
   display: block;
   float: left;
 }
+
+.widget-title {
+  font-size: 1.3em;
+}
+
 .organiserLogo {
   float: right;
   padding-bottom: 20px;
@@ -294,11 +296,21 @@ tr.inactive {
 
 /* Custom, iPhone Retina */
 @media only screen and (min-width : 320px) {
-
+  section.headerAction {
+    min-height: 350px;
+    padding-top: 70px;
+  }
 }
 
 /* Extra Small Devices, Phones */
 @media only screen and (min-width : 480px) {
+  
+  .actionButton a {
+    font-size:24px;
+  }
+  .widget-title {
+    font-size: 1.6em;
+  }
 
 }
 
@@ -307,6 +319,12 @@ tr.inactive {
   section {
     min-height: 400px;
   }
+
+  section.headerAction {
+    min-height: 650px;
+    padding-top: 200px;
+  }
+
   h1 {
     font-size: 50px;
   }
@@ -349,6 +367,8 @@ tr.inactive {
     padding-top: 32px;
     font-size: 66pt;
   }
+
+  
 }
 
 /* Medium Devices, Desktops */
@@ -357,11 +377,19 @@ tr.inactive {
     font-size: 60px;
   }
 
+  section.headerAction {
+    min-height: 650px;
+    padding-top: 200px;
+  }
+
 }
 
 /* Large Devices, Wide Screens */
 @media only screen and (min-width : 1200px) {
-
+  section.headerAction {
+    min-height: 650px;
+    padding-top: 200px;
+  }
 }
 
 .ui-view-container {

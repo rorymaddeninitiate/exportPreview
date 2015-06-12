@@ -122,8 +122,8 @@
         <td>{{speaker.jobTitle}}</td>
         <td>{{speaker.company}}</td>
         <td>{{speaker.country}}</td>
-        <td><i class="glyphicon" ng-class="{'glyphicon-ok': speaker.linkedIn, 'glyphicon-remove': !speaker.linkedIn}"</td>
-        <td><i class="glyphicon" ng-class="{'glyphicon-ok': speaker.twitter, 'glyphicon-remove': !speaker.twitter}"</td>
+        <td><i class="glyphicon" ng-class="{'glyphicon-ok': speaker.linkedIn, 'glyphicon-remove': !speaker.linkedIn}"></i></td>
+        <td><i class="glyphicon" ng-class="{'glyphicon-ok': speaker.twitter, 'glyphicon-remove': !speaker.twitter}"></i></td>
         <td><button class="btn btn-primary" ng-click="adminSpeakers.addSpeaker(speaker)"><i class="glyphicon glyphicon-pencil"></button></td>
         <td><button class="btn" ng-class="{'btn-danger': speaker.active, 'btn-default': !speaker.active}" ng-click="adminSpeakers.toggleSpeaker(speaker)"><i class="glyphicon" ng-class="{'glyphicon-remove': speaker.active, 'glyphicon-ok': !speaker.active}"></button></td>
     </tr>

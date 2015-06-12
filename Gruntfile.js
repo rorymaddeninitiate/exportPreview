@@ -309,6 +309,29 @@ module.exports = function (grunt) {
       }
     },
 
+    html2js: {
+      options: {
+        base: 'app',
+        module: 'templates-main',
+        singleModule: true,
+        useStrict: true,
+        htmlmin: {
+          collapseBooleanAttributes: true,
+          collapseWhitespace: true,
+          removeAttributeQuotes: true,
+          removeComments: true,
+          removeEmptyAttributes: true,
+          removeRedundantAttributes: true,
+          removeScriptTypeAttributes: true,
+          removeStyleLinkTypeAttributes: true
+        }
+      },
+      main: {
+        src: ['<%= yeoman.app %>/scripts/**/*.html'],
+        dest: '<%= yeoman.app %>/scripts/templates.js'
+      }
+    },
+
     // ng-annotate tries to make the code safe for minification automatically
     // by using the Angular long form for dependency injection.
     ngAnnotate: {
@@ -326,6 +349,28 @@ module.exports = function (grunt) {
     cdnify: {
       dist: {
         html: ['<%= yeoman.dist %>/*.html']
+      }
+    },
+
+    local2cdn: {
+      options: {
+        maps: [
+          {local: 'bootstrap.css', cdn: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'},
+          {local: 'font-awesome.css', cdn: 'https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'},
+          {local: 'parse.js', cdn: '//www.parsecdn.com/js/parse-1.4.2.min.js'},
+          {local: 'angular-ui-router.js', cdn: 'https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js'},
+          {local: 'angular-google-maps.js', cdn: 'https://cdnjs.cloudflare.com/ajax/libs/angular-google-maps/2.1.2/angular-google-maps.min.js'},
+          {local: 'angular.js', cdn: 'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js '},
+          {local: 'angular-animate.js', cdn: 'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-animate.min.js '},
+          {local: 'angular-cookies.js', cdn: 'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-cookies.min.js '},
+          {local: 'angular-messages.js', cdn: 'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-messages.min.js '},
+          {local: 'angular-sanitize.js', cdn: 'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-sanitize.min.js '},
+          {local: 'angular-touch.js', cdn: 'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-touch.min.js '},
+        ]
+      },
+      files: {
+        expand: true,
+        src: '<%= yeoman.dist %>/*.html'
       }
     },
 
@@ -427,8 +472,9 @@ module.exports = function (grunt) {
     'autoprefixer',
     'concat',
     'ngAnnotate',
+    'html2js',
     'copy:dist',
-    'cdnify',
+    'local2cdn',
     'cssmin',
     'uglify',
     'filerev',
