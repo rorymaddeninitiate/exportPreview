@@ -3,13 +3,13 @@
     {{speaker.stream}}
   </div>
   <div class="speaker-image">
-    <img ng-src="{{speaker.photo.url}}" alt="{{speaker.first}} {{speaker.last}}" class="img-circle" height="150" width="150">
+    <img ng-src="{{speaker.photo.url}}" alt="{{speaker.first}} {{speaker.last}}" height="150" width="150">
   </div>
    <h3 class="speaker-name">
     {{speaker.first}} {{speaker.last}}
   </h3>
-  <h4 class="speaker-title">{{speaker.jobTitle}}</h3>
-  <h5 class="speaker-company">{{speaker.company}}</h5>
+  <h4 class="speaker-company">{{speaker.company}}</h4>
+  <h5 class="speaker-title">{{speaker.jobTitle}}</h5>
    <div class="share-widget">
     <a ng-if="speaker.twitter" href="{{speaker.twitter}}" target="_blank"><i class="fa fa-2x fa-twitter"></i></a>
     <a ng-if="speaker.linkedIn" href="{{speaker.linkedIn}}" target="_blank"><i class="fa fa-2x fa-linkedin-square"></i></a>

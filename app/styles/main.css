@@ -24,7 +24,7 @@ h1 {
 
 h1, h2 {
   color: inherit;
-  font-family: 'Roboto Slab';
+  /* font-family: 'Roboto Slab'; */
   font-weight: 700;
   margin: 40px 0 30px;
   text-rendering: optimizelegibility;
@@ -76,9 +76,14 @@ form {
   color: #fff;
 }
 
-.navbar-brand.top {
-  font-size: 14pt;
-  color: #fff;
+.logo {
+  margin-top:  -20px;
+  width: 150px;
+}
+
+.logo.top {
+  margin-top:  -50px;
+  width: 250px;
 }
 .nav > li > a {
   text-transform: uppercase;
@@ -125,45 +130,68 @@ section.headerAction {
 /* About Section */
 
 .aboutBox {
-  width: 100px;
-  height: 100px;
-  border-radius: 50px;
-  display: inline-block;
-  margin-top: 20px;
+/*   width: 100px; */
+  text-align: center;
+  min-height: 550px;
 }
 
-.aboutBox .fa {
-  padding-top: 26px;
-/*   color: #444; */
+.aboutBox img {
+  width: 100%;
 }
 
-.about1, .about8 {
-  background-color: #48A3A6;
-  color: #2A5C5E;
+.stream-description {
+  padding: 0px 10px 10px 10px;
+  color: #ddd;
 }
-.about2, .about7 {
-  background-color: #EF7247;
-  color: #773A25;
+
+
+.aboutBox h3 {
+  color: #fff;
 }
-.about3, .about6 {
-  background-color: #E7EBED;
-  color: #6C6E6F;
+
+.about1 {
+  background-color: #000000;
 }
-.about4, .about5 {
-  background-color: #F2BC47;
-  color: #836626;
+
+.about2 {
+  background-color: #87a05e ;
+}
+.about3 {
+  background-color: #284029 ;
+}
+.about4 {
+  background-color: #8a7a6d ;
+}
+.about5 {
+  background-color: #89674e  ;
+}
+.about6 {
+  background-color: #9e9ea6  ;
+}
+.about7 {
+  background-color: #016ac0   ;
+}
+.about8 {
+  background-color: #9dad6c  ;
+}
+
+ 
+
+.streams {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 /* Speakers Section */
 
 section.speakers {
-  background-color: #EF7247;
+  background-color: #4490cc;
   padding-bottom: 30px;
   color: #fff;
 }
 
 .speaker-entry:hover {
-  background-color: #D7633C;
+  background-color: #90A9CF;
 }
 
 .speaker-image {
@@ -178,13 +206,13 @@ section.speakers {
 .speaker-title {
   text-transform: uppercase;
   margin: 8px;
+  padding-bottom:  20px;
 }
 .speaker-company {
   text-transform: uppercase;
   margin: 0px;
-  padding-bottom:  20px;
-  color: #773A25;
-  font-size: 12px;
+  color: #282828;
+  /* font-size: 12px; */
 }
 
 .share-widget {
@@ -203,11 +231,18 @@ section.speakers {
 /* Partners Section */
 
 section.partners {
-  background-color: #F2BC47;
+  background-color: #374457;
   color: #fff;
 }
 .platinumPartner: {
   width: 350px;
+}
+
+img.platinum {
+  width: 250px;
+}
+img.gold {
+  width: 200px;
 }
 
 /* Location Section */
@@ -359,9 +394,9 @@ tr.inactive {
   }
 
   .aboutBox {
-    width: 150px;
-    height: 150px;
-    border-radius: 75px;
+    /* width: 150px; */
+    /* height: 150px; */
+    /* border-radius: 75px; */
   }
   .aboutBox .fa {
     padding-top: 32px;

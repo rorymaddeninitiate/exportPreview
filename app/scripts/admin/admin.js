@@ -325,7 +325,7 @@ angular.module('admin', [])
           self.partner = {};
           self.showPartnerForm = false;
           self.streamOption = undefined;
-          
+
         })
         .error(function (err) {
           self.formError = true;
@@ -469,7 +469,7 @@ angular.module('admin', [])
       }
     }
   }])
-  .controller('AdminMediaCtrl', ['media', '$window', '$http', 'server', 'countries', 
+  .controller('AdminMediaCtrl', ['media', '$window', '$http', 'server', 'countries',
   function (media, $window, $http, server, countries) {
     this.mediaList = media;
     this.countries = countries;
@@ -613,7 +613,7 @@ angular.module('admin', [])
       };
 
       if (this.streamOption) {
-        
+
         if (this.stream && this.stream.objectId) {
           eventSession.stream = {
             __type: 'Pointer',
@@ -637,7 +637,7 @@ angular.module('admin', [])
         else {
           eventSession.location = undefined;
         }
-        
+
       }
 
       if (this.selectedSpeakers) {
@@ -765,7 +765,7 @@ angular.module('admin', [])
       });
       // remove the last comma
       if (names.slice(-1) === ',') {
-        names = names.substring(0, names.length -1);  
+        names = names.substring(0, names.length -1);
       }
       return names;
     }
