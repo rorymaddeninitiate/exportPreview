@@ -4,5 +4,6 @@ angular.module('conferenceDirectives', [
     'partnerDirective',
     'streamDirective',
     'actionButtonDirective',
-    'footerBlockDirective'
+    'footerBlockDirective',
+    'collapse'
     ]);

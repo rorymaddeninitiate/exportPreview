@@ -61,18 +61,20 @@ form {
 .navbar-default {
   border: none;
 }
-.navbar.top {
-  padding-top: 30px;
-  margin-top: -10px;
-  background-color: transparent;
-  color: #fff;
-}
+
 .navbar-brand {
   margin-top: 0px;
   transition-duration: .4s;
 }
 
-.navbar-brand.top:hover, .navbar-brand.top:focus {
+.navbar-default .navbar-nav.top > li > a:hover, .navbar-default .navbar-nav.top > li > a:focus {
+  background-color: #fff;
+  color: #333; 
+}
+
+
+.navbar-default .navbar-nav.top > li > a {
+  background-color: transparent;
   color: #fff;
 }
 
@@ -81,10 +83,6 @@ form {
   width: 150px;
 }
 
-.logo.top {
-  margin-top:  -50px;
-  width: 250px;
-}
 .nav > li > a {
   text-transform: uppercase;
   color: #000;
@@ -132,15 +130,34 @@ section.headerAction {
 .aboutBox {
 /*   width: 100px; */
   text-align: center;
-  min-height: 550px;
 }
 
 .aboutBox img {
   width: 100%;
 }
 
+.aboutBox hr {
+  margin: 0px;
+  border-top: 5px solid #eee;
+}
+
+.stream-image { 
+   position: relative; 
+   width: 100%; /* for IE 6 */
+}
+
+.stream-image .stream-name { 
+   position: absolute; 
+   top: 50px; 
+   left: 0; 
+   width: 100%; 
+   text-shadow: 1px 1px #000;
+    padding: 10px;
+    font-size: 2em;
+}
+
 .stream-description {
-  padding: 0px 10px 10px 10px;
+  padding: 10px;
   color: #ddd;
 }
 
@@ -178,8 +195,8 @@ section.headerAction {
  
 
 .streams {
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 /* Speakers Section */
@@ -190,40 +207,51 @@ section.speakers {
   color: #fff;
 }
 
-.speaker-entry:hover {
-  background-color: #90A9CF;
+.speaker-entry {
+  background-color: #fff;
+}
+
+
+.speaker-entry hr {
+  margin: 10px 0px;
+  border-top: 5px solid #4490cc;
 }
 
 .speaker-image {
-  padding-top: 25px;
+  padding-top: 10px;
 }
+
+
 
 .speaker-name {
   text-transform: uppercase;
   font-weight: bold;
-  font-family: 'Helvetica';
+/*   font-family: 'Helvetica'; */
+  color: #333;
 }
 .speaker-title {
   text-transform: uppercase;
   margin: 8px;
   padding-bottom:  20px;
+  color: #aaa;
 }
 .speaker-company {
   text-transform: uppercase;
   margin: 0px;
-  color: #282828;
+  color: #374457;
   /* font-size: 12px; */
 }
 
 .share-widget {
   padding: 0 15px 10px 0px;
+  color: #333;
 }
 
 .share-widget a {
-  color: #fff;
+  color: #295476;
 }
 .share-widget a:hover {
-  color: #773A25;
+  color: #4490cc;
 }
 
 /* Difference Section */
@@ -234,15 +262,20 @@ section.partners {
   background-color: #374457;
   color: #fff;
 }
+
+.partners img {
+  width: 100%;
+}
+
 .platinumPartner: {
   width: 350px;
 }
 
 img.platinum {
-  width: 250px;
+  width: 140px;
 }
 img.gold {
-  width: 200px;
+  width: 110px;
 }
 
 /* Location Section */
@@ -324,7 +357,7 @@ section.location {
 }
 
 tr.inactive {
-  background-color: #e5beb7   !important;
+  background-color: #e5beb7 !important;
 }
 
 
@@ -347,10 +380,34 @@ tr.inactive {
     font-size: 1.6em;
   }
 
+  .stream-image .stream-name { 
+     top: 80px; 
+     font-size: 3em;
+  }
+
+  img.platinum {
+    width: 180px;
+  }
+  img.gold {
+    width: 160px;
+  }
+
 }
 
 /* Small Devices, Tablets */
 @media only screen and (min-width : 768px) {
+  .navbar.top {
+    padding-top: 30px;
+    margin-top: -10px;
+    background-color: transparent;
+    color: #fff;
+  }
+
+  .logo.top {
+    margin-top:  -50px;
+    width: 250px;
+  }
+
   section {
     min-height: 400px;
   }
@@ -394,9 +451,7 @@ tr.inactive {
   }
 
   .aboutBox {
-    /* width: 150px; */
-    /* height: 150px; */
-    /* border-radius: 75px; */
+    min-height: 500px;
   }
   .aboutBox .fa {
     padding-top: 32px;
@@ -404,6 +459,18 @@ tr.inactive {
   }
 
   
+  .stream-image .stream-name { 
+     top: 50px; 
+/*      font-size: 4em; */
+  }
+
+
+  img.platinum {
+    width: 250px;
+  }
+  img.gold {
+    width: 200px;
+  }
 }
 
 /* Medium Devices, Desktops */
@@ -416,6 +483,14 @@ tr.inactive {
     min-height: 650px;
     padding-top: 200px;
   }
+    
+  .stream-image .stream-name { 
+     top: 35px; 
+     font-size: 1.5em;
+  }
+  .aboutBox {
+    min-height: 550px;
+  }
 
 }
 
@@ -424,6 +499,13 @@ tr.inactive {
   section.headerAction {
     min-height: 650px;
     padding-top: 200px;
+  }
+  .stream-image .stream-name { 
+     top: 55px; 
+     font-size: 1.5em;
+  }
+  .aboutBox {
+    min-height: 500px;
   }
 }
 

@@ -55,6 +55,13 @@ angular
           }],
           sessions: ['dataService', function (dataService) {
             return dataService.getClassName('EventSession', {include: 'stream,speakers,location', active: true});
+          }],
+          news: ['$http', '$location', function ($http, $location) {
+            var options = {
+              responseType: 'json',
+              'Content-Type': 'application/json'
+            }
+            return $http.jsonp('https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=4&q=http%3A%2F%2Fblog.exportleadership.com%2Frss%2Findex.xml&callback=JSON_CALLBACK');
           }]
         }
       })
@@ -190,6 +197,7 @@ angular
   }])
   .controller('AppCtrl', ['$window', '$scope', function ($window, $scope) {
      this.navClass = 'top';
+     this.isCollapsed = true;
      var self = this;
      angular.element($window).bind('scroll', function() {
        if(window.pageYOffset >= 100) {
@@ -199,13 +207,16 @@ angular
        }
        $scope.$apply();
      });
+
+
   }])
-  .controller('MainCtrl', ['uiGmapGoogleMapApi', 'speakers', 'partners', '$filter', 'streams', 'mapDetails', 'sessions',
-    function ( uiGmapGoogleMapApi, speakers, partners, $filter, streams, mapDetails, sessions) {
+  .controller('MainCtrl', ['uiGmapGoogleMapApi', 'speakers', 'partners', '$filter', 'streams', 'mapDetails', 'sessions', 'news',
+    function ( uiGmapGoogleMapApi, speakers, partners, $filter, streams, mapDetails, sessions, news) {
 
       var self = this;
       this.speakers = speakers;
       this.streams = streams;
+      this.news = news.data.responseData.feed.entries;
 
       var filterPartners = function (level) {
         return $filter('filter')(partners, {level: level});

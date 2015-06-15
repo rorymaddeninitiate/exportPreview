@@ -1,6 +1,6 @@
 <section id="about" name="about">
   <div class="container text-center">
-    <h1>2 days, 8 streams, 60 speakers</h1>
+    <h1>8 streams - all Exports</h1>
     <div class="row" >
       <div class="col-sm-6 col-md-3 streams" ng-repeat-start="stream in main.streams">
         <stream-box stream=stream></stream-box>
@@ -11,7 +11,7 @@
 <!--     <div ng-repeat="stream in main.streams | orderBy: order">
   <stream-box stream=stream></stream-box>
 </div> -->
-    <action-button>Don't Miss Out!</action-button>
+    <action-button>2 for 1 Ending Soon!</action-button>
   </div>
 </section>
 
@@ -28,11 +28,16 @@
 
 <section class="difference">
   <div class="container text-center">
-    <h1>Our Difference</h1>
-    <h4>
-      <p>This is not like your other events....</p>
-      <p>We focus on networking, learning, sourcing the best in the industry...</p>
-    </h4>
+    <h1>Latest News</h1>
+    <div class="row">
+      <div class="col-sm-6 col-md-3 news" ng-repeat-start="story in main.news">
+        <h2>{{story.title}}</h2>
+        <p>{{story.contentSnippet}}</p>
+        <p class="small">{{story.categories}}</p>
+      </div>
+      <div class="clearfix" ng-if="$index%4==3"></div>
+      <div ng-repeat-end=""></div>
+    </div>
     <action-button>2 for 1 Ending Soon</action-button>
   </div>
 </section>
