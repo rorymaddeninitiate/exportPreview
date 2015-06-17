@@ -2,10 +2,14 @@
   <div class="speaker-stream">
     {{speaker.stream}}
   </div>
-  <div class="speaker-image">
-    <img ng-src="{{speaker.photo.url}}" alt="{{speaker.first}} {{speaker.last}}" height="150" width="150">
-  </div>
-  <hr>
+  <span class="imageContainer">
+    <span class="speaker-images">
+      <img ng-src="{{speaker.photo.url}}" alt="{{speaker.first}} {{speaker.last}}" class="speaker-image">
+<!--       <span class="speaker-company-logo"> -->
+        <img src="images/ResMed.png" alt="ResMed" class="speaker-company-logo">
+<!--       </span> -->
+    </span>
+  </span>
    <h3 class="speaker-name">
     {{speaker.first}} {{speaker.last}}
   </h3>

@@ -107,6 +107,10 @@ form {
   padding: 20px;
 }
 
+.header-logo {
+  width: 300px;
+}
+
 .actionButton a {
   text-transform: uppercase;
   padding: 20px;
@@ -120,7 +124,7 @@ section, .streams {
 /* HeaderAction Section */
 section.headerAction {
   background-size: cover;
-  background-image: url("http://initiate.network/images/conference.jpg");
+  background-image: url("../images/event.jpg");
   color: #fff;
   text-align: center;
 }
@@ -144,6 +148,7 @@ section.headerAction {
 .stream-image { 
    position: relative; 
    width: 100%; /* for IE 6 */
+   min-height: 150px;
 }
 
 .stream-image .stream-name { 
@@ -211,17 +216,28 @@ section.speakers {
   background-color: #fff;
 }
 
-
-.speaker-entry hr {
-  margin: 10px 0px;
-  border-top: 5px solid #4490cc;
+.imageContainer {
+  vertical-align: bottom;
 }
-
+.speaker-images {
+  position: relative;
+  display: block;
+}
 .speaker-image {
-  padding-top: 10px;
+  display: block;
+/*   position: absolute; */
+  width:100%;
+  overflow: hidden;
 }
 
-
+.speaker-company-logo {
+  position: absolute;
+  bottom: -15px;
+  right: -10px;
+  overflow: hidden;
+  width: 50px;
+/*   height: 50px; */
+}
 
 .speaker-name {
   text-transform: uppercase;
@@ -229,6 +245,7 @@ section.speakers {
 /*   font-family: 'Helvetica'; */
   color: #333;
 }
+
 .speaker-title {
   text-transform: uppercase;
   margin: 8px;
@@ -256,11 +273,27 @@ section.speakers {
 
 /* Difference Section */
 
+section.news {
+  background-color: #374457;
+  color: #fff;
+}
+.story-title {
+  margin: 10px;
+}
+.story-image {
+  width: 250px;
+}
+
+.news-category {
+  list-decoration: none;
+}
+
+.actionButtonRow {
+  padding-top: 20px;
+}
 /* Partners Section */
 
 section.partners {
-  background-color: #374457;
-  color: #fff;
 }
 
 .partners img {
@@ -385,6 +418,10 @@ tr.inactive {
      font-size: 3em;
   }
 
+  .speaker-company-logo {
+    width: 70px;
+  }
+
   img.platinum {
     width: 180px;
   }
@@ -407,6 +444,12 @@ tr.inactive {
     margin-top:  -50px;
     width: 250px;
   }
+
+
+  
+.header-logo {
+  width: 500px;
+}
 
   section {
     min-height: 400px;
