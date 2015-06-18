@@ -153,17 +153,21 @@ angular.module('genericServices', ['ngCookies'])
           }
           else {
             // fileName
+            var update = {};
+            var fieldName = details.fieldName || 'photo';
             var photo = {
               url: result[0].secure_url,
               public_id: result[0].public_id
             };
-            details.object.photo = photo;
-            $http.put(server + '/classes/' + details.className + '/' + details.object.objectId, {photo: photo})
+            update[fieldName] = photo;
+            details.object[fieldName] = photo;
+
+            $http.put(server + '/classes/' + details.className + '/' + details.object.objectId, update)
               .success(function (result) {
               })
               .error(function (err) {
                 // TODO: show error to user
-                details.object.photo = undefined;
+                details.object[fieldName] = undefined;
                 console.log(err);
               });
           }
@@ -173,9 +177,12 @@ angular.module('genericServices', ['ngCookies'])
       removeImage: function (details) {
         // alert the user
         if($window.confirm('Are you sure you want to delete ' + details.name + '\'s picture?')){
-          $http.put(server + '/classes/Speaker/' + details.object.objectId, {photo: {'__op': 'Delete'}})
+          var removeAction = {};
+          var fieldName = details.fieldName || 'photo';
+          removeAction[fieldName] = {'__op': 'Delete'};
+          $http.put(server + '/classes/Speaker/' + details.object.objectId, removeAction)
             .success(function () {
-              details.object.photo = undefined;
+              details.object[fieldName] = undefined;
             })
             .error(function (err) {
               self.formError = true;

@@ -149,17 +149,19 @@ angular.module('admin', [])
     };
 
     // set the cloudinary values - see if this can be fixed
-    this.uploadImage = function (speaker) {
+    this.uploadImage = function (speaker, fieldName) {
       imageService.uploadImage({
         className: 'Speaker',
+        fieldName: fieldName || 'photo',
         alt: speaker.first + ' ' + speaker.last + ': ' + speaker.company,
         object: speaker
       });
     }
 
-    this.removeImage = function (speaker) {
+    this.removeImage = function (speaker, fieldName) {
       imageService.removeImage({
         object: speaker,
+        fieldName: fieldName || 'photo',
         name: speaker.first
       });
     }

@@ -2,7 +2,7 @@
   margin: 0.2em 0;
   background: #ccc;
   color: #000;
-  padding: 0.2em 0;
+  padding: 150px 0px;
 }
 
 body {
@@ -89,7 +89,7 @@ form {
 
 .navbar-default .navbar-nav.top > li > a {
   background-color: transparent;
-  color: #fff;
+/*   color: #fff; */
 }
 
 .logo {
@@ -109,10 +109,14 @@ form {
   text-shadow: 0 0 10px rgba(0, 0, 0, .2);
 }
 
-.headerActionContent h3 {
+.slogan {
   line-height: 1.4;
-  letter-spacing: 2px;
+  /* letter-spacing: 2px; */
   text-shadow: 0 0 8px rgba(0, 0, 0, .3);
+  font-family: 'Raleway';
+  color: #4490cc;
+  font-weight: normal;
+  text-transform:  uppercase;
 }
 
 .headerActionContent h4 {
@@ -257,6 +261,7 @@ section.speakers {
 
 .speaker-details {
   padding: 0px 10px;
+  margin-bottom:  10px;
 }
 
 .speaker-name {
@@ -274,6 +279,7 @@ section.speakers {
   color: #aaa;
   font-size:  .9em;
   font-weight:  normal;
+  min-height:  4em;
 }
 .speaker-company {
   text-transform: uppercase;
@@ -476,6 +482,10 @@ tr.inactive {
   .navbar.top {
     padding-top: 30px;
     margin-top: -10px;
+    background-color: transparent;
+    color: #fff;
+  }
+  .navbar-default .navbar-nav.top > li > a {
     background-color: transparent;
     color: #fff;
   }

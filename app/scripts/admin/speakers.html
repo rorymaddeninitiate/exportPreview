@@ -100,6 +100,7 @@
         <th ng-click="adminSpeakers.orderByField='last'; adminSpeakers.reverseSort = !adminSpeakers.reverseSort">Last <span ng-show="adminSpeakers.orderByField == 'last'"><span ng-show="!adminSpeakers.reverseSort">^</span><span ng-show="adminSpeakers.reverseSort">v</span></span></th>
         <th ng-click="adminSpeakers.orderByField='jobTitle'; adminSpeakers.reverseSort = !adminSpeakers.reverseSort">Job Title <span ng-show="adminSpeakers.orderByField == 'jobTitle'"><span ng-show="!adminSpeakers.reverseSort">^</span><span ng-show="adminSpeakers.reverseSort">v</span></span></th>
         <th ng-click="adminSpeakers.orderByField='company'; adminSpeakers.reverseSort = !adminSpeakers.reverseSort">Company <span ng-show="adminSpeakers.orderByField == 'company'"><span ng-show="!adminSpeakers.reverseSort">^</span><span ng-show="adminSpeakers.reverseSort">v</span></span></th>
+        <th>Company Pic</th>
         <th ng-click="adminSpeakers.orderByField='country'; adminSpeakers.reverseSort = !adminSpeakers.reverseSort">Country <span ng-show="adminSpeakers.orderByField == 'country'"><span ng-show="!adminSpeakers.reverseSort">^</span><span ng-show="adminSpeakers.reverseSort">v</span></span></th>
         <th ng-click="adminSpeakers.orderByField='twitter'; adminSpeakers.reverseSort = !adminSpeakers.reverseSort">Twitter <span ng-show="adminSpeakers.orderByField == 'twitter'"><span ng-show="!adminSpeakers.reverseSort">^</span><span ng-show="adminSpeakers.reverseSort">v</span></span></th>
         <th ng-click="adminSpeakers.orderByField='linkedIn'; adminSpeakers.reverseSort = !adminSpeakers.reverseSort">LinkedIn <span ng-show="adminSpeakers.orderByField == 'linkedIn'"><span ng-show="!adminSpeakers.reverseSort">^</span><span ng-show="adminSpeakers.reverseSort">v</span></span></th>
@@ -121,6 +122,14 @@
         <td>{{speaker.last}}</td>
         <td>{{speaker.jobTitle}}</td>
         <td>{{speaker.company}}</td>
+        <td>
+          <!-- If the profile pic doesn't exist -->
+          <button ng-if="!speaker.companyPhoto" class="btn btn-success" ng-click="adminSpeakers.uploadImage(speaker, 'companyPhoto')"> + </button>
+          <!-- If the profile pic exists -->
+          <div ng-if="speaker.companyPhoto" class="adminSpeakerProfile" ng-click="adminSpeakers.removeImage(speaker, 'companyPhoto')">
+            <img ng-src="{{speaker.companyPhoto.url}}" width="50" height="50">
+          <div>
+        </td>
         <td>{{speaker.country}}</td>
         <td><i class="glyphicon" ng-class="{'glyphicon-ok': speaker.linkedIn, 'glyphicon-remove': !speaker.linkedIn}"></i></td>
         <td><i class="glyphicon" ng-class="{'glyphicon-ok': speaker.twitter, 'glyphicon-remove': !speaker.twitter}"></i></td>
