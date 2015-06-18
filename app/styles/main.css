@@ -31,7 +31,8 @@ h1, h2 {
   font-weight: 700;
   margin: 40px 0 30px;
   text-rendering: optimizelegibility;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
+  color:  #4490CF;
 }
 
 h3 {
@@ -114,9 +115,9 @@ form {
   /* letter-spacing: 2px; */
   text-shadow: 0 0 8px rgba(0, 0, 0, .3);
   font-family: 'Raleway';
-  color: #4490cc;
+  /* color: #4490CF; */
   font-weight: normal;
-  text-transform:  uppercase;
+  /* text-transform:  uppercase; */
 }
 
 .headerActionContent h4 {
@@ -127,6 +128,7 @@ form {
 
 .header-logo {
   width: 300px;
+  border-radius: 38px;
 }
 
 .actionButton a {
@@ -142,8 +144,10 @@ section, .streams {
 /* HeaderAction Section */
 section.headerAction {
   background-size: cover;
+  /* background-color: rgba(255,255,255,0.3); */
   background-image: url("../images/event.jpg");
   color: #fff;
+  /* background-color: rgba(255,255,255,0.3); */
   text-align: center;
 }
 
@@ -226,11 +230,13 @@ section.headerAction {
 /* Speakers Section */
 
 section.speakers {
-  background-color: #4490cc;
+  background-color: #374457;
   padding-bottom: 30px;
   color: #fff;
 }
-
+.speakers h1 {
+  color: #fff;
+}
 .speaker-entry {
   background-color: #fff;
 }
@@ -251,12 +257,12 @@ section.speakers {
 
 .speaker-company-logo {
   position: absolute;
-  bottom: -15px;
-  right: -10px;
+  bottom: -20px;
+  right: -23px;
   overflow: hidden;
   width: 50px;
-  border-radius:25px;
-  border: 1px solid #374457;
+  /* border-radius:25px; */
+  /* border: 1px solid #374457; */
 }
 
 .speaker-details {
@@ -269,6 +275,7 @@ section.speakers {
   font-weight: bold;
 /*   font-family: 'Helvetica'; */
   color: #333;
+  min-height: 2em;
   font-size:  1em;
 }
 
@@ -279,13 +286,14 @@ section.speakers {
   color: #aaa;
   font-size:  .9em;
   font-weight:  normal;
-  min-height:  4em;
+  min-height: 3em;
 }
 .speaker-company {
   text-transform: uppercase;
   margin: 0px;
   color: #374457;
   font-size: 0.75em;
+  min-height: 2em;
 }
 
 .share-widget {
@@ -303,7 +311,10 @@ section.speakers {
 /* Difference Section */
 
 section.news {
-  background-color: #374457;
+  background-color: #4490cc;
+  color: #fff;
+}
+.news h1 {
   color: #fff;
 }
 .story-title {
@@ -319,10 +330,10 @@ section.news {
 }
 
 .story-title a {
-  color: #4490cc;
+  color: #374457;
 }
 .story-title a:hover, .story-title a:focus {
-  color: #337ab7;
+  color: #374457;
 }
 
 .actionButtonRow {
@@ -460,14 +471,16 @@ tr.inactive {
   }
 
   .speaker-company-logo {
-    width: 70px;
-    border-radius: 35px;
+    width: 85px;
+    /* border-radius: 35px; */
   }
 
   .speaker-name {
 
     font-size: 1.25em;
-  }
+  
+
+}
 
   img.platinum {
     width: 160px;
@@ -501,6 +514,7 @@ tr.inactive {
   
 .header-logo {
   width: 500px;
+  background-color: rgba(255,255,255,0.);
 }
 
   section {
@@ -515,14 +529,16 @@ tr.inactive {
 }
 
   h1 {
-    font-size: 50px;
+    /* font-size: 50px; */
   }
   .headerActionContent h3 {
     font-size: 36px;
   }
   .headerActionContent h4 {
     font-size: 24px;
-  }
+  
+    /* color:  #ccc; */
+}
   .mapLabel {
     margin-left: -100px;
   }
@@ -574,7 +590,7 @@ tr.inactive {
 /* Medium Devices, Desktops */
 @media only screen and (min-width : 992px) {
   h1 {
-    font-size: 60px;
+    /* font-size: 60px; */
   }
 
   section.headerAction {
@@ -608,6 +624,10 @@ tr.inactive {
   }
   .aboutBox {
     min-height: 500px;
+  }
+   .speaker-company-logo {
+    width: 100px;
+    /* border-radius: 35px; */
   }
 }
 
