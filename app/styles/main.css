@@ -24,14 +24,19 @@ h1 {
 
 h1, h2 {
   color: inherit;
-  /* font-family: 'Roboto Slab'; */
+/*   font-family: 'Didact Gothic'; */
+  font-family: 'Raleway';
+  /* font-family: 'Montserrat'; */
+  /* font-family: 'Oxygen'; */
   font-weight: 700;
   margin: 40px 0 30px;
   text-rendering: optimizelegibility;
+  text-transform: uppercase;
 }
 
 h3 {
   display: block;
+  font-family: 'Raleway';
 }
 h4 {
   display: block;
@@ -44,6 +49,15 @@ h4 {
 
 form {
   padding-top: 20px;
+}
+
+.btn-success {
+  background: #ed174b;
+  border-color: #CB254D;
+}
+.btn-success:hover, .btn-success:focus {
+  background: #CB254D;
+  border-color: #ed174b;
 }
 
 /* HEADER */
@@ -79,7 +93,7 @@ form {
 }
 
 .logo {
-  margin-top:  -20px;
+  margin-top: -32px;
   width: 150px;
 }
 
@@ -152,14 +166,15 @@ section.headerAction {
 }
 
 .stream-image .stream-name { 
-   position: absolute; 
-   top: 50px; 
-   left: 0; 
-   width: 100%; 
-   text-shadow: 1px 1px #000;
-    padding: 10px;
-    font-size: 2em;
+  position: absolute; 
+  top: 50px; 
+  left: 0; 
+  width: 100%; 
+  text-shadow: 1px 1px #000;
+  padding: 10px;
+  font-size: 2em;
 }
+
 
 .stream-description {
   padding: 10px;
@@ -226,7 +241,7 @@ section.speakers {
 .speaker-image {
   display: block;
 /*   position: absolute; */
-  width:100%;
+  width: 100%;
   overflow: hidden;
 }
 
@@ -236,7 +251,12 @@ section.speakers {
   right: -10px;
   overflow: hidden;
   width: 50px;
-/*   height: 50px; */
+  border-radius:25px;
+  border: 1px solid #374457;
+}
+
+.speaker-details {
+  padding: 0px 10px;
 }
 
 .speaker-name {
@@ -244,19 +264,22 @@ section.speakers {
   font-weight: bold;
 /*   font-family: 'Helvetica'; */
   color: #333;
+  font-size:  1em;
 }
 
 .speaker-title {
   text-transform: uppercase;
   margin: 8px;
-  padding-bottom:  20px;
+  padding-bottom: 10px;
   color: #aaa;
+  font-size:  .9em;
+  font-weight:  normal;
 }
 .speaker-company {
   text-transform: uppercase;
   margin: 0px;
   color: #374457;
-  /* font-size: 12px; */
+  font-size: 0.75em;
 }
 
 .share-widget {
@@ -288,8 +311,15 @@ section.news {
   list-decoration: none;
 }
 
+.story-title a {
+  color: #4490cc;
+}
+.story-title a:hover, .story-title a:focus {
+  color: #337ab7;
+}
+
 .actionButtonRow {
-  padding-top: 20px;
+  /* padding-top: 20px; */
 }
 /* Partners Section */
 
@@ -297,7 +327,7 @@ section.partners {
 }
 
 .partners img {
-  width: 100%;
+  /* width: 100%; */
 }
 
 .platinumPartner: {
@@ -305,7 +335,7 @@ section.partners {
 }
 
 img.platinum {
-  width: 140px;
+  width: 125px;
 }
 img.gold {
   width: 110px;
@@ -364,6 +394,7 @@ section.location {
 
 .footer-social li {
   display: inline;
+  padding-right: 5px;
 }
 .footer-social li a:hover {
   text-decoration: none;
@@ -382,6 +413,7 @@ section.location {
 .organiserLogo {
   float: right;
   padding-bottom: 20px;
+  padding-right:  10px;
 }
 
 /* ADMIN Section */
@@ -400,33 +432,41 @@ tr.inactive {
   section.headerAction {
     min-height: 350px;
     padding-top: 70px;
-  }
+  
+    padding-bottom:  70px;
+}
 }
 
 /* Extra Small Devices, Phones */
 @media only screen and (min-width : 480px) {
   
   .actionButton a {
-    font-size:24px;
+    /* font-size:24px; */
   }
   .widget-title {
     font-size: 1.6em;
   }
 
   .stream-image .stream-name { 
-     top: 80px; 
+     top: 89px; 
      font-size: 3em;
   }
 
   .speaker-company-logo {
     width: 70px;
+    border-radius: 35px;
+  }
+
+  .speaker-name {
+
+    font-size: 1.25em;
   }
 
   img.platinum {
-    width: 180px;
+    width: 160px;
   }
   img.gold {
-    width: 160px;
+    width: 150px;
   }
 
 }
@@ -443,6 +483,7 @@ tr.inactive {
   .logo.top {
     margin-top:  -50px;
     width: 250px;
+    display:none;
   }
 
 
@@ -457,8 +498,10 @@ tr.inactive {
 
   section.headerAction {
     min-height: 650px;
-    padding-top: 200px;
-  }
+    padding-top: 130px;
+  
+    padding-bottom:  100px;
+}
 
   h1 {
     font-size: 50px;
@@ -504,15 +547,16 @@ tr.inactive {
   
   .stream-image .stream-name { 
      top: 50px; 
-/*      font-size: 4em; */
+
+     font-size: 2.5em;
   }
 
 
   img.platinum {
-    width: 250px;
+    width: 200px;
   }
   img.gold {
-    width: 200px;
+    width: 180px;
   }
 }
 
@@ -524,8 +568,10 @@ tr.inactive {
 
   section.headerAction {
     min-height: 650px;
-    padding-top: 200px;
-  }
+    padding-top: 150px;
+  
+    padding-bottom:  150px;
+}
     
   .stream-image .stream-name { 
      top: 35px; 
@@ -541,8 +587,10 @@ tr.inactive {
 @media only screen and (min-width : 1200px) {
   section.headerAction {
     min-height: 650px;
-    padding-top: 200px;
-  }
+    padding-top: 150px;
+  
+    padding-bottom:  109px;
+}
   .stream-image .stream-name { 
      top: 55px; 
      font-size: 1.5em;

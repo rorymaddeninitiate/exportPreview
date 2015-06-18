@@ -18,31 +18,11 @@
 <section class="speakers">
   <div class="container text-center">
     <h1>The leaders in exports</h1>
-    <div class="col-sm-6 col-md-3 speakers" ng-repeat-start="speaker in main.speakers">
+    <div class="col-xs-6 col-sm-4 col-md-3 speakers" ng-repeat-start="speaker in main.speakers">
       <speaker-box speaker=speaker></speaker-box>
     </div>
     <div class="clearfix" ng-if="$index%4==3"></div>
     <div ng-repeat-end=""></div>
-  </div>
-</section>
-
-<section class="news">
-  <div class="container text-center">
-    <h1>Latest News</h1>
-    <div class="row">
-      <div class="col-sm-6 col-md-4 news" ng-repeat-start="story in main.news">
-        <img class="story-image" ng-src="{{story.mediaGroups[0].contents[0].url}}">
-        <h2 class="story-title"><a ng-href="{{story.link}}">{{story.title}}</a></h2>
-        <p>{{story.contentSnippet}}</p>
-        <ul class="list-inline"><li class="small" ng-repeat="category in story.categories">{{category}}</li></ul>
-      </div>
-      <div class="clearfix" ng-if="$index%4==3"></div>
-      <div ng-repeat-end=""></div>
-    </div>
-
-    <div class="row actionButtonRow">
-      <action-button>2 for 1 Ending Soon</action-button>
-    </div>
   </div>
 </section>
 
@@ -56,11 +36,32 @@
 
 
     <div class="row" ng-if="main.partners.gold.length > 0">
-      <h2>Gold Partners</h2>
+      <h1>Gold Partners</h1>
       <partner-box partners="main.partners.gold" level="gold"></partner-box>
     </div>
   </div>
 </section>
+
+<section class="news">
+  <div class="container text-center">
+    <h1>Latest News</h1>
+    <div class="row">
+      <div class="col-sm-6 col-md-4 news" ng-repeat-start="story in main.news">
+        <img class="story-image" ng-src="{{story.mediaGroups[0].contents[0].url}}">
+        <h2 class="story-title"><a ng-href="{{story.link}}" target="_blank">{{story.title}}</a></h2>
+        <p>{{story.contentSnippet}}</p>
+        <ul class="list-inline"><li class="small" ng-repeat="category in story.categories">{{category}}</li></ul>
+      </div>
+      <div class="clearfix" ng-if="$index%4==3"></div>
+      <div ng-repeat-end=""></div>
+    </div>
+
+    <div class="row actionButtonRow">
+      <action-button>2 for 1 Ending Soon</action-button>
+    </div>
+  </div>
+</section>
+
 
 <section class="location">
   <ui-gmap-google-map center='main.map.center' zoom='main.map.zoom' options="main.map.options">
