@@ -5,5 +5,6 @@ angular.module('conferenceDirectives', [
     'streamDirective',
     'actionButtonDirective',
     'footerBlockDirective',
+    'adminMenuDirective',
     'collapse'
     ]);

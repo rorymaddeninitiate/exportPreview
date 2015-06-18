@@ -47,15 +47,7 @@
               <li><a ui-sref="contact">Contact</a></li>
             </ul>
 
-<!--             <ul class="nav navbar-nav navbar-right"  ng-class="app.navClass" ng-if="adminLoggedIn">
-              <li><a ui-sref="admin.speakers">Speakers</a></li>
-              <li><a ui-sref="admin.streams">Streams</a></li>
-              <li><a ui-sref="admin.locations">Locations</a></li>
-              <li><a ui-sref="admin.eventSessions">Sessions</a></li>
-              <li><a ui-sref="admin.partners">Partners</a></li>
-              <li><a ui-sref="admin.media">Media</a></li>
-              <li><a ng-click="logout()">Logout</a></li>
-            </ul> -->
+            <admin-menu></admin-menu>
           </div>
         </div>
       </div>
@@ -102,6 +94,7 @@
         <script src="scripts/directives/partner/partnerDirective.js"></script>
         <script src="scripts/directives/stream/streamDirective.js"></script>
         <script src="scripts/directives/actionButton/actionButtonDirective.js"></script>
+        <script src="scripts/directives/adminMenu/adminMenuDirective.js"></script>
         <script src="scripts/directives/footerBlock/footerBlockDirective.js"></script>
         <script src="scripts/directives/collapse/collapse.js"></script>
 

@@ -1,0 +1,9 @@
+<ul class="nav navbar-nav navbar-right"  ng-class="app.navClass" ng-if="adminLoggedIn">
+    <li><a ui-sref="admin.speakers">Speakers</a></li>
+    <li><a ui-sref="admin.streams">Streams</a></li>
+    <li><a ui-sref="admin.locations">Locations</a></li>
+    <li><a ui-sref="admin.eventSessions">Sessions</a></li>
+    <li><a ui-sref="admin.partners">Partners</a></li>
+    <li><a ui-sref="admin.media">Media</a></li>
+    <li><a ng-click="logout()">Logout</a></li>
+</ul>

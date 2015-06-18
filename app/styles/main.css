@@ -311,6 +311,7 @@ section.news {
 }
 .story-image {
   width: 250px;
+  /* max-height: 140px; */
 }
 
 .news-category {
