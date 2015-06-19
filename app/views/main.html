@@ -18,7 +18,7 @@
 <section class="speakers">
   <div class="container text-center">
     <h1>The Leaders in Exports</h1>
-    <div class="col-xs-6 col-sm-4 col-md-3 speakers" ng-repeat-start="speaker in main.speakers">
+    <div class="col-xs-6 col-sm-3 col-md-3 speakers row-eq-height" ng-repeat-start="speaker in main.speakers">
       <speaker-box speaker=speaker></speaker-box>
     </div>
     <div class="clearfix" ng-if="$index%4==3"></div>
@@ -46,13 +46,13 @@
   <div class="container text-center">
     <h1>Latest News</h1>
     <div class="row">
-      <div class="col-sm-6 col-md-4 news" ng-repeat-start="story in main.news">
+      <div class="col-sm-6 news" ng-repeat-start="story in main.news">
         <img class="story-image" ng-src="{{story.mediaGroups[0].contents[0].url}}">
         <h2 class="story-title"><a ng-href="{{story.link}}" target="_blank">{{story.title}}</a></h2>
         <p>{{story.contentSnippet}}</p>
         <ul class="list-inline"><li class="small" ng-repeat="category in story.categories">{{category}}</li></ul>
       </div>
-      <div class="clearfix" ng-if="$index%4==3"></div>
+      <div class="clearfix" ng-if="$index%2==1"></div>
       <div ng-repeat-end=""></div>
     </div>
 

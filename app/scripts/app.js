@@ -61,7 +61,7 @@ angular
               responseType: 'json',
               'Content-Type': 'application/json'
             }
-            return $http.jsonp('https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=3&q=http%3A%2F%2Fblog.exportleadership.com%2Frss%2Findex.xml&callback=JSON_CALLBACK');
+            return $http.jsonp('https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=4&q=http%3A%2F%2Fblog.exportleadership.com%2Frss%2Findex.xml&callback=JSON_CALLBACK');
           }]
         }
       })
