@@ -29,8 +29,8 @@ angular
     'admin'
   ])
   // .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-  .config(['$stateProvider', '$urlRouterProvider', 'uiGmapGoogleMapApiProvider',
-    function ($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
+  .config(['$stateProvider', '$urlRouterProvider', 'uiGmapGoogleMapApiProvider', '$uiViewScrollProvider',
+    function ($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider,$uiViewScrollProvider) {
     uiGmapGoogleMapApiProvider.configure({
       key: 'AIzaSyCTXMd0kGPwANDXeUPXQSdLS-C9dWbkJC0',
       v: '3.17',
@@ -70,9 +70,20 @@ angular
         controller: 'SpeakerController as main',
         templateUrl: 'views/speakers.html',
         resolve: {
-          $title: function () { return 'Home'; },
+          $title: function () { return 'Speakers'; },
           speakers: ['dataService', function (dataService) {
             return dataService.getClassName('Speaker', {active: true});
+          }]
+        }
+      })
+      .state('streams', {
+        url: '/streams',
+        controller: 'StreamController as main',
+        templateUrl: 'views/streams.html',
+        resolve: {
+          $title: function () { return 'Streams'; },
+          streams: ['dataService', function (dataService) {
+            return dataService.getClassName('Stream', {active: true});
           }]
         }
       })
@@ -150,22 +161,11 @@ angular
         url: '/agenda',
         templateUrl: 'views/agenda.html'
       })
-      // TODO Probably have a separate blog
-      .state('blog', {
-        url: '/blog',
-        templateUrl: 'views/blog.html',
-        resolve: {
-          $title: function () { return 'Blog'; },
-        }
-      })
-      .state('article', {
-        url: '/blog/:id',
-        templateUrl: 'views/article.html'
-      })
-      ;
 
       // For any unmatched url, redirect to /
       $urlRouterProvider.otherwise('/');
+
+//       $uiViewScrollProvider.useAnchorScroll();
   }])
 
   .run(['$rootScope', '$state', '$stateParams', 'userService', '$window', '$location', '$anchorScroll',
@@ -173,10 +173,14 @@ angular
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 
-
     // check for correct priviledges
     $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
-      $anchorScroll();
+      if(toState.name === 'home') {
+        $rootScope.navClass = 'top';
+      }
+      else $rootScope.navClass = 'notTop';
+//       $anchorScroll();
+
       // track the state the user wants to go to; authorization service needs this
       $rootScope.toState = toState;
       $rootScope.toStateParams = toStateParams;
@@ -195,15 +199,16 @@ angular
         $window.ga('send', 'pageview', { page: $location.path() });
       });
   }])
-  .controller('AppCtrl', ['$window', '$scope', function ($window, $scope) {
-     this.navClass = 'top';
+  .controller('AppCtrl', ['$window', '$scope', '$state', '$rootScope', '$location',
+    function ($window, $scope, $state, $rootScope, $location) {
      this.isCollapsed = true;
      var self = this;
      angular.element($window).bind('scroll', function() {
        if(window.pageYOffset >= 100) {
-         self.navClass = 'notTop';
-       } else {
-         self.navClass = 'top';
+         $rootScope.navClass = 'notTop';
+         $location.hash();
+       } else if($state.current.name === 'home') {
+         $rootScope.navClass = 'top';
        }
        $scope.$apply();
      });
@@ -236,6 +241,9 @@ angular
   }])
   .controller('SpeakerController', ['speakers', function (speakers) {
     this.speakers = speakers;
+  }])
+  .controller('StreamController', ['streams', function (streams) {
+    this.streams = streams;
   }])
   .controller('PartnerController', ['partners', '$filter', function (partners, $filter) {
     var filterPartners = function (level) {

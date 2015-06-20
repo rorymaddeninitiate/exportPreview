@@ -22,7 +22,7 @@
 
      <!--Add your site or application content here -->
     <div class="header" name="top">
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation" ng-class="app.navClass" data-spy="affix" data-offset-top="60" data-offset-bottom="200">
+      <div class="navbar navbar-default navbar-fixed-top" role="navigation" ng-class="navClass" data-spy="affix" data-offset-top="60" data-offset-bottom="200">
         <div class="container">
           <div class="navbar-header">
 
@@ -33,18 +33,20 @@
               <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" ui-sref="home({ '#': 'top' })"><img src="images/logo.svg" alt="Export Leadership Forum" class="logo" ng-class="app.navClass" ></a>
+            <a class="navbar-brand" ui-sref="home({ '#': 'top' })"><img src="images/logo.svg" alt="Export Leadership Forum" class="logo" ng-class="navClass" ></a>
           </div>
 
           <div class="collapse navbar-collapse" collapse="app.isCollapsed">
 
-            <ul class="nav navbar-nav navbar-right"  ng-class="app.navClass" ng-if="!adminLoggedIn">
+            <ul class="nav navbar-nav navbar-right"  ng-class="navClass" ng-if="!adminLoggedIn">
               <!--<li><a ui-sref="about">About</a></li>-->
               <!--<li><a ui-sref="agenda">Agenda</a></li>-->
               <li><a ui-sref="speakers">Speakers</a></li>
+              <li><a ui-sref="streams">Streams</a></li>
+              <li><a ui-sref="partners">Partners</a></li>
               <li><a ui-sref="venue">Venue</a></li>
               <li><a href="http://blog.exportleadership.com">Blog</a></li>
-              <li><a ui-sref="contact">Contact</a></li>
+              <li class="ticketLink"><a href="http://tickets.exportleadership.com">Tickets</a></li>
             </ul>
 
             <admin-menu></admin-menu>
@@ -52,9 +54,8 @@
         </div>
       </div>
     </div>
-    <header-action></header-action>
 
-    <div ui-view></div>
+    <div ui-view id="view"></div>
 
 
      <!--Google Analytics: change UA-XXXXX-X to be your site's ID -->

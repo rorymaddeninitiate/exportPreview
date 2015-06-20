@@ -7,6 +7,7 @@
 
 body {
   padding: 0;
+  margin-top:60px;
   font-family: 'Open Sans', Helvetica, Arial, sans-serif;
   font-size: 16px;
 }
@@ -54,10 +55,10 @@ form {
 
 .btn-success {
   background: #ed174b;
-  border-color: #CB254D;
+  border-color: #D50034;
 }
 .btn-success:hover, .btn-success:focus {
-  background: #CB254D;
+  background: #D50034;
   border-color: #ed174b;
 }
 
@@ -82,15 +83,30 @@ form {
   transition-duration: .4s;
 }
 
-.navbar-default .navbar-nav.top > li > a:hover, .navbar-default .navbar-nav.top > li > a:focus {
+.navbar-default .navbar-nav.top > li > a:focus {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.navbar-default .navbar-nav.top > li > a:hover {
   background-color: #fff;
   color: #333; 
+}
+
+.navbar-default .navbar-nav > li.ticketLink > a, .ticketLink {
+  background-color: #ed174b;
+  color: #fff;
+}
+
+.navbar-default .navbar-nav > li.ticketLink > a:hover, .navbar-default .navbar-nav > li.ticketLink > a:focus {
+  background-color: #D50034;
+  color: #fff;
 }
 
 
 .navbar-default .navbar-nav.top > li > a {
   background-color: transparent;
-/*   color: #fff; */
+  color: #fff;
 }
 
 .logo {
@@ -149,6 +165,7 @@ section.headerAction {
   color: #fff;
   /* background-color: rgba(255,255,255,0.3); */
   text-align: center;
+  margin-top:  -60px;
 }
 
 /* About Section */
@@ -580,6 +597,9 @@ tr.inactive {
   .navbar-brand.top {
     font-size: 18pt;
   }
+  .navbar-nav {
+    font-size:14px;
+  }
 
   .aboutBox {
     min-height: 500px;
@@ -609,6 +629,10 @@ tr.inactive {
 @media only screen and (min-width : 992px) {
   h1 {
     /* font-size: 60px; */
+  }
+  
+  .navbar-nav {
+    font-size:16px;
   }
 
   section.headerAction {
