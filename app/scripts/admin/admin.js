@@ -25,7 +25,7 @@ angular.module('admin', [])
         resolve: {
           $title: function () { return 'Admin: Speakers'; },
           speakers: ['dataService', function (dataService) {
-            return dataService.getClassName('Speaker');
+            return dataService.getClassName('Speaker', []);
           }]
         }
       })
@@ -39,7 +39,7 @@ angular.module('admin', [])
         resolve: {
           $title: function () { return 'Admin: Streams'; },
           streams: ['dataService', function (dataService) {
-            return dataService.getClassName('Stream');
+            return dataService.getClassName('Stream', []);
           }]
         }
       })
@@ -53,10 +53,10 @@ angular.module('admin', [])
         resolve: {
           $title: function () { return 'Admin: Partners'; },
           partners: ['dataService', function (dataService) {
-            return dataService.getClassName('Sponsor', {include: 'stream'});
+            return dataService.getClassName('Sponsor', ['include=stream']);
           }],
           streams: ['dataService', function (dataService) {
-            return dataService.getClassName('Stream');
+            return dataService.getClassName('Stream', []);
           }]
         }
       })
@@ -70,7 +70,7 @@ angular.module('admin', [])
         resolve: {
           $title: function () { return 'Admin: Locations'; },
           locations: ['dataService', function (dataService) {
-            return dataService.getClassName('Location');
+            return dataService.getClassName('Location', []);
           }]
         }
       })
@@ -84,7 +84,7 @@ angular.module('admin', [])
         resolve: {
           $title: function () { return 'Admin: Media'; },
           media: ['dataService', function (dataService) {
-            return dataService.getClassName('Media');
+            return dataService.getClassName('Media', []);
           }]
         }
       })
@@ -98,16 +98,16 @@ angular.module('admin', [])
         resolve: {
           $title: function () { return 'Admin: EventSessions'; },
           eventSessions: ['dataService', function (dataService) {
-            return dataService.getClassName('EventSession', {include: 'location,stream,speakers'});
+            return dataService.getClassName('EventSession', ['include=location,stream,speakers']);
           }],
           locations: ['dataService', function (dataService) {
-            return dataService.getClassName('Location');
+            return dataService.getClassName('Location', []);
           }],
           streams: ['dataService', function (dataService) {
-            return dataService.getClassName('Stream');
+            return dataService.getClassName('Stream', []);
           }],
           speakers: ['dataService', function (dataService) {
-            return dataService.getClassName('Speaker');
+            return dataService.getClassName('Speaker', []);
           }]
         }
       })

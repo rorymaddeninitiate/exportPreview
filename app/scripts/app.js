@@ -45,16 +45,16 @@ angular
         resolve: {
           $title: function () { return 'Home'; },
           speakers: ['dataService', function (dataService) {
-            return dataService.getClassName('Speaker', {active: true});
+            return dataService.getClassName('Speaker', ['where={"active": true}']);
           }] ,
           partners: ['dataService', function (dataService) {
-            return dataService.getClassName('Sponsor', {active: true, include: 'stream'});
+            return dataService.getClassName('Sponsor', ['include=stream&where={"active": true}']);
           }],
           streams: ['dataService', function (dataService) {
-            return dataService.getClassName('Stream', {order: 'order', active: true});
+            return dataService.getClassName('Stream', ['order:order&where={"active": true}']);
           }],
           sessions: ['dataService', function (dataService) {
-            return dataService.getClassName('EventSession', {include: 'stream,speakers,location', active: true});
+            return dataService.getClassName('EventSession',  ['include=stream,speakers,location&where={"active": true}']);
           }],
           news: ['$http', '$location', function ($http, $location) {
             var options = {
@@ -72,7 +72,7 @@ angular
         resolve: {
           $title: function () { return 'Speakers'; },
           speakers: ['dataService', function (dataService) {
-            return dataService.getClassName('Speaker', {active: true});
+            return dataService.getClassName('Speaker', ['where={"active": true}']);
           }]
         }
       })
@@ -83,7 +83,7 @@ angular
         resolve: {
           $title: function () { return 'Streams'; },
           streams: ['dataService', function (dataService) {
-            return dataService.getClassName('Stream', {active: true});
+            return dataService.getClassName('Stream', ['where={"active": true}']);
           }]
         }
       })
@@ -94,7 +94,7 @@ angular
         resolve: {
           $title: function () { return 'Partners'; },
           partners: ['dataService', function (dataService) {
-            return dataService.getClassName('Sponsor', {active: true, include: 'stream'});
+            return dataService.getClassName('Sponsor', ['include=stream&where={"active": true}']);
           }]
         }
       })

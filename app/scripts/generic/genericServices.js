@@ -45,7 +45,7 @@ angular.module('genericServices', ['ngCookies'])
       loginFromToken: function () {
         var deferred = $q.defer();
         var sessionToken = $cookies.sessionToken;
-        var authenticated = Parse.User.current();
+        var authenticated = $rootScope.currentUser;
 
         if(!authenticated && sessionToken && sessionToken !== 'undefined' && sessionToken !== 'null') {
           service.setSession(sessionToken);
@@ -55,7 +55,7 @@ angular.module('genericServices', ['ngCookies'])
             //   return deferred.resolve(user);
             // })
 
-            return deferred.resolve(service.getUserRoles(user));
+            return deferred.resolve(service.getUserRoles(user.data));
           }, function () {
             // The token could not be validated.
             service.setSession(null);
@@ -88,17 +88,26 @@ angular.module('genericServices', ['ngCookies'])
   }])
   .factory('dataService',['$http', '$q', 'server', function dataService ($http, $q, server) {
     var data = {};
-    var serialize = function(obj, prefix) {
-      var str = [];
-      for(var p in obj) {
-        if (obj.hasOwnProperty(p)) {
-          var k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
-          str.push(typeof v == "object" ?
-            serialize(v, k) :
-            encodeURIComponent(k) + "=" + encodeURIComponent(v));
-        }
-      }
-      return str.join("&");
+//     var serialize = function(obj, prefix) {
+//       var str = [];
+//       for(var p in obj) {
+//         if (obj.hasOwnProperty(p)) {
+//           var k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
+//           str.push(typeof v == "object" ?
+//             serialize(v, k) :
+//             encodeURIComponent(k) + "=" + encodeURIComponent(v));
+//         }
+//       }
+//       return str.join("&");
+//     }
+
+    var encode = function (options) {
+      var formattedOptions = [];
+      options.forEach(function (option) {
+        formattedOptions.push(encodeURIComponent(option).replace(/'/g,"%27").replace(/"/g,"%22"));
+      });
+      var formattedString = formattedOptions.join('&');
+      return formattedString;
     }
 
     function getClassName (className, options) {
@@ -108,7 +117,8 @@ angular.module('genericServices', ['ngCookies'])
         def.resolve(data.className);
       }
       else {
-        var optionString = '?' + serialize(options);
+//         var optionString = '?' + encode(options);
+        var optionString = options && options.length > 0 ? '?' + options.join('&'): '';
         $http.get(server + '/classes/' + className + optionString).then(function (results) {
           data[className] = results.data.results;
           def.resolve(data[className]);
