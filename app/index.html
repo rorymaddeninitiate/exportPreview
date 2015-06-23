@@ -17,7 +17,7 @@
   </head>
   <body>
     <!--[if lt IE 9]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <meta http-equiv="refresh" content="0;url=oldbrowser.html"/>
     <![endif]-->
 
      <!--Add your site or application content here -->
@@ -42,8 +42,8 @@
               <!--<li><a ui-sref="about">About</a></li>-->
               <!--<li><a ui-sref="agenda">Agenda</a></li>-->
               <li><a ui-sref="speakers">Speakers</a></li>
-              <li><a ui-sref="streams">Streams</a></li>
-              <li><a ui-sref="partners">Partners</a></li>
+<!--               <li><a ui-sref="streams">Streams</a></li>
+              <li><a ui-sref="partners">Partners</a></li> -->
               <li><a ui-sref="venue">Venue</a></li>
               <li><a href="http://blog.exportleadership.com">Blog</a></li>
               <li class="ticketLink"><a href="http://tickets.exportleadership.com">Tickets</a></li>
@@ -79,7 +79,9 @@
      <script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
      <script src="../bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
      <script src="//widget.cloudinary.com/global/all.js" type="text/javascript"></script>
-     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<!--      <script type="text/javascript" src="https://www.google.com/jsapi"></script> -->
+      <script src='https://js.tito.io/v1' async></script>
+      <script>TitoDevelopmentMode = true</script>
 
          <!--build:js({.tmp,app}) scripts/scripts.js -->
 

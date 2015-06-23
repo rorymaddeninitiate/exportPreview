@@ -49,7 +49,8 @@ angular.module('config', [])
       options: {
         labelContent: '<h3>6 - 7 October 2015</h3><h4>Croke Park, Jones\' Road, Dublin 3</h4>',
         labelAnchor: '160 -20',
-        labelClass: 'mapLabel'
+        labelClass: 'mapLabel',
+        icon: 'images/map-marker.png'
       }
     }
   })

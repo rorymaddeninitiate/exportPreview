@@ -144,6 +144,14 @@ angular
           $title: function () { return 'Media'; },
         }
       })
+//       .state('tickets', {
+//         url: '/tickets',
+// //         controller: 'TicketsController as tickets',
+//         templateUrl: 'views/tickets.html',
+//         resolve: {
+//           $title: function () { return 'Tickets'; },
+//         }
+//       })
 
       // TODO
       .state('speaker', {
