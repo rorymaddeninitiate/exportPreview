@@ -145,14 +145,14 @@ angular
           $title: function () { return 'Media'; },
         }
       })
-//       .state('tickets', {
-//         url: '/tickets',
-//         controller: 'TicketsController as tickets',
-//         templateUrl: 'views/tickets.html',
-//         resolve: {
-//           $title: function () { return 'Tickets'; },
-//         }
-//       })
+      .state('tickets', {
+        url: '/tickets',
+        controller: 'TicketsController as tickets',
+        templateUrl: 'views/tickets.html',
+        resolve: {
+          $title: function () { return 'Tickets'; },
+        }
+      })
 
       // TODO
       .state('speaker', {
@@ -224,8 +224,8 @@ angular
 
 
   }])
-  .controller('MainCtrl', ['uiGmapGoogleMapApi', 'speakers', 'partners', '$filter', 'streams', 'mapDetails', 'sessions', 'news','angularLoad',
-    function ( uiGmapGoogleMapApi, speakers, partners, $filter, streams, mapDetails, sessions, news, angularLoad) {
+  .controller('MainCtrl', ['uiGmapGoogleMapApi', 'speakers', 'partners', '$filter', 'streams', 'mapDetails', 'sessions', 'news',
+    function ( uiGmapGoogleMapApi, speakers, partners, $filter, streams, mapDetails, sessions, news) {
 
       var self = this;
       this.speakers = speakers;
@@ -247,10 +247,6 @@ angular
 
         self.marker = mapDetails.crokeParkLocation;
       });
-
-      
-  
-      angularLoad.loadScript('https://js.tito.io/v1');
   }])
   .controller('SpeakerController', ['speakers', function (speakers) {
     this.speakers = speakers;

@@ -440,6 +440,63 @@ section.location {
   padding-bottom: 20px;
 }
 
+/* Tickets */
+
+.tickets1, .tickets2, .tickets3 {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+.ticket-primary {
+  border: 1px solid #4490cc;
+  text-align: center;
+}
+
+.ticket-main {
+  border: 1px solid #999;
+  text-align: center;
+}
+
+.ticket-header {
+  background-color: #4490cc;
+  color: #fff;
+  padding: 20px
+}
+
+.ticket-main .ticket-header {
+  background-color: grey;
+}
+
+.ticket-main .tito-tickets-button {
+  background-color: grey;
+  border-color: darkgray;
+}
+
+.ticket-primary .ticket-body {
+  height: 100px;
+}
+
+
+.ticket-header h3 {
+  margin-top: 0px;
+}
+
+.ticket-cost {
+  color: #333
+;
+  font-size:  2em;
+}
+
+.ticket-footer {
+  padding: 20px;
+}
+
+.ticket-questions {
+  padding-top: 20px;
+}
 
 /* Custom page footer */
 .footer {
