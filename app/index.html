@@ -14,6 +14,7 @@
      <!--endbuild -->
      <link href='http://fonts.googleapis.com/css?family=Raleway:700' rel='stylesheet' type='text/css'>
      <link rel="icon" type="image/png" href="favicon.png" />
+     <link rel="stylesheet" type="text/css" href='https://css.tito.io/v1' />
   </head>
   <body>
     <!--[if lt IE 9]>
@@ -46,7 +47,8 @@
               <li><a ui-sref="partners">Partners</a></li> -->
               <li><a ui-sref="venue">Venue</a></li>
               <li><a href="http://blog.exportleadership.com">Blog</a></li>
-              <li class="ticketLink"><a href="http://tickets.exportleadership.com">Tickets</a></li>
+<!--               <li class="ticketLink"><a href="http://tickets.exportleadership.com">Tickets</a></li> -->
+              <li class="ticketLink"><tito-button event="initiate/exportleadership2015" ssl-check-disabled>Tickets</tito-button></li>
             </ul>
 
             <admin-menu></admin-menu>
@@ -102,6 +104,7 @@
         <script src="scripts/admin/admin.js"></script>
          <script src="../bower_components/lodash/dist/lodash.compat.js"></script>
          <script src="../bower_components/angular-ui-router-title/angular-ui-router-title.js"></script>
+         <script src="../bower_components/angular-load/angular-load.js"></script>
          <!--endbuild -->
 </body>
 </html>

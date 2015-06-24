@@ -18,6 +18,7 @@ angular
     'ui.router',
     'ui.router.title',
     'uiGmapgoogle-maps',
+    'angularLoad',
 
     'templates-main',
 
@@ -87,17 +88,17 @@ angular
           }]
         }
       })
-      .state('partners', {
-        url: '/partners',
-        controller: 'PartnerController as main',
-        templateUrl: 'views/partners.html',
-        resolve: {
-          $title: function () { return 'Partners'; },
-          partners: ['dataService', function (dataService) {
-            return dataService.getClassName('Sponsor', ['include=stream&where={"active": true}']);
-          }]
-        }
-      })
+//       .state('partners', {
+//         url: '/partners',
+//         controller: 'PartnerController as main',
+//         templateUrl: 'views/partners.html',
+//         resolve: {
+//           $title: function () { return 'Partners'; },
+//           partners: ['dataService', function (dataService) {
+//             return dataService.getClassName('Sponsor', ['include=stream&where={"active": true}']);
+//           }]
+//         }
+//       })
 
       .state('venue', {
         url: '/venue',
@@ -146,7 +147,7 @@ angular
       })
 //       .state('tickets', {
 //         url: '/tickets',
-// //         controller: 'TicketsController as tickets',
+//         controller: 'TicketsController as tickets',
 //         templateUrl: 'views/tickets.html',
 //         resolve: {
 //           $title: function () { return 'Tickets'; },
@@ -207,7 +208,7 @@ angular
         $window.ga('send', 'pageview', { page: $location.path() });
       });
   }])
-  .controller('AppCtrl', ['$window', '$scope', '$state', '$rootScope', '$location',
+  .controller('AppCtrl', ['$window', '$scope', '$state', '$rootScope', '$location', 
     function ($window, $scope, $state, $rootScope, $location) {
      this.isCollapsed = true;
      var self = this;
@@ -223,8 +224,8 @@ angular
 
 
   }])
-  .controller('MainCtrl', ['uiGmapGoogleMapApi', 'speakers', 'partners', '$filter', 'streams', 'mapDetails', 'sessions', 'news',
-    function ( uiGmapGoogleMapApi, speakers, partners, $filter, streams, mapDetails, sessions, news) {
+  .controller('MainCtrl', ['uiGmapGoogleMapApi', 'speakers', 'partners', '$filter', 'streams', 'mapDetails', 'sessions', 'news','angularLoad',
+    function ( uiGmapGoogleMapApi, speakers, partners, $filter, streams, mapDetails, sessions, news, angularLoad) {
 
       var self = this;
       this.speakers = speakers;
@@ -246,12 +247,19 @@ angular
 
         self.marker = mapDetails.crokeParkLocation;
       });
+
+      
+  
+      angularLoad.loadScript('https://js.tito.io/v1');
   }])
   .controller('SpeakerController', ['speakers', function (speakers) {
     this.speakers = speakers;
   }])
   .controller('StreamController', ['streams', function (streams) {
     this.streams = streams;
+  }])
+  .controller('TicketsController', ['angularLoad', function (angularLoad) {
+    angularLoad.loadScript('https://js.tito.io/v1')
   }])
   .controller('PartnerController', ['partners', '$filter', function (partners, $filter) {
     var filterPartners = function (level) {

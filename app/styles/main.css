@@ -53,11 +53,28 @@ form {
   padding-top: 20px;
 }
 
-.btn-success {
+.tito-tickets-button {
+  color: #fff;
+  width: 200px;
+  font-size: 18px;
+  line-height: 1.3333333;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  text-transform: uppercase;
+  padding: 20px;
+}
+.ticketLink .tito-tickets-button {
+  padding: 15px 10px;
+  width: auto;
+  line-height: 1em;
+  background: transparent;
+}
+
+.btn-success, .tito-tickets-button {
   background: #ed174b;
   border-color: #D50034;
 }
-.btn-success:hover, .btn-success:focus {
+.btn-success:hover, .btn-success:focus, .tito-tickets-button:hover, .tito-tickets-button:focus  {
   background: #D50034;
   border-color: #ed174b;
 }
