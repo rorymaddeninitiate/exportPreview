@@ -123,7 +123,7 @@ form {
 
 .navbar-default .navbar-nav.top > li > a {
   background-color: transparent;
-  color: #fff;
+/*   color: #333; */
 }
 
 .logo {
@@ -505,6 +505,14 @@ section.location {
   border-top: 1px solid #e5e5e5;
   background-color: #333;
   overflow: hidden;
+}
+
+.email-subscribe {
+  width:100% !important;
+}
+
+.subscribe-header {
+  margin-bottom: 0px;
 }
 
 .footer-menu  {
