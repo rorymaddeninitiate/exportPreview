@@ -142,6 +142,10 @@ form {
 .headerActionContent h1 {
   text-shadow: 0 0 10px rgba(0, 0, 0, .2);
 }
+.headerActionContent h2 {
+  color: #fff;
+  margin-top: 0px;
+}
 
 .slogan {
   line-height: 1.4;
