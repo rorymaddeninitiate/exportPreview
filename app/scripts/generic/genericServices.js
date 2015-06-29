@@ -6,7 +6,7 @@ angular.module('genericServices', ['ngCookies'])
     var appId = 'yWTZRz60WfymokTSxKeI11Lu7ZfZT0Ny3uT6GAV0';
     var jsKey = '7luLgXpWuaOMG8chT2UGGKV4FDcSheihVsM06r6Y';
     var restKey = 'Evs90NiRTkiT40wlSzmyPcO2gs5bjwQz8Gap4I7I';
-    Parse.initialize(appId, jsKey);
+//     Parse.initialize(appId, jsKey);
 
     $http.defaults.headers.common['X-Parse-Application-Id'] = appId;
     $http.defaults.headers.common['X-Parse-REST-API-Key'] = restKey;
@@ -69,20 +69,13 @@ angular.module('genericServices', ['ngCookies'])
         return deferred.promise;
       },
       logout: function() {
+        // delete the session in Parse
+        $http.post(server + '/logout');
         $rootScope.currentUser = null;
         $cookies.sessionToken = null;
         service.setSession(null);
-        Parse.User.logOut();
       }
     };
-
-    // set the $rootScope.currentUser
-//     if (Parse.User.current()) {
-//       service.getUserRoles(Parse.User.current());
-//     }
-//     else {
-//       service.loginFromToken();
-//     }
 
     return service;
   }])

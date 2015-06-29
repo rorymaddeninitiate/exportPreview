@@ -46,20 +46,6 @@ angular.module('user', [])
             $rootScope.currentUser = null;
             return deferred.reject(err);
           });
-
-        // var deferred = $q.defer();
-        // Parse.User.logIn(username, password, {
-        //   success: function (user) {
-        //     // get the roles for the user
-        //     ParseService.setSession(user._sessionToken);
-        //     $rootScope.currentUser = user;
-        //     deferred.resolve(true);
-        //   },
-        //   error: function (user, err) {
-        //     $rootScope.currentUser = null;
-        //     deferred.reject(err);
-        //   }
-        // });
         return deferred.promise;
       },
       isInAnyRole: function (role) {

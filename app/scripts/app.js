@@ -14,7 +14,6 @@ angular
     'ngCookies',
     'ngMessages',
     'ngSanitize',
-    'ngTouch',
     'ui.router',
     'ui.router.title',
     'uiGmapgoogle-maps',
@@ -155,20 +154,27 @@ angular
       })
 
       // TODO
-      .state('speaker', {
-        url: '/speaker/:id',
-        templateUrl: 'views/speaker.html'
-      })
+//       .state('speaker', {
+//         url: '/speaker/:id',
+//         templateUrl: 'views/speaker.html'
+//       })
       // TODO - do we have a separate page for each partner?
-      .state('partner', {
-        url: '/partner/:id',
-        controller: 'PartnerController as main',
-        templateUrl: 'views/partner.html'
-      })
+//       .state('partner', {
+//         url: '/partner/:id',
+//         controller: 'PartnerController as main',
+//         templateUrl: 'views/partner.html'
+//       })
       // TODO: Agenda
       .state('agenda', {
         url: '/agenda',
-        templateUrl: 'views/agenda.html'
+        controller: 'AgendaController as agenda',
+        templateUrl: 'views/agenda.html',
+        resolve: {
+          $title: function () { return 'Agenda'; },
+          sessions: ['dataService', function (dataService) {
+            return dataService.getClassName('EventSession',  ['include=speakers,stream,location&where={"active": true}&order=start']);
+          }],
+        }
       })
 
       // For any unmatched url, redirect to /
@@ -256,6 +262,39 @@ angular
   }])
   .controller('TicketsController', ['angularLoad', function (angularLoad) {
     angularLoad.loadScript('https://js.tito.io/v1')
+  }])
+  .controller('AgendaController', ['sessions', 'eventTimeZone', function (sessions, eventTimeZone) {
+    var self = this;
+    this.eventTimeZone = eventTimeZone;
+    // sort the sessions by time
+    this.sessions = [];
+    this.times = [];
+    var timesIndex = {};
+    sessions.forEach(function (session) {
+      if (session.start && session.start.iso) {
+        var index = Object.keys(timesIndex).indexOf(session.start.iso);
+        if (index === -1) {
+          timesIndex[session.start.iso] = timesIndex.length;
+          self.sessions.push([session]);
+          self.times.push(session.start.iso);
+        }
+        else {
+          self.sessions[index].push(session);
+        }
+      }
+    });
+
+    // we need to order the sessions in each sessions
+    this.sessions.forEach(function (time) {
+      if (time.length > 1) {
+        //sort the array on the stream.order value
+        time = time.sort(function (a, b) {
+          return a.order - b.order;
+        });
+      }
+    });
+
+    console.log(this.sessions);
   }])
   .controller('PartnerController', ['partners', '$filter', function (partners, $filter) {
     var filterPartners = function (level) {
@@ -362,4 +401,24 @@ angular
           });
       }
     };
+  }])
+  .filter('filterArray', [function () {
+    return function (arr, field, unique) {
+      var results = [];
+      if (arr) {
+        arr.forEach(function (item) {
+          var resultItem = item[field];
+
+          if (results.indexOf(resultItem) === -1 || !unique) {
+            results.push(resultItem);
+          }
+        });
+
+        return results
+      }
+      else {
+        return;
+      }
+      
+    }
   }]);

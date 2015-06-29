@@ -1,18 +1,18 @@
 <section id="agenda" name="agenda">
   <div class="container text-center">
     <h1>Agenda</h1>
-      <div class="sessions" ng-repeat="time in sessionCtrl.times">
-        <div class="col-xs-12" ng-class="'col-sm-3': time.sessions.length >= 1">
-
-          NEED TO PUT IN A HEADER FOR THE STREAM
-          <div class="">
-          <div class="session" ng-repeat="session in time.sessions">
-            
-            
-            <h2 class="session-name">Session Name</h2>
-            <h3 class="session-speaker">{{session.speaker}}</h3>
-            <h4 class="session-speaker-company">{{Session.company}}</h4>
-          </div>
+    <div class="row timeRow" ng-repeat="time in agenda.times">
+      <div class="col-xs-3 cols-sm-2">
+        {{time | date: 'd/M/yy h:mm a': agenda.eventTimeZone}}
+      </div>
+      <div class="sessions col-xs-8" ng-class="{'col-sm-2': agenda.sessions[$index].length > 1}" ng-repeat="session in agenda.sessions[$index]">
+        <!-- 
+        NEED TO PUT IN A HEADER FOR THE STREAM - only on first instance
+        <div class="" ng-if> -->
+        <div  ng-class="session.stream">
+          <h3 class="session-name">{{session.name}}</h3>
+          <h4 class="session-speaker">{{session.speakers | filterArray:'name'}}</h4>
+          <h5 class="session-speaker-company">{{session.speakers | filterArray:'company':true}}</h5>
         </div>
       </div>
     </div>

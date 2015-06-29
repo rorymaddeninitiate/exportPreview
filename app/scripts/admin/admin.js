@@ -113,19 +113,10 @@ angular.module('admin', [])
       })
       ;
   }])
-  .service('adminService', ['server', '$http', function (server, $http) {
-    return {
-      getClassName: function (className) {
-         return $http.get(server + '/classes/' + className).then(function (results) {
-           return results.data.results;
-         }, function () {
-           return [];
-         });
-      }
-    };
-  }])
-  .controller('AdminCtrl', ['ParseService', '$rootScope', '$state',
-    function (ParseService, $rootScope, $state) {
+  .controller('AdminCtrl', ['ParseService', '$rootScope', '$state', 'angularLoad',
+    function (ParseService, $rootScope, $state, angularLoad) {
+
+    angularLoad.loadScript('https://widget.cloudinary.com/global/all.js');
     $rootScope.adminLoggedIn = true;
 
     $rootScope.logout = function () {
