@@ -1,11 +1,11 @@
 <section id="agenda" name="agenda">
   <div class="container text-center">
     <h1>Agenda</h1>
-    <div class="row timeRow" ng-repeat="time in agenda.times">
+    <div class="row timeRow" ng-repeat="time in agenda.times"  ng-class-odd="'agendaOdd'" ng-class-even="'agendaEven'">
       <div class="col-xs-3 cols-sm-2">
-        {{time | date: 'd/M/yy h:mm a': agenda.eventTimeZone}}
+        {{time | date: 'h:mm a': agenda.eventTimeZone}}
       </div>
-      <div class="sessions col-xs-8" ng-class="{'col-sm-2': agenda.sessions[$index].length > 1}" ng-repeat="session in agenda.sessions[$index]">
+      <div class="sessions col-xs-8" ng-class="{'col-sm-2': agenda.sessions[$parent.$index].length > 1}" ng-repeat="session in agenda.sessions[$index]">
         <!-- 
         NEED TO PUT IN A HEADER FOR THE STREAM - only on first instance
         <div class="" ng-if> -->
@@ -21,8 +21,3 @@
 </section>
 
 <footer-block></footer-block>
-
-
-times > sessions
-
-sessions need to be sorted by the stream

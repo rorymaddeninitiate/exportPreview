@@ -269,6 +269,7 @@ angular
     // sort the sessions by time
     this.sessions = [];
     this.times = [];
+    this.days = [];
     var timesIndex = {};
     sessions.forEach(function (session) {
       if (session.start && session.start.iso) {
@@ -277,6 +278,9 @@ angular
           timesIndex[session.start.iso] = timesIndex.length;
           self.sessions.push([session]);
           self.times.push(session.start.iso);
+
+          // add to day if necessary
+          
         }
         else {
           self.sessions[index].push(session);

@@ -98,7 +98,7 @@ angular.module('admin', [])
         resolve: {
           $title: function () { return 'Admin: EventSessions'; },
           eventSessions: ['dataService', function (dataService) {
-            return dataService.getClassName('EventSession', ['include=location,stream,speakers']);
+            return dataService.getClassName('EventSession', ['include=location,stream,speakers&order=start']);
           }],
           locations: ['dataService', function (dataService) {
             return dataService.getClassName('Location', []);
@@ -599,8 +599,8 @@ angular.module('admin', [])
       var eventSession = {
         name: this.eventSession.name,
         description: this.eventSession.description,
-        start: manageDates(this.startDate),
-        end: manageDates(this.endDate),
+        start: this.startDate ? manageDates(this.startDate) : this.eventSession.start,
+        end: this.endDate ? manageDates(this.endDate): this.eventSession.end,
 
         active: this.eventSession.active !== undefined ? this.eventSession.active: false
       };
@@ -620,7 +620,7 @@ angular.module('admin', [])
       }
 
       if (this.locationOption) {
-        if (this.location && this.location.objectId) {
+        if (this.locationOption.objectId) {
           eventSession.location = {
             __type: 'Pointer',
             className: 'Location',
@@ -732,11 +732,15 @@ angular.module('admin', [])
 
     this.toggleEventSession = function (eventSession) {
       var action = eventSession.active ? 'delete ' : 'restore ';
-      if($window.confirm('Are you sure you want to ' + action + eventSession.first + '?')){
+      if($window.confirm('Are you sure you want to ' + action + eventSession.name + '?')){
         this.eventSession = eventSession;
         this.eventSession.active = !this.eventSession.active;
         this.createOrUpdate();
       }
+    }
+
+    this.setSessionEnd = function () {
+      self.endDate = new Date(self.startDate.getTime() + (40 * 60 * 1000));
     }
   }])
 
