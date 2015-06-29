@@ -65,28 +65,28 @@ angular
           }]
         }
       })
-      .state('speakers', {
-        url: '/speakers',
-        controller: 'SpeakerController as main',
-        templateUrl: 'views/speakers.html',
-        resolve: {
-          $title: function () { return 'Speakers'; },
-          speakers: ['dataService', function (dataService) {
-            return dataService.getClassName('Speaker', ['where={"active": true}']);
-          }]
-        }
-      })
-      .state('streams', {
-        url: '/streams',
-        controller: 'StreamController as main',
-        templateUrl: 'views/streams.html',
-        resolve: {
-          $title: function () { return 'Streams'; },
-          streams: ['dataService', function (dataService) {
-            return dataService.getClassName('Stream', ['where={"active": true}']);
-          }]
-        }
-      })
+//       .state('speakers', {
+//         url: '/speakers',
+//         controller: 'SpeakerController as main',
+//         templateUrl: 'views/speakers.html',
+//         resolve: {
+//           $title: function () { return 'Speakers'; },
+//           speakers: ['dataService', function (dataService) {
+//             return dataService.getClassName('Speaker', ['where={"active": true}']);
+//           }]
+//         }
+//       })
+//       .state('streams', {
+//         url: '/streams',
+//         controller: 'StreamController as main',
+//         templateUrl: 'views/streams.html',
+//         resolve: {
+//           $title: function () { return 'Streams'; },
+//           streams: ['dataService', function (dataService) {
+//             return dataService.getClassName('Stream', ['where={"active": true}']);
+//           }]
+//         }
+//       })
 //       .state('partners', {
 //         url: '/partners',
 //         controller: 'PartnerController as main',
@@ -99,14 +99,14 @@ angular
 //         }
 //       })
 
-      .state('venue', {
-        url: '/venue',
-        controller: 'VenueController as main',
-        templateUrl: 'views/venue.html',
-        resolve: {
-          $title: function () { return 'Venue'; },
-        }
-      })
+//       .state('venue', {
+//         url: '/venue',
+//         controller: 'VenueController as main',
+//         templateUrl: 'views/venue.html',
+//         resolve: {
+//           $title: function () { return 'Venue'; },
+//         }
+//       })
       .state('contact', {
         url: '/contact',
         controller: 'ContactController as contact',
@@ -144,14 +144,14 @@ angular
           $title: function () { return 'Media'; },
         }
       })
-      .state('tickets', {
-        url: '/tickets',
-        controller: 'TicketsController as tickets',
-        templateUrl: 'views/tickets.html',
-        resolve: {
-          $title: function () { return 'Tickets'; },
-        }
-      })
+//       .state('tickets', {
+//         url: '/tickets',
+//         controller: 'TicketsController as tickets',
+//         templateUrl: 'views/tickets.html',
+//         resolve: {
+//           $title: function () { return 'Tickets'; },
+//         }
+//       })
 
       // TODO
 //       .state('speaker', {
