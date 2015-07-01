@@ -607,7 +607,7 @@ angular.module('admin', [])
 
       if (this.streamOption) {
 
-        if (this.stream && this.stream.objectId) {
+        if (this.streamOption.objectId) {
           eventSession.stream = {
             __type: 'Pointer',
             className: 'Stream',
@@ -756,14 +756,30 @@ angular.module('admin', [])
     return function(speakers) {
       if (!speakers) return '';
       var names = '';
-      speakers.forEach(function(speaker, count) {
-        names += speaker.first + ' '  + speaker.last;
-        if (count > 0) names += ','
+      speakers.forEach(function(speaker) {
+        names += speaker.first + ' '  + speaker.last + ', ';
       });
       // remove the last comma
-      if (names.slice(-1) === ',') {
-        names = names.substring(0, names.length -1);
+      if (names.slice(-2) === ', ') {
+        names = names.substring(0, names.length -2);
       }
       return names;
+    }
+  }])
+
+  .filter('companyNames', [function() {
+    return function(companies) {
+
+      return companies.join(', ');
+//       if (!companies) return '';
+//       var names = '';
+//       companies.forEach(function(company) {
+//         names += company.first + ' '  + company.last + ', ';
+//       });
+//       // remove the last comma
+//       if (names.slice(-2) === ', ') {
+//         names = names.substring(0, names.length -2);
+//       }
+//       return names;
     }
   }]);

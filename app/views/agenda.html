@@ -1,19 +1,25 @@
 <section id="agenda" name="agenda">
   <div class="container text-center">
     <h1>Agenda</h1>
-    <div class="row timeRow" ng-repeat="time in agenda.times"  ng-class-odd="'agendaOdd'" ng-class-even="'agendaEven'">
-      <div class="col-xs-3 cols-sm-2">
-        {{time | date: 'h:mm a': agenda.eventTimeZone}}
-      </div>
-      <div class="sessions col-xs-8" ng-class="{'col-sm-2': agenda.sessions[$parent.$index].length > 1}" ng-repeat="session in agenda.sessions[$index]">
-        <!-- 
-        NEED TO PUT IN A HEADER FOR THE STREAM - only on first instance
-        <div class="" ng-if> -->
-        <div  ng-class="session.stream">
-          <h3 class="session-name">{{session.name}}</h3>
-          <h4 class="session-speaker">{{session.speakers | filterArray:'name'}}</h4>
-          <h5 class="session-speaker-company">{{session.speakers | filterArray:'company':true}}</h5>
+    <div class="row dayRow" ng-repeat = "day in agenda.days">
+      <h1>{{day}}</h1>
+      <div class="row timeRow" ng-repeat="time in agenda.times[day]"  ng-class-odd="'agendaOdd'" ng-class-even="'agendaEven'">
+        <div class="col-xs-3 cols-sm-2">
+          {{time | date: 'h:mm a': agenda.eventTimeZone}}
         </div>
+        <div class="sessions col-xs-9 col-sm-offset-0" ng-class="{'col-sm-2': agenda.sessions[day][$parent.$index].length > 1, ' col-xs-offset-3': agenda.sessions[day][$parent.$index].length > 1 && $index != 0}" ng-repeat="session in agenda.sessions[day][$index]">
+          <!-- NEED TO PUT IN A HEADER FOR THE STREAM - only on first instance -->
+<!--           <div class="streamName col-xs-12" ng-if="agenda.showStreamName(day, session.stream.name)"> -->
+          <div class="streamName col-xs-12">
+            {{session.stream.name}}
+          </div>
+          <div ng-class="{{'session.stream.name'}}">
+            <h3 class="session-name">{{session.name}}</h3>
+            <h4 class="session-speaker">{{session.speakers | speakerNames}}</h4>
+            <h5 class="session-speaker-company">{{session.speakers | filterArray:'company':true | companyNames}}</h5>
+          </div>
+        </div>
+<!--         <div ng-class="{'clearfix': agenda.sessions[day][$parent.$index].length > 1}"></div> -->
       </div>
     </div>
     <action-button>2 for 1 Ending Soon!</action-button>

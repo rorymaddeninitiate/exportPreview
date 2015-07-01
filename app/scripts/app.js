@@ -263,42 +263,63 @@ angular
   .controller('TicketsController', ['angularLoad', function (angularLoad) {
     angularLoad.loadScript('https://js.tito.io/v1')
   }])
-  .controller('AgendaController', ['sessions', 'eventTimeZone', function (sessions, eventTimeZone) {
+  .controller('AgendaController', ['sessions', 'eventTimeZone', '$filter', function (sessions, eventTimeZone, $filter) {
     var self = this;
     this.eventTimeZone = eventTimeZone;
+
     // sort the sessions by time
-    this.sessions = [];
-    this.times = [];
+    this.sessions = {};
+    this.times = {};
     this.days = [];
     var timesIndex = {};
     sessions.forEach(function (session) {
       if (session.start && session.start.iso) {
-        var index = Object.keys(timesIndex).indexOf(session.start.iso);
-        if (index === -1) {
-          timesIndex[session.start.iso] = timesIndex.length;
-          self.sessions.push([session]);
-          self.times.push(session.start.iso);
+        var dayString = $filter('date')(new Date(session.start.iso), 'EEE d MMM y', eventTimeZone);
+        var dayIndex = Object.keys(timesIndex).indexOf(dayString);
+        if (dayIndex === -1) {
+          timesIndex[dayString] = {};
+          self.days.push(dayString);
+          self.sessions[dayString] = [];
+          self.times[dayString] = [];
+        }
 
-          // add to day if necessary
-          
+        var index = Object.keys(timesIndex[dayString]).indexOf(session.start.iso);
+        if (index === -1) {
+          timesIndex[dayString][session.start.iso] = timesIndex[dayString].length;
+          self.sessions[dayString].push([session]);
+          self.times[dayString].push(session.start.iso);          
         }
         else {
-          self.sessions[index].push(session);
+          self.sessions[dayString][index].push(session);
         }
       }
     });
 
     // we need to order the sessions in each sessions
-    this.sessions.forEach(function (time) {
-      if (time.length > 1) {
-        //sort the array on the stream.order value
-        time = time.sort(function (a, b) {
-          return a.order - b.order;
-        });
-      }
+    this.days.forEach(function (day) {
+      self.sessions[day].forEach(function (time) {
+        if (time.length > 1) {
+          //sort the array on the stream.order value
+          time = time.sort(function (a, b) {
+            return a.stream.order - b.stream.order;
+          });
+        }
+      });
     });
 
-    console.log(this.sessions);
+    var visibleHeaders = {};
+    this.showStreamName = function (day, stream) {
+      if (Object.keys(visibleHeaders).indexOf(day) === -1) {
+        visibleHeaders[day] = {};
+      }
+
+      // does the stream exist
+      if (!visibleHeaders[day][stream] && stream) {
+        visibleHeaders[day][stream] = true;
+        return true;
+      }
+      else return false;
+    }
   }])
   .controller('PartnerController', ['partners', '$filter', function (partners, $filter) {
     var filterPartners = function (level) {
