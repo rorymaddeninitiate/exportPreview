@@ -506,6 +506,68 @@ section.location {
 .agendaOdd {
   background-color: #ddd
 }
+
+.dayRow h2 {
+  color: #0F395D;
+}
+
+.timeRow {
+  border-top: 1px solid #eee
+;
+  /* display: table; */
+}
+
+.time {
+  padding-top: 15px;
+  font-size:  1.5em;
+  color: #4490CF;
+}
+.sessions {
+  /* padding-bottom: 100%; */
+    
+  /* margin-bottom: -100%; */
+}
+
+.sessions .break {
+  background-color: pink;
+  position:  relative;
+  min-height:  50px;
+}
+
+.sessions .break .session-name {
+  color: #666
+}
+
+.multi-session {
+  /* border-right: 1px solid #333; */
+  /* padding-bottom:  100%; */
+  /* margin-bottom: -100%; */
+}
+.session-name {
+  margin: 0px;
+  padding: 15px;
+  color: #333;
+}
+
+.session-speaker {
+  color: #0F395D;
+}
+
+.session-speaker-company {
+  color: #4490cc;
+}
+
+.session-company-logo {
+/*   width:100% */
+}
+
+.streamName {
+  padding: 10px 0px;;
+  font-style: italic;
+  /* background-color:  #333; */
+  color:  #fff;
+}
+
 /* Custom page footer */
 .footer {
   padding-top: 19px;

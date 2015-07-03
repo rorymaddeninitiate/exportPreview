@@ -6,5 +6,6 @@ angular.module('conferenceDirectives', [
     'actionButtonDirective',
     'footerBlockDirective',
     'adminMenuDirective',
+    'sessionLogoDirective',
     'collapse'
     ]);
