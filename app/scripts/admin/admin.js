@@ -767,6 +767,21 @@ angular.module('admin', [])
     }
   }])
 
+  .filter('speakerTitles', [function() {
+    return function(speakers) {
+      if (!speakers) return '';
+      var titles = '';
+      speakers.forEach(function(speaker) {
+        titles += speaker.jobTitle + ', ';
+      });
+      // remove the last comma
+      if (titles.slice(-2) === ', ') {
+        titles = titles.substring(0, titles.length -2);
+      }
+      return titles;
+    }
+  }])
+
   .filter('companyNames', [function() {
     return function(companies) {
 

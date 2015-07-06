@@ -49,6 +49,10 @@ h4 {
   font-weight: bold;
 }
 
+.noPadding {
+  padding: 0px;
+}
+
 form {
   padding-top: 20px;
 }
@@ -503,8 +507,16 @@ section.location {
 }
 
 /* AGENDA */
-.agendaOdd {
-  background-color: #ddd
+.btn-stream {
+  color: #fff;
+}
+
+.day {
+  margin-top: 0px;
+}
+
+.dayRow {
+  padding-bottom: 70px;
 }
 
 .dayRow h2 {
@@ -512,20 +524,25 @@ section.location {
 }
 
 .timeRow {
-  border-top: 1px solid #eee
-;
+  /* border-top: 1px solid #eee; */
+  margin-right: 0px;
   /* display: table; */
+  text-align: left;
 }
 
 .time {
   padding-top: 15px;
-  font-size:  1.5em;
   color: #4490CF;
 }
 .sessions {
-  /* padding-bottom: 100%; */
+  padding: 10px 0px;
     
   /* margin-bottom: -100%; */
+}
+.session-speaker-box {
+  border-top: 1px solid #ccc;
+  padding: 10px;
+  margin: 0px -10px;
 }
 
 .sessions .break {
@@ -536,17 +553,51 @@ section.location {
 
 .sessions .break .session-name {
   color: #666
+;
+  padding-top:  5px;
+}
+
+.showDescriptionButtons {
+  text-align: right;
+}
+
+.showButton {
+  margin-top: 15px;
+  /* width: 24px !important; */
+  /* height: 24px !important; */
+  /* background-color: #ddd !important; */
+  /* border: 1px solid #838282; */
+  /* padding: 1px !important; */
+  /* padding-top: 5px; */
+  font-size: 20px;
 }
 
 .multi-session {
   /* border-right: 1px solid #333; */
-  /* padding-bottom:  100%; */
-  /* margin-bottom: -100%; */
+  padding: 0px 5px;
+  /* margin-left: 0px; */
+  /* margin-right:  0px; */
 }
+
+
+.session {
+  /* background-color: #333; */
+  border: 1px solid #333;
+  margin-bottom: 10px;
+}
+
 .session-name {
-  margin: 0px;
-  padding: 15px;
+  /* margin: 0px; */
+  padding: 0px;
   color: #333;
+}
+
+.keynote .session-name {
+  padding: 15px;
+}
+
+.multi-session .session-name {
+  min-height: 100px;
 }
 
 .session-speaker {
@@ -558,15 +609,23 @@ section.location {
 }
 
 .session-company-logo {
-/*   width:100% */
+  padding-right: 10px;
+}
+
+.session-company-logo img {
+  width:100%;
+  max-width: 100px;
+}
+
+.session-logo {
+  text-align: right;
 }
 
 .streamName {
-  padding: 10px 0px;;
-  font-style: italic;
-  /* background-color:  #333; */
-  color:  #fff;
+  padding: 5px 0px;
+  margin:  0px -15px;
 }
+
 
 /* Custom page footer */
 .footer {
@@ -674,15 +733,14 @@ tr.inactive {
   }
 
   .speaker-name {
-
     font-size: 1.15em;
-  
-
     color: #fff;
-
     margin-bottom: 5px;
+  }
 
-}
+  .time {
+    font-size:  1.5em;
+  }
 
   img.platinum {
     width: 160px;
@@ -1084,3 +1142,5 @@ tr.inactive {
     
   .form-horizontal .form-group .control-label {text-align:right;}
 }
+
+

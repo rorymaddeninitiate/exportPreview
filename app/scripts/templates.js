@@ -25,7 +25,7 @@ angular.module('templates-main', []).run(['$templateCache', function($templateCa
   $templateCache.put("scripts/directives/partner/partnerBox.html",
     "<div class=\"partner-box text-center\" ng-class=getClass() ng-repeat=\"partner in partners\"><a href={{partner.url}} target=_blank><img ng-src={{partner.photo.url}} alt={{partner.name}} ng-class=$parent.level></a></div>");
   $templateCache.put("scripts/directives/sessionLogo/sessionLogo.html",
-    "<div class=\"session-logo text-center\"><div ng-repeat=\"logo in logos\"><img ng-src={{logo}} alt={{speakers[$index].company}} class=session-company-logo></div></div>");
+    "<div class=session-logo><span ng-repeat=\"logo in logos\"><img ng-src={{logo}} alt={{speakers[$index].company}} class=session-company-logo></span></div>");
   $templateCache.put("scripts/directives/speaker/speakerBox.html",
     "<div class=\"speaker-entry text-center\" ng-if=speaker.photo><div class=speaker-stream>{{speaker.stream}}</div><span class=imageContainer><span class=speaker-images><img ng-src={{speaker.photo.url}} alt=\"{{speaker.first}} {{speaker.last}}\" class=speaker-image> <img ng-src={{speaker.companyPhoto.url}} alt={{speaker.company}} class=speaker-company-logo></span></span><div class=speaker-details><h3 class=speaker-name>{{speaker.first}} {{speaker.last}}</h3><h4 class=speaker-company>{{speaker.company}}</h4><h5 class=speaker-title>{{speaker.jobTitle}}</h5></div></div>");
   $templateCache.put("scripts/directives/stream/streamBox.html",

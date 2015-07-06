@@ -270,7 +270,11 @@ angular
     // sort the sessions by time
     this.sessions = {};
     this.times = {};
+    this.streams = {};
+    this.visibleStreams = {};
     this.days = [];
+
+
     var timesIndex = {};
     sessions.forEach(function (session) {
       if (session.start && session.start.iso) {
@@ -281,8 +285,17 @@ angular
           self.days.push(dayString);
           self.sessions[dayString] = [];
           self.times[dayString] = [];
+          self.streams[dayString] = [];
+          self.visibleStreams[dayString] = [];
         }
 
+        // add the stream if necessary
+        if (session.stream && session.stream.name && self.streams[dayString].indexOf(session.stream.name) === -1) {
+          self.streams[dayString].push(session.stream);
+          self.visibleStreams[dayString].push(true);
+        }
+
+        // add the session, create the time array if necessary
         var index = Object.keys(timesIndex[dayString]).indexOf(session.start.iso);
         if (index === -1) {
           timesIndex[dayString][session.start.iso] = timesIndex[dayString].length;
@@ -304,6 +317,10 @@ angular
             return a.stream.order - b.stream.order;
           });
         }
+      });
+
+      self.streams[day].sort(function (a, b) {
+        return a.order - b.order;
       });
     });
 
