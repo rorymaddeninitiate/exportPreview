@@ -4,7 +4,7 @@ angular.module('genericServices', ['ngCookies'])
   .service('ParseService', ['$rootScope', '$http', '$q', 'server', '$cookies',
     function($rootScope, $http, $q, server, $cookies) {
     var appId = 'yWTZRz60WfymokTSxKeI11Lu7ZfZT0Ny3uT6GAV0';
-    var jsKey = '7luLgXpWuaOMG8chT2UGGKV4FDcSheihVsM06r6Y';
+    // var jsKey = '7luLgXpWuaOMG8chT2UGGKV4FDcSheihVsM06r6Y';
     var restKey = 'Evs90NiRTkiT40wlSzmyPcO2gs5bjwQz8Gap4I7I';
 //     Parse.initialize(appId, jsKey);
 
@@ -81,27 +81,6 @@ angular.module('genericServices', ['ngCookies'])
   }])
   .factory('dataService',['$http', '$q', 'server', function dataService ($http, $q, server) {
     var data = {};
-//     var serialize = function(obj, prefix) {
-//       var str = [];
-//       for(var p in obj) {
-//         if (obj.hasOwnProperty(p)) {
-//           var k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
-//           str.push(typeof v == "object" ?
-//             serialize(v, k) :
-//             encodeURIComponent(k) + "=" + encodeURIComponent(v));
-//         }
-//       }
-//       return str.join("&");
-//     }
-
-    var encode = function (options) {
-      var formattedOptions = [];
-      options.forEach(function (option) {
-        formattedOptions.push(encodeURIComponent(option).replace(/'/g,"%27").replace(/"/g,"%22"));
-      });
-      var formattedString = formattedOptions.join('&');
-      return formattedString;
-    }
 
     function getClassName (className, options) {
       var def = $q.defer();
@@ -125,16 +104,16 @@ angular.module('genericServices', ['ngCookies'])
     }
 
     function batch (operations) {
-      return $http.post(server +'/batch', operations)
+      return $http.post(server +'/batch', operations);
     }
-    
+
     var service = {
       getClassName: getClassName,
       batch: batch
     };
     return service;
   }])
-  .factory('imageService', ['$http', 'cloudinaryDetails', '$window', 'server', 
+  .factory('imageService', ['$http', 'cloudinaryDetails', '$window', 'server',
     function ($http, cloudinaryDetails, $window, server) {
     return {
       uploadImage: function (details) {
@@ -187,10 +166,10 @@ angular.module('genericServices', ['ngCookies'])
             .success(function () {
               details.object[fieldName] = undefined;
             })
-            .error(function (err) {
+            .error(function () {
               self.formError = true;
             });
         }
       }
-    }
+    };
   }]);
